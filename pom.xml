@@ -5,8 +5,8 @@
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-redis</artifactId>
     <version>3.2.0-SNAPSHOT</version>
-    <packaging>cloud-connector</packaging>
-    <name>Mule Redis Cloud Connector</name>
+    <packaging>mule-module</packaging>
+    <name>Mule Redis Module</name>
     <description>Redis support for Mule</description>
     <url>http://www.muleforge.org/projects/mule-module-redis</url>
 
@@ -14,7 +14,6 @@
         <mule.version>3.2.0-RC4-SNAPSHOT</mule.version>
         <mule.devkit.version>3.0-SNAPSHOT</mule.devkit.version>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <cloudconnect.version>2.0.15</cloudconnect.version>
     </properties>
 
     <dependencies>
@@ -97,15 +96,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.mule.tools</groupId>
-                <artifactId>mule-cloud-connector-maven-plugin</artifactId>
-                <version>${cloudconnect.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <schemaVersion>1.0</schemaVersion>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.mule.tools.devkit</groupId>
                 <artifactId>mule-devkit-maven-plugin</artifactId>
