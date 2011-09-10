@@ -11,6 +11,9 @@
 package org.mule.module.redis;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -27,17 +30,21 @@ import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
-import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
+import org.mule.api.store.PartitionableObjectStore;
 import org.mule.config.i18n.MessageFactory;
 import org.mule.module.redis.RedisUtils.RedisAction;
 
 import redis.clients.jedis.BinaryTransaction;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Response;
+import redis.clients.util.SafeEncoder;
 
 @Module(name = "redis", namespace = "http://www.mulesoft.org/schema/mule/redis", schemaLocation = "http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd")
-public class RedisModule implements ObjectStore<Serializable> {
+public class RedisModule implements PartitionableObjectStore<Serializable> {
+    private static final String DEFAULT_PARTITION_NAME = "_default";
+
     protected static final Log LOGGER = LogFactory.getLog(RedisModule.class);
 
     @Configurable
@@ -61,13 +68,13 @@ public class RedisModule implements ObjectStore<Serializable> {
 
     @Configurable
     @Optional
-    private Config poolConfig = new Config();
+    private Config poolConfig = new JedisPoolConfig();
 
     private JedisPool jedisPool;
 
-    /*
-     * Lifecycle
-     */
+    /*----------------------------------------------------------
+                Lifecycle Implementation
+    ----------------------------------------------------------*/
     @PostConstruct
     public void initializeJedis() {
         jedisPool = new JedisPool(poolConfig, host, port, timeout, password);
@@ -83,27 +90,61 @@ public class RedisModule implements ObjectStore<Serializable> {
         LOGGER.info("Redis connector terminated");
     }
 
-    /*
-     * Object Store Implementation
-     */
+    /*----------------------------------------------------------
+                ObjectStore Implementation
+    ----------------------------------------------------------*/
     public boolean isPersistent() {
         return true;
     }
 
     public boolean contains(final Serializable key) throws ObjectStoreException {
+        return contains(key, DEFAULT_PARTITION_NAME);
+    }
+
+    public void store(final Serializable key, final Serializable value) throws ObjectStoreException {
+        store(key, value, DEFAULT_PARTITION_NAME);
+    }
+
+    public Serializable retrieve(final Serializable key) throws ObjectStoreException {
+        return retrieve(key, DEFAULT_PARTITION_NAME);
+    }
+
+    public Serializable remove(final Serializable key) throws ObjectStoreException {
+        return remove(key, DEFAULT_PARTITION_NAME);
+    }
+
+    /*----------------------------------------------------------
+               ListableObjectStore Implementation
+    ----------------------------------------------------------*/
+    public void open() throws ObjectStoreException {
+        open(DEFAULT_PARTITION_NAME);
+    }
+
+    public void close() throws ObjectStoreException {
+        close(DEFAULT_PARTITION_NAME);
+    }
+
+    public List<Serializable> allKeys() throws ObjectStoreException {
+        return allKeys(DEFAULT_PARTITION_NAME);
+    }
+
+    /*----------------------------------------------------------
+             PartitionableObjectStore Implementation
+    ----------------------------------------------------------*/
+    public boolean contains(final Serializable key, final String partitionName) throws ObjectStoreException {
         return RedisUtils.run(jedisPool, new RedisAction<Boolean>() {
             @Override
             public Boolean run() {
-                return redis.exists(RedisUtils.toBytes(key));
+                return redis.hexists(RedisUtils.hashKey(partitionName), RedisUtils.toBytes(key));
             }
         });
     }
 
-    public void store(final Serializable key, final Serializable value) throws ObjectStoreException {
+    public void store(final Serializable key, final Serializable value, final String partitionName) throws ObjectStoreException {
         final Long result = RedisUtils.run(jedisPool, new RedisAction<Long>() {
             @Override
             public Long run() {
-                return redis.setnx(RedisUtils.toBytes(key), RedisUtils.toBytes(value));
+                return redis.hsetnx(RedisUtils.hashKey(partitionName), RedisUtils.toBytes(key), RedisUtils.toBytes(value));
             }
         });
 
@@ -112,11 +153,11 @@ public class RedisModule implements ObjectStore<Serializable> {
         }
     }
 
-    public Serializable retrieve(final Serializable key) throws ObjectStoreException {
+    public Serializable retrieve(final Serializable key, final String partitionName) throws ObjectStoreException {
         final Serializable result = RedisUtils.run(jedisPool, new RedisAction<Serializable>() {
             @Override
             public Serializable run() {
-                return RedisUtils.fromBytes(redis.get(RedisUtils.toBytes(key)));
+                return RedisUtils.fromBytes(redis.hget(RedisUtils.hashKey(partitionName), RedisUtils.toBytes(key)));
             }
         });
 
@@ -127,15 +168,15 @@ public class RedisModule implements ObjectStore<Serializable> {
         return result;
     }
 
-    public Serializable remove(final Serializable key) throws ObjectStoreException {
+    public Serializable remove(final Serializable key, final String partitionName) throws ObjectStoreException {
         final Serializable result = RedisUtils.run(jedisPool, new RedisAction<Serializable>() {
             @Override
             public Serializable run() {
                 final byte[] keyAsBytes = RedisUtils.toBytes(key);
 
                 final BinaryTransaction t = redis.multi();
-                final Response<byte[]> getResult = t.get(keyAsBytes);
-                final Response<Long> delResult = t.del(keyAsBytes);
+                final Response<byte[]> getResult = t.hget(RedisUtils.hashKey(partitionName), keyAsBytes);
+                final Response<Long> delResult = t.hdel(RedisUtils.hashKey(partitionName), keyAsBytes);
                 t.exec();
 
                 if (delResult.get() != 1) {
@@ -153,9 +194,54 @@ public class RedisModule implements ObjectStore<Serializable> {
         return result;
     }
 
-    /*
-     * Java Accessors Gong Show
-     */
+    public List<Serializable> allKeys(final String partitionName) throws ObjectStoreException {
+        return RedisUtils.run(jedisPool, new RedisAction<List<Serializable>>() {
+            @Override
+            public List<Serializable> run() {
+                final List<Serializable> keys = new ArrayList<Serializable>();
+                for (final byte[] key : redis.hkeys(RedisUtils.hashKey(partitionName))) {
+                    keys.add(RedisUtils.fromBytes(key));
+                }
+                return keys;
+            }
+        });
+    }
+
+    public List<String> allPartitions() throws ObjectStoreException {
+        return RedisUtils.run(jedisPool, new RedisAction<List<String>>() {
+            @Override
+            public List<String> run() {
+                final List<String> partitions = new ArrayList<String>();
+                final Set<byte[]> keys = redis.keys((RedisUtils.REDIS_HASH_KEY_PREFIX + "*").getBytes());
+                for (final byte[] key : keys) {
+                    final String partition = StringUtils.substringAfter(SafeEncoder.encode(key), RedisUtils.REDIS_HASH_KEY_PREFIX);
+                    partitions.add(partition);
+                }
+                return partitions;
+            }
+        });
+    }
+
+    public void open(final String partitionName) throws ObjectStoreException {
+        // ignored
+    }
+
+    public void close(final String partitionName) throws ObjectStoreException {
+        // ignored
+    }
+
+    public void disposePartition(final String partitionName) throws ObjectStoreException {
+        RedisUtils.run(jedisPool, new RedisAction<Long>() {
+            @Override
+            public Long run() {
+                return redis.del(RedisUtils.hashKey(partitionName));
+            }
+        });
+    }
+
+    /*----------------------------------------------------------
+                        Java Accessors Gong Show
+     ----------------------------------------------------------*/
     public String getHost() {
         return host;
     }

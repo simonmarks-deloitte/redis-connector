@@ -13,13 +13,13 @@ package org.mule.module.redis;
 import org.apache.commons.lang.RandomStringUtils;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
-import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
+import org.mule.api.store.PartitionableObjectStore;
 import org.mule.tck.FunctionalTestCase;
 
 public class RedisObjectStoreITCase extends FunctionalTestCase {
 
-    private ObjectStore<String> stringObjectStore;
+    private PartitionableObjectStore<String> stringObjectStore;
 
     @Override
     protected String getConfigResources() {
@@ -33,13 +33,18 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         stringObjectStore = muleContext.getRegistry().lookupObject(FakeObjectStoreUser.class).getObjectStore();
     }
 
-    public void testObjectStoreOperations() throws ObjectStoreException {
+    public void testListableObjectStoreOperations() throws ObjectStoreException {
+        // open and close are noops
+        stringObjectStore.open();
+        stringObjectStore.close();
+
         assertTrue(stringObjectStore.isPersistent());
 
         final String testKey = RandomStringUtils.randomAlphanumeric(20);
         final String testValue = RandomStringUtils.randomAlphanumeric(20);
 
         assertFalse(stringObjectStore.contains(testKey));
+        assertFalse(stringObjectStore.allKeys().contains(testKey));
 
         try {
             stringObjectStore.retrieve(testKey);
@@ -50,6 +55,7 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
 
         stringObjectStore.store(testKey, testValue);
         assertTrue(stringObjectStore.contains(testKey));
+        assertTrue(stringObjectStore.allKeys().contains(testKey));
 
         try {
             stringObjectStore.store(testKey, testValue);
@@ -62,6 +68,7 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
 
         assertEquals(testValue, stringObjectStore.remove(testKey));
         assertFalse(stringObjectStore.contains(testKey));
+        assertFalse(stringObjectStore.allKeys().contains(testKey));
 
         try {
             stringObjectStore.remove(testKey);
@@ -69,5 +76,58 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         } catch (final ObjectDoesNotExistException odnee) {
             // NOOP
         }
+    }
+
+    public void testPartitionableObjectStoreOperations() throws ObjectStoreException {
+        final String testPartition = RandomStringUtils.randomAlphanumeric(20);
+
+        // open and close are noops
+        stringObjectStore.open(testPartition);
+        stringObjectStore.close(testPartition);
+
+        assertTrue(stringObjectStore.isPersistent());
+
+        final String testKey = RandomStringUtils.randomAlphanumeric(20);
+        final String testValue = RandomStringUtils.randomAlphanumeric(20);
+
+        assertFalse(stringObjectStore.contains(testKey, testPartition));
+        assertFalse(stringObjectStore.allKeys(testPartition).contains(testKey));
+
+        try {
+            stringObjectStore.retrieve(testKey, testPartition);
+            fail("should have got an ObjectDoesNotExistException");
+        } catch (final ObjectDoesNotExistException odnee) {
+            // NOOP
+        }
+
+        stringObjectStore.store(testKey, testValue, testPartition);
+        assertTrue(stringObjectStore.contains(testKey, testPartition));
+        assertTrue(stringObjectStore.allKeys(testPartition).contains(testKey));
+
+        try {
+            stringObjectStore.store(testKey, testValue, testPartition);
+            fail("should have got an ObjectAlreadyExistsException");
+        } catch (final ObjectAlreadyExistsException oaee) {
+            // NOOP
+        }
+
+        assertEquals(testValue, stringObjectStore.retrieve(testKey, testPartition));
+        assertTrue(stringObjectStore.allPartitions().contains(testPartition));
+
+        assertEquals(testValue, stringObjectStore.remove(testKey, testPartition));
+        assertFalse(stringObjectStore.contains(testKey, testPartition));
+        assertFalse(stringObjectStore.allKeys(testPartition).contains(testKey));
+
+        try {
+            stringObjectStore.remove(testKey, testPartition);
+            fail("should have got an ObjectDoesNotExistException");
+        } catch (final ObjectDoesNotExistException odnee) {
+            // NOOP
+        }
+
+        stringObjectStore.store(testKey, testValue, testPartition);
+        stringObjectStore.disposePartition(testPartition);
+        assertFalse(stringObjectStore.contains(testKey, testPartition));
+        assertFalse(stringObjectStore.allPartitions().contains(testPartition));
     }
 }

@@ -21,6 +21,21 @@
         <spring:bean class="org.mule.module.redis.FakeObjectStoreUser" p:objectStore-ref="localRedis" />
     </spring:beans>
 
+    <!-- Minimal Config -->
     <redis:config name="localRedis" />
-
+    
+    <!-- Full Config    
+    <spring:beans>
+        <spring:bean name="redisPoolConfiguration"
+                     class="redis.clients.jedis.JedisPoolConfig"
+                     p:whenExhaustedAction="#{T(org.apache.commons.pool.impl.GenericObjectPool).WHEN_EXHAUSTED_GROW}" />
+    </spring:beans>
+    
+    <redis:config name="localRedis"
+                  host="localhost"
+                  port="6379"
+                  password="s3cre3t"
+                  timeout="15000"
+                  poolConfig-ref="redisPoolConfiguration" />
+    -->                  
 </mule>          

@@ -10,19 +10,19 @@
 
 package org.mule.module.redis;
 
-import org.mule.api.store.ObjectStore;
+import org.mule.api.store.PartitionableObjectStore;
 import org.springframework.beans.factory.annotation.Required;
 
 public class FakeObjectStoreUser {
 
-    private ObjectStore<String> objectStore;
+    private PartitionableObjectStore<String> objectStore;
 
-    public ObjectStore<String> getObjectStore() {
+    public PartitionableObjectStore<String> getObjectStore() {
         return objectStore;
     }
 
     @Required
-    public void setObjectStore(final ObjectStore<String> objectStore) {
+    public void setObjectStore(final PartitionableObjectStore<String> objectStore) {
         this.objectStore = objectStore;
     }
 }

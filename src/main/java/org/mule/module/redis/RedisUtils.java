@@ -20,6 +20,8 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.util.SafeEncoder;
 
 public abstract class RedisUtils {
+    public static final String REDIS_HASH_KEY_PREFIX = "mule.objectstore.";
+
     public static abstract class RedisAction<R> {
         protected volatile BinaryJedis redis;
 
@@ -63,6 +65,10 @@ public abstract class RedisUtils {
         } else {
             return SafeEncoder.encode(bytes);
         }
+    }
+
+    public static byte[] hashKey(final String partitionName) {
+        return SafeEncoder.encode(REDIS_HASH_KEY_PREFIX + partitionName);
     }
 
     public static <R> R run(final JedisPool jedisPool, final RedisAction<R> action) {
