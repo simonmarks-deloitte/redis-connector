@@ -1,20 +1,13 @@
 Mule Redis Connector
 ====================
 
-Provides Redis 2.x connectivity to Mule.
-
 > Currently Under Heavy Development!
 
-Pending Envisioned Features
----------------------------
+Provides Redis connectivity to Mule:
 
-- Support for reading and writing data:
-  - Polling inbound endpoint
-  - Requester
-  - Outbound endpoint
-- Support for publish/subscribe:
-  - Listening inbound endpoint
-  - Dispatching outbound endpoint
+- Supports Redis Publish/Subscribe model for asynchronous message exchanges,
+- Allows direct reading and writing operations in Redis collections,  
+- Allows using Redis as a datastore for Mule components that require persistence (like the [http://www.mulesoft.org/documentation/display/MULE3USER/Routing+Message+Processors#RoutingMessageProcessors-IdempotentMessageFilter](Idempotent Message Filter)).
 
 Build Commands
 --------------
@@ -54,9 +47,11 @@ The following demonstrates all the possible configuration options:
 
 ### ObjectStore
 
-The configured Redis module can act as an [ObjectStore](http://www.mulesoft.org/docs/site/current3/apidocs/index.html?org/mule/api/store/ObjectStore.html), which can be injected into any object needing such a store:
+The configured Redis module can act as an [ObjectStore](http://www.mulesoft.org/docs/site/current3/apidocs/index.html?org/mule/api/store/ObjectStore.html), which can be injected into any object needing such a store.
 
-The following shows how to use the Redis module as the data store for a Mule-powered [PubSubHubbub hub](https://github.com/mulesoft/mule-module-pubsubhubbub):
+> Mule object stores are stored as Redis Hashes named "mule.objectstore.{ospn}", where ospn is the object store partition name (or "_default" if none has been specified).
+
+For example, the following shows how to use the Redis module as the data store for a Mule-powered [PubSubHubbub hub](https://github.com/mulesoft/mule-module-pubsubhubbub):
 
     <redis:config name="localRedis" />
     <pubsubhubbub:config objectStore-ref="localRedis" />
