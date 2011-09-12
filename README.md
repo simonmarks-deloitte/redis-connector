@@ -5,7 +5,7 @@ Mule Redis Connector
 
 Provides Redis connectivity to Mule:
 
-- Supports Redis Publish/Subscribe model for asynchronous message exchanges,
+- Supports [Redis Publish/Subscribe model](http://redis.io/topics/pubsub) for asynchronous message exchanges,
 - Allows direct reading and writing operations in Redis collections,  
 - Allows using Redis as a datastore for Mule components that require persistence (like the [Idempotent Message Filter](http://www.mulesoft.org/documentation/display/MULE3USER/Routing+Message+Processors#RoutingMessageProcessors-IdempotentMessageFilter)).
 
@@ -28,6 +28,10 @@ Features
 
 Connecting to a local Redis with no password and default connection pooling is as simple as:
 
+    <redis:config />
+    
+If you need to refer to this configuration (in case you have several different connections to different Redis servers or if you need to inject it), then you'll have to name it:
+
     <redis:config name="localRedis" />
 
 The following demonstrates all the possible configuration options:
@@ -45,7 +49,32 @@ The following demonstrates all the possible configuration options:
                   timeout="15000"
                   poolConfig-ref="redisPoolConfiguration" />
 
-### ObjectStore
+
+### Publish/Subscribe
+
+> You must have at least one redis:config element, see above.
+
+Publishing to a Redis channel is achieved as shown here after:
+
+    <redis:publish channel="news.art.figurative" />
+
+Any message hitting this [message processor](http://www.mulesoft.org/documentation/display/MULE3USER/Message+Sources+and+Message+Processors#MessageSourcesandMessageProcessors-MessageProcessors) will be transformed into a byte array (using Mule's transformation infrastructure) and will be published to the "news.art.figurative" channel.
+
+Subscribing to a channel is done by specifying names or patterns to which Mule will listen. For example, the following subscribes to a channel named "news.sport.hockey" and any channel that matches the "news.art.*" globbing pattern.
+
+    <redis:subscribe>
+        <redis:channels>
+            <redis:channel>news.sport.hockey</redis:channel>
+            <redis:channel>news.art.*</redis:channel>
+        </redis:channels>
+    </redis:subscribe>
+
+This can be used as a [message source](http://www.mulesoft.org/documentation/display/MULE3USER/Message+Sources+and+Message+Processors#MessageSourcesandMessageProcessors-MessageSources) in any flow. 
+
+
+### Object Store
+
+> You must have at least one redis:config element, see above.
 
 The configured Redis module can act as an [ObjectStore](http://www.mulesoft.org/docs/site/current3/apidocs/index.html?org/mule/api/store/ObjectStore.html), which can be injected into any object needing such a store.
 

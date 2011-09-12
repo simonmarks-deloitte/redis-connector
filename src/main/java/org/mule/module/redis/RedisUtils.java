@@ -7,10 +7,12 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
+
 package org.mule.module.redis;
 
 import java.io.ObjectStreamConstants;
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang.SerializationUtils;
 
@@ -20,8 +22,6 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.util.SafeEncoder;
 
 public abstract class RedisUtils {
-    public static final String REDIS_HASH_KEY_PREFIX = "mule.objectstore.";
-
     public static abstract class RedisAction<R> {
         protected volatile BinaryJedis redis;
 
@@ -67,8 +67,16 @@ public abstract class RedisUtils {
         }
     }
 
-    public static byte[] hashKey(final String partitionName) {
-        return SafeEncoder.encode(REDIS_HASH_KEY_PREFIX + partitionName);
+    public static byte[] getPartitionHashKey(final String partitionName) {
+        return SafeEncoder.encode(RedisConstants.OBJECTSTORE_HASH_KEY_PREFIX + partitionName);
+    }
+
+    public static byte[][] getPatternsFromChannels(final List<String> channels) {
+        final byte[][] patterns = new byte[channels.size()][];
+        for (int i = 0; i < channels.size(); i++) {
+            patterns[i] = SafeEncoder.encode(channels.get(i));
+        }
+        return patterns;
     }
 
     public static <R> R run(final JedisPool jedisPool, final RedisAction<R> action) {

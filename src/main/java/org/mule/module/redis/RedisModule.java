@@ -24,10 +24,16 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.impl.GenericObjectPool.Config;
+import org.mule.RequestContext;
+import org.mule.api.MuleContext;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
+import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.Source;
+import org.mule.api.annotations.callback.SourceCallback;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
+import org.mule.api.context.MuleContextAware;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStoreException;
@@ -42,10 +48,10 @@ import redis.clients.jedis.Response;
 import redis.clients.util.SafeEncoder;
 
 @Module(name = "redis", namespace = "http://www.mulesoft.org/schema/mule/redis", schemaLocation = "http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd")
-public class RedisModule implements PartitionableObjectStore<Serializable> {
+public class RedisModule implements PartitionableObjectStore<Serializable>, MuleContextAware {
     private static final String DEFAULT_PARTITION_NAME = "_default";
 
-    protected static final Log LOGGER = LogFactory.getLog(RedisModule.class);
+    private static final Log LOGGER = LogFactory.getLog(RedisModule.class);
 
     @Configurable
     @Optional
@@ -70,11 +76,16 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     @Optional
     private Config poolConfig = new JedisPoolConfig();
 
+    private MuleContext muleContext;
     private JedisPool jedisPool;
 
     /*----------------------------------------------------------
                 Lifecycle Implementation
     ----------------------------------------------------------*/
+    public void setMuleContext(final MuleContext muleContext) {
+        this.muleContext = muleContext;
+    }
+
     @PostConstruct
     public void initializeJedis() {
         jedisPool = new JedisPool(poolConfig, host, port, timeout, password);
@@ -88,6 +99,36 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     public void destroyJedis() {
         jedisPool.destroy();
         LOGGER.info("Redis connector terminated");
+    }
+
+    /*----------------------------------------------------------
+                Pub/Sub Implementation
+    ----------------------------------------------------------*/
+    @Processor
+    public void publish(final String channel) throws Exception {
+        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+        RedisUtils.run(jedisPool, new RedisAction<Long>() {
+            @Override
+            public Long run() {
+                // this blocks until Redis gets disconnected
+                return redis.publish(SafeEncoder.encode(channel), message);
+            }
+        });
+    }
+
+    @Source
+    public void subscribe(final List<String> channels, final SourceCallback callback) {
+        final RedisPubSubListener listener = RedisUtils.run(jedisPool, new RedisAction<RedisPubSubListener>() {
+            @Override
+            public RedisPubSubListener run() {
+                // this blocks until Redis gets disconnected
+                final RedisPubSubListener listener = new RedisPubSubListener(muleContext, callback);
+                redis.psubscribe(listener, RedisUtils.getPatternsFromChannels(channels));
+                return listener;
+            }
+        });
+
+        listener.punsubscribe();
     }
 
     /*----------------------------------------------------------
@@ -135,7 +176,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
         return RedisUtils.run(jedisPool, new RedisAction<Boolean>() {
             @Override
             public Boolean run() {
-                return redis.hexists(RedisUtils.hashKey(partitionName), RedisUtils.toBytes(key));
+                return redis.hexists(RedisUtils.getPartitionHashKey(partitionName), RedisUtils.toBytes(key));
             }
         });
     }
@@ -144,7 +185,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
         final Long result = RedisUtils.run(jedisPool, new RedisAction<Long>() {
             @Override
             public Long run() {
-                return redis.hsetnx(RedisUtils.hashKey(partitionName), RedisUtils.toBytes(key), RedisUtils.toBytes(value));
+                return redis.hsetnx(RedisUtils.getPartitionHashKey(partitionName), RedisUtils.toBytes(key), RedisUtils.toBytes(value));
             }
         });
 
@@ -157,7 +198,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
         final Serializable result = RedisUtils.run(jedisPool, new RedisAction<Serializable>() {
             @Override
             public Serializable run() {
-                return RedisUtils.fromBytes(redis.hget(RedisUtils.hashKey(partitionName), RedisUtils.toBytes(key)));
+                return RedisUtils.fromBytes(redis.hget(RedisUtils.getPartitionHashKey(partitionName), RedisUtils.toBytes(key)));
             }
         });
 
@@ -175,8 +216,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
                 final byte[] keyAsBytes = RedisUtils.toBytes(key);
 
                 final BinaryTransaction t = redis.multi();
-                final Response<byte[]> getResult = t.hget(RedisUtils.hashKey(partitionName), keyAsBytes);
-                final Response<Long> delResult = t.hdel(RedisUtils.hashKey(partitionName), keyAsBytes);
+                final Response<byte[]> getResult = t.hget(RedisUtils.getPartitionHashKey(partitionName), keyAsBytes);
+                final Response<Long> delResult = t.hdel(RedisUtils.getPartitionHashKey(partitionName), keyAsBytes);
                 t.exec();
 
                 if (delResult.get() != 1) {
@@ -199,7 +240,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
             @Override
             public List<Serializable> run() {
                 final List<Serializable> keys = new ArrayList<Serializable>();
-                for (final byte[] key : redis.hkeys(RedisUtils.hashKey(partitionName))) {
+                for (final byte[] key : redis.hkeys(RedisUtils.getPartitionHashKey(partitionName))) {
                     keys.add(RedisUtils.fromBytes(key));
                 }
                 return keys;
@@ -212,9 +253,9 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
             @Override
             public List<String> run() {
                 final List<String> partitions = new ArrayList<String>();
-                final Set<byte[]> keys = redis.keys((RedisUtils.REDIS_HASH_KEY_PREFIX + "*").getBytes());
+                final Set<byte[]> keys = redis.keys((RedisConstants.OBJECTSTORE_HASH_KEY_PREFIX + "*").getBytes());
                 for (final byte[] key : keys) {
-                    final String partition = StringUtils.substringAfter(SafeEncoder.encode(key), RedisUtils.REDIS_HASH_KEY_PREFIX);
+                    final String partition = StringUtils.substringAfter(SafeEncoder.encode(key), RedisConstants.OBJECTSTORE_HASH_KEY_PREFIX);
                     partitions.add(partition);
                 }
                 return partitions;
@@ -234,7 +275,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
         RedisUtils.run(jedisPool, new RedisAction<Long>() {
             @Override
             public Long run() {
-                return redis.del(RedisUtils.hashKey(partitionName));
+                return redis.del(RedisUtils.getPartitionHashKey(partitionName));
             }
         });
     }
