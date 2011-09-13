@@ -19,19 +19,20 @@
 
     <redis:config />
     
-    <flow name="publisher">
-        <vm:inbound-endpoint path="publisher.in" />
-        <redis:publish channel="#[header:INBOUND:target-channel]" />
+    <flow name="strings-writer">
+        <vm:inbound-endpoint path="strings-writer.in"
+                             exchange-pattern="request-response" />
+        <all>
+            <redis:set key="#[header:INBOUND:key]" />
+            <redis:set key="#[string:#[header:INBOUND:key].ttl]" ttl="1" />
+            <redis:set key="#[string:#[header:INBOUND:key].other]" ifNotExists="true" />
+            <redis:set key="#[header:INBOUND:key]" ifNotExists="true" />
+        </all>
     </flow>
-
-    <flow name="subscriber">
-        <redis:subscribe>
-            <!-- Channels are selected by patterns -->
-            <redis:channels>
-                <redis:channel>mule.test.single.channel</redis:channel>
-                <redis:channel>mule.test.multi.channel.*</redis:channel>
-            </redis:channels>
-        </redis:subscribe>
-        <test:component />
-    </flow>           
+    
+    <flow name="strings-reader">
+        <vm:inbound-endpoint path="strings-reader.in"
+                             exchange-pattern="request-response" />
+        <redis:get key="#[header:INBOUND:key]" />
+    </flow>
 </mule>          

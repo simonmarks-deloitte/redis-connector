@@ -102,6 +102,48 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     }
 
     /*----------------------------------------------------------
+                Datastructure Commands
+    ----------------------------------------------------------*/
+    @Processor
+    public byte[] set(final String key, @Optional final Integer ttl, @Optional @Default("false") final boolean ifNotExists)
+            throws Exception {
+        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                byte[] result = message;
+
+                if (ifNotExists) {
+                    if (redis.setnx(keyAsBytes, message) == 0) {
+                        result = null;
+                    }
+                } else {
+                    redis.set(keyAsBytes, message);
+                }
+
+                if (ttl != null) {
+                    redis.expire(keyAsBytes, ttl);
+                }
+
+                return result;
+            }
+        });
+    }
+
+    @Processor
+    public byte[] get(final String key) {
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return redis.get(keyAsBytes);
+            }
+        });
+    }
+
+    /*----------------------------------------------------------
                 Pub/Sub Implementation
     ----------------------------------------------------------*/
     @Processor
@@ -321,5 +363,9 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
 
     public void setPoolConfig(final Config poolConfig) {
         this.poolConfig = poolConfig;
+    }
+
+    public JedisPool getJedisPool() {
+        return jedisPool;
     }
 }

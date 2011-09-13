@@ -27,11 +27,11 @@ public class RedisPubSubITCase extends FunctionalTestCase {
     }
 
     public void testChannelPubSub() throws Exception {
-        testPubSub("single.channel");
+        testPubSub("mule.test.single.channel");
     }
 
     public void testPatternPubSub() throws Exception {
-        testPubSub("multi.channel.abc");
+        testPubSub("mule.test.multi.channel.abc");
     }
 
     private void testPubSub(final String targetChannel) throws MuleException, Exception, InterruptedException {
