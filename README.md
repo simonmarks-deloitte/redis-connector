@@ -68,7 +68,7 @@ Retrieving is done with:
 
     <redis:get key="my_key" />
 
-#### Strings
+#### Hashes
 
 Storing the current payload under the specified key and field can be done with different options:
 
