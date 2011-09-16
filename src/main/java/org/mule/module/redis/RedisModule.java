@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.impl.GenericObjectPool.Config;
 import org.mule.RequestContext;
 import org.mule.api.MuleContext;
+import org.mule.api.MuleException;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
@@ -107,6 +108,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     @Processor
     public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final boolean ifNotExists)
             throws Exception {
+
         final byte[] message = RequestContext.getEvent().getMessageAsBytes();
 
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
@@ -139,6 +141,44 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
             public byte[] run() {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
                 return redis.get(keyAsBytes);
+            }
+        });
+    }
+
+    @Processor(name = "hash-set")
+    public byte[] setInHash(final String key, final String field, @Optional @Default("false") final boolean ifNotExists)
+            throws MuleException {
+
+        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                final byte[] fieldAsBytes = SafeEncoder.encode(field);
+                byte[] result = message;
+
+                if (ifNotExists) {
+                    if (redis.hsetnx(keyAsBytes, fieldAsBytes, message) == 0) {
+                        result = null;
+                    }
+                } else {
+                    redis.hset(keyAsBytes, fieldAsBytes, message);
+                }
+
+                return result;
+            }
+        });
+    }
+
+    @Processor(name = "hash-get")
+    public byte[] getFromHash(final String key, final String field) {
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                final byte[] fieldAsBytes = SafeEncoder.encode(field);
+                return redis.hget(keyAsBytes, fieldAsBytes);
             }
         });
     }

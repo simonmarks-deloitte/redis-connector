@@ -26,6 +26,7 @@
             <redis:set key="#[header:INBOUND:key]" />
             <redis:set key="#[string:#[header:INBOUND:key].ttl]" expire="1" />
             <redis:set key="#[string:#[header:INBOUND:key].other]" ifNotExists="true" />
+            <append-string-transformer message=".foo" />
             <redis:set key="#[header:INBOUND:key]" ifNotExists="true" />
         </all>
     </flow>
@@ -34,5 +35,22 @@
         <vm:inbound-endpoint path="strings-reader.in"
                              exchange-pattern="request-response" />
         <redis:get key="#[header:INBOUND:key]" />
+    </flow>
+    
+    <flow name="hashes-writer">
+        <vm:inbound-endpoint path="hashes-writer.in"
+                             exchange-pattern="request-response" />
+        <all>
+            <redis:hash-set key="#[header:INBOUND:key]" field="#[header:INBOUND:field]" />
+            <redis:hash-set key="#[header:INBOUND:key]" field="#[string:#[header:INBOUND:field].other]" ifNotExists="true" />
+            <append-string-transformer message=".foo" />
+            <redis:hash-set key="#[header:INBOUND:key]" field="#[header:INBOUND:field]" ifNotExists="true" />
+        </all>
+    </flow>
+    
+    <flow name="hashes-reader">
+        <vm:inbound-endpoint path="hashes-reader.in"
+                             exchange-pattern="request-response" />
+        <redis:hash-get key="#[header:INBOUND:key]" field="#[header:INBOUND:field]" />
     </flow>
 </mule>          
