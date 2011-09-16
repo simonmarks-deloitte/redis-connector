@@ -46,9 +46,27 @@ The following demonstrates all the possible configuration options:
                   host="localhost"
                   port="6379"
                   password="s3cre3t"
-                  timeout="15000"
+                  connectionTimeout="15000"
                   poolConfig-ref="redisPoolConfiguration" />
 
+
+### Datastructure Operations
+
+This module allows your Mule flows to interact with the main Redis datastructures: strings, hashes, lists, sets and sorted sets.
+
+> You must have at least one redis:config element, see above.
+
+#### [Strings](http://redis.io/commands#string)
+
+Storing the current payload under the specified key can be done with different options:
+
+    <redis:set key="my_key" />
+    <redis:set key="my_key" expire="3600" />
+    <redis:set key="my_key" ifNotExists="true" />
+
+Retrieving is done with:
+
+    <redis:get key="my_key" />
 
 ### Publish/Subscribe
 

@@ -24,7 +24,7 @@
                              exchange-pattern="request-response" />
         <all>
             <redis:set key="#[header:INBOUND:key]" />
-            <redis:set key="#[string:#[header:INBOUND:key].ttl]" ttl="1" />
+            <redis:set key="#[string:#[header:INBOUND:key].ttl]" expire="1" />
             <redis:set key="#[string:#[header:INBOUND:key].other]" ifNotExists="true" />
             <redis:set key="#[header:INBOUND:key]" ifNotExists="true" />
         </all>

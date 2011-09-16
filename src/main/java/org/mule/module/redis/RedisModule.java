@@ -66,7 +66,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     @Configurable
     @Optional
     @Default("2000")
-    private int timeout;
+    private int connectionTimeout;
 
     @Configurable
     @Optional
@@ -88,10 +88,10 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
 
     @PostConstruct
     public void initializeJedis() {
-        jedisPool = new JedisPool(poolConfig, host, port, timeout, password);
+        jedisPool = new JedisPool(poolConfig, host, port, connectionTimeout, password);
 
         LOGGER.info(String.format("Redis connector ready, host: %s, port: %d, timeout: %d, password: %s, pool config: %s", host, port,
-                timeout, StringUtils.repeat("*", StringUtils.length(password)),
+                connectionTimeout, StringUtils.repeat("*", StringUtils.length(password)),
                 ToStringBuilder.reflectionToString(poolConfig, ToStringStyle.SHORT_PREFIX_STYLE)));
     }
 
@@ -105,7 +105,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
                 Datastructure Commands
     ----------------------------------------------------------*/
     @Processor
-    public byte[] set(final String key, @Optional final Integer ttl, @Optional @Default("false") final boolean ifNotExists)
+    public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final boolean ifNotExists)
             throws Exception {
         final byte[] message = RequestContext.getEvent().getMessageAsBytes();
 
@@ -123,8 +123,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
                     redis.set(keyAsBytes, message);
                 }
 
-                if (ttl != null) {
-                    redis.expire(keyAsBytes, ttl);
+                if (expire != null) {
+                    redis.expire(keyAsBytes, expire);
                 }
 
                 return result;
@@ -341,12 +341,12 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
         this.port = port;
     }
 
-    public int getTimeout() {
-        return timeout;
+    public int getConnectionTimeout() {
+        return connectionTimeout;
     }
 
-    public void setTimeout(final int timeout) {
-        this.timeout = timeout;
+    public void setConnectionTimeout(final int connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
     }
 
     public String getPassword() {
