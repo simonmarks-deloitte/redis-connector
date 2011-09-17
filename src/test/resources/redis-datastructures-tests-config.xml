@@ -30,7 +30,6 @@
             <redis:set key="#[header:INBOUND:key]" ifNotExists="true" />
         </all>
     </flow>
-    
     <flow name="strings-reader">
         <vm:inbound-endpoint path="strings-reader.in"
                              exchange-pattern="request-response" />
@@ -47,10 +46,25 @@
             <redis:hash-set key="#[header:INBOUND:key]" field="#[header:INBOUND:field]" ifNotExists="true" />
         </all>
     </flow>
-    
     <flow name="hashes-reader">
         <vm:inbound-endpoint path="hashes-reader.in"
                              exchange-pattern="request-response" />
         <redis:hash-get key="#[header:INBOUND:key]" field="#[header:INBOUND:field]" />
+    </flow>
+    
+    <flow name="lists-writer">
+        <vm:inbound-endpoint path="lists-writer.in"
+                             exchange-pattern="request-response" />
+        <all>
+            <redis:list-push key="#[header:INBOUND:key]" side="LEFT" ifExists="true" />
+            <redis:list-push key="#[header:INBOUND:key]" side="RIGHT" ifExists="true" />
+            <redis:list-push key="#[header:INBOUND:key]" side="LEFT"/>
+            <redis:list-push key="#[header:INBOUND:key]" side="RIGHT" />
+        </all>
+    </flow>
+    <flow name="lists-reader">
+        <vm:inbound-endpoint path="lists-reader.in"
+                             exchange-pattern="request-response" />
+        <redis:list-pop key="#[header:INBOUND:key]" side="#[header:INBOUND:side]" />
     </flow>
 </mule>          

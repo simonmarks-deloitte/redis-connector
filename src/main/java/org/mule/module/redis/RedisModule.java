@@ -42,6 +42,7 @@ import org.mule.api.store.PartitionableObjectStore;
 import org.mule.config.i18n.MessageFactory;
 import org.mule.module.redis.RedisUtils.RedisAction;
 
+import redis.clients.jedis.BinaryJedis;
 import redis.clients.jedis.BinaryTransaction;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -105,6 +106,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     /*----------------------------------------------------------
                 Datastructure Commands
     ----------------------------------------------------------*/
+
+    // ************** Strings **************
     @Processor
     public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final boolean ifNotExists)
             throws Exception {
@@ -145,6 +148,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
         });
     }
 
+    // ************** Hashes **************
     @Processor(name = "hash-set")
     public byte[] setInHash(final String key, final String field, @Optional @Default("false") final boolean ifNotExists)
             throws MuleException {
@@ -179,6 +183,75 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
                 final byte[] fieldAsBytes = SafeEncoder.encode(field);
                 return redis.hget(keyAsBytes, fieldAsBytes);
+            }
+        });
+    }
+
+    // ************** Lists **************
+    public static enum PushSide {
+        LEFT {
+            @Override
+            byte[] push(final BinaryJedis redis, final byte[] key, final byte[] message, final boolean ifExists) {
+                if (ifExists) {
+                    if (redis.lpushx(key, message) == 0) {
+                        return null;
+                    }
+                } else {
+                    redis.lpush(key, message);
+                }
+                return message;
+            }
+
+            @Override
+            byte[] pop(final BinaryJedis redis, final byte[] key) {
+                return redis.lpop(key);
+            }
+        },
+        RIGHT {
+            @Override
+            byte[] push(final BinaryJedis redis, final byte[] key, final byte[] message, final boolean ifExists) {
+                if (ifExists) {
+                    if (redis.rpushx(key, message) == 0) {
+                        return null;
+                    }
+                } else {
+                    redis.rpush(key, message);
+                }
+                return message;
+            }
+
+            @Override
+            byte[] pop(final BinaryJedis redis, final byte[] key) {
+                return redis.rpop(key);
+            }
+        };
+
+        abstract byte[] push(BinaryJedis redis, byte[] key, byte[] message, boolean ifNotExists);
+
+        abstract byte[] pop(BinaryJedis redis, final byte[] key);
+    };
+
+    @Processor(name = "list-push")
+    public byte[] pushToList(final String key, final PushSide side, @Optional @Default("false") final boolean ifExists)
+            throws MuleException {
+
+        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                return side.push(redis, SafeEncoder.encode(key), message, ifExists);
+            }
+        });
+    }
+
+    @Processor(name = "list-pop")
+    public byte[] popFromList(final String key, final PushSide side) throws MuleException {
+
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                return side.pop(redis, SafeEncoder.encode(key));
             }
         });
     }

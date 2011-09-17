@@ -21,6 +21,7 @@ import org.mule.transport.NullPayload;
 import org.mule.util.UUID;
 
 public class RedisDataStructureITCase extends FunctionalTestCase {
+    private static final String SIDE_PROP = "side";
     private static final String FIELD_PROP = "field";
     private static final String KEY_PROP = "key";
     private static final String TEST_KEY_PREFIX = "mule.tests.";
@@ -62,11 +63,23 @@ public class RedisDataStructureITCase extends FunctionalTestCase {
         final Map<String, String> props = new HashMap<String, String>();
         props.put(KEY_PROP, testKey);
         props.put(FIELD_PROP, testField);
-
         muleClient.send("vm://hashes-writer.in", testPayload, props);
 
         assertEquals(testPayload, muleClient.send("vm://hashes-reader.in", "ignored", props).getPayloadAsString());
         props.put(FIELD_PROP, testField + ".other");
         assertEquals(testPayload, muleClient.send("vm://hashes-reader.in", "ignored", props).getPayloadAsString());
+    }
+
+    public void testLists() throws Exception {
+        final String testPayload = RandomStringUtils.randomAlphanumeric(20);
+        final String testKey = TEST_KEY_PREFIX + UUID.getUUID();
+        muleClient.send("vm://lists-writer.in", testPayload, Collections.singletonMap(KEY_PROP, testKey));
+
+        final Map<String, String> props = new HashMap<String, String>();
+        props.put(KEY_PROP, testKey);
+        props.put(SIDE_PROP, "LEFT");
+        assertEquals(testPayload, muleClient.send("vm://lists-reader.in", "ignored", props).getPayloadAsString());
+        props.put(SIDE_PROP, "RIGHT");
+        assertEquals(testPayload, muleClient.send("vm://lists-reader.in", "ignored", props).getPayloadAsString());
     }
 }
