@@ -52,7 +52,7 @@ The following demonstrates all the possible configuration options:
 
 ### Datastructure Operations
 
-This module allows your Mule flows to interact with the main Redis datastructures: [strings](http://redis.io/commands#string, [hashes](http://redis.io/commands#hash), lists, sets and sorted sets. Not all commands available on these datastructures are exposed: let us know if you're missing a command!
+This module allows your Mule flows to interact with the main Redis datastructures: [strings](http://redis.io/commands#string), [hashes](http://redis.io/commands#hash), [lists](http://redis.io/commands#list), [sets](http://redis.io/commands#set) and [sorted sets](http://redis.io/commands#sorted_set). Not all commands available on these datastructures are exposed: let us know if you're missing a command!
 
 > You must have at least one redis:config element, see above.
 
@@ -92,6 +92,8 @@ Retrieving is done with either:
 
     <redis:list-pop key="my_key" side="LEFT" />
     <redis:list-pop key="my_key" side="RIGHT" />
+
+> Sets and Sorted Sets coming soon...
 
 ### Publish/Subscribe
 
