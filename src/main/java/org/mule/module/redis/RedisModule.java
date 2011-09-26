@@ -25,16 +25,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.impl.GenericObjectPool.Config;
 import org.mule.RequestContext;
-import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.Source;
-import org.mule.api.annotations.callback.SourceCallback;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.api.context.MuleContextAware;
+import org.mule.api.callback.SourceCallback;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStoreException;
@@ -50,7 +48,7 @@ import redis.clients.jedis.Response;
 import redis.clients.util.SafeEncoder;
 
 @Module(name = "redis", namespace = "http://www.mulesoft.org/schema/mule/redis", schemaLocation = "http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd")
-public class RedisModule implements PartitionableObjectStore<Serializable>, MuleContextAware {
+public class RedisModule implements PartitionableObjectStore<Serializable> {
     private static final String DEFAULT_PARTITION_NAME = "_default";
 
     private static final Log LOGGER = LogFactory.getLog(RedisModule.class);
@@ -78,16 +76,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     @Optional
     private Config poolConfig = new JedisPoolConfig();
 
-    private MuleContext muleContext;
     private JedisPool jedisPool;
 
     /*----------------------------------------------------------
                 Lifecycle Implementation
     ----------------------------------------------------------*/
-    public void setMuleContext(final MuleContext muleContext) {
-        this.muleContext = muleContext;
-    }
-
     @PostConstruct
     public void initializeJedis() {
         jedisPool = new JedisPool(poolConfig, host, port, connectionTimeout, password);
@@ -277,7 +270,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
             @Override
             public RedisPubSubListener run() {
                 // this blocks until Redis gets disconnected
-                final RedisPubSubListener listener = new RedisPubSubListener(muleContext, callback);
+                final RedisPubSubListener listener = new RedisPubSubListener(callback);
                 redis.psubscribe(listener, RedisUtils.getPatternsFromChannels(channels));
                 return listener;
             }

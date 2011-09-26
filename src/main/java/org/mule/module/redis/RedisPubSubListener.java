@@ -16,9 +16,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mule.DefaultMuleMessage;
-import org.mule.api.MuleContext;
-import org.mule.api.annotations.callback.SourceCallback;
+import org.mule.api.callback.SourceCallback;
 
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.util.SafeEncoder;
@@ -26,12 +24,10 @@ import redis.clients.util.SafeEncoder;
 public final class RedisPubSubListener extends BinaryJedisPubSub {
     private static final Log LOGGER = LogFactory.getLog(RedisPubSubListener.class);
 
-    private final MuleContext muleContext;
     private final SourceCallback callback;
 
-    public RedisPubSubListener(final MuleContext muleContext, final SourceCallback callback) {
+    public RedisPubSubListener(final SourceCallback callback) {
         super();
-        this.muleContext = muleContext;
         this.callback = callback;
     }
 
@@ -60,22 +56,19 @@ public final class RedisPubSubListener extends BinaryJedisPubSub {
         final Map<String, Object> props = new HashMap<String, Object>();
         props.put(RedisConstants.REDIS_PUBSUB_PATTERN, SafeEncoder.encode(pattern));
         props.put(RedisConstants.REDIS_PUBSUB_CHANNEL, SafeEncoder.encode(channel));
-        final DefaultMuleMessage muleMessage = new DefaultMuleMessage(message, props, muleContext);
-        deliver(muleMessage);
+        deliver(message, props);
     }
 
     @Override
     public void onMessage(final byte[] channel, final byte[] message) {
-        final DefaultMuleMessage muleMessage = new DefaultMuleMessage(message, Collections.singletonMap(
-                RedisConstants.REDIS_PUBSUB_CHANNEL, (Object) SafeEncoder.encode(channel)), muleContext);
-        deliver(muleMessage);
+        deliver(message, Collections.singletonMap(RedisConstants.REDIS_PUBSUB_CHANNEL, (Object) SafeEncoder.encode(channel)));
     }
 
-    private void deliver(final DefaultMuleMessage muleMessage) {
+    private void deliver(final Object payload, final Map<String, Object> properties) {
         try {
-            callback.process(muleMessage);
+            callback.process(payload, properties);
         } catch (final Exception e) {
-            LOGGER.error("Failed to deliver: " + muleMessage, e);
+            LOGGER.error("Failed to deliver: " + payload + " [" + properties + "]", e);
         }
     }
 }
