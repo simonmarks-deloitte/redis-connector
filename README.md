@@ -1,8 +1,6 @@
 Mule Redis Connector
 ====================
 
-> Currently Under Heavy Development!
-
 Provides Redis connectivity to Mule:
 
 - Supports [Redis Publish/Subscribe model](http://redis.io/topics/pubsub) for asynchronous message exchanges,
@@ -88,12 +86,25 @@ Pushing the current payload under the specified key can be done with different o
     <redis:list-push key="my_key" side="LEFT" ifExists="true" />
     <redis:list-push key="my_key" side="RIGHT" ifExists="true" />
 
-Retrieving is done with either:
+Popping is done with either:
 
     <redis:list-pop key="my_key" side="LEFT" />
     <redis:list-pop key="my_key" side="RIGHT" />
 
-> Sets and Sorted Sets coming soon...
+#### Sets
+
+Adding the current payload under to the set at the specified key can be done with different options:
+
+    <redis:set-add key="my_key" />
+    <redis:set-add key="my_key" mustSucceed="true" />
+
+Popping is done with:
+
+    <redis:set-pop key="my_key" />
+
+#### Sorted Sets
+
+> Coming soon...
 
 ### Publish/Subscribe
 
@@ -103,9 +114,9 @@ Publishing to a Redis channel is achieved as shown here after:
 
     <redis:publish channel="news.art.figurative" />
 
-Any message hitting this [message processor](http://www.mulesoft.org/documentation/display/MULE3USER/Message+Sources+and+Message+Processors#MessageSourcesandMessageProcessors-MessageProcessors) will be transformed into a byte array (using Mule's transformation infrastructure) and will be published to the "news.art.figurative" channel.
+Any message hitting this [message processor](http://www.mulesoft.org/documentation/display/MULE3USER/Message+Sources+and+Message+Processors#MessageSourcesandMessageProcessors-MessageProcessors) will be transformed into a byte array (using Mule's transformation infrastructure) and will be published to the `news.art.figurative` channel.
 
-Subscribing to a channel is done by specifying names or patterns to which Mule will listen. For example, the following subscribes to a channel named "news.sport.hockey" and any channel that matches the "news.art.*" globbing pattern.
+Subscribing to a channel is done by specifying names or patterns to which Mule will listen. For example, the following subscribes to a channel named `news.sport.hockey` and any channel that matches the `news.art.*` globbing pattern.
 
     <redis:subscribe>
         <redis:channels>
@@ -123,7 +134,7 @@ This can be used as a [message source](http://www.mulesoft.org/documentation/dis
 
 The configured Redis module can act as an [ObjectStore](http://www.mulesoft.org/docs/site/current3/apidocs/index.html?org/mule/api/store/ObjectStore.html), which can be injected into any object needing such a store.
 
-> Mule object stores are stored as Redis Hashes named "mule.objectstore.{ospn}", where ospn is the object store partition name (or "_default" if none has been specified).
+> Mule object stores are stored as Redis Hashes named `mule.objectstore.{ospn}`, where ospn is the object store partition name (or `_default` if none has been specified).
 
 For example, the following shows how to use the Redis module as the data store for a Mule-powered [PubSubHubbub hub](https://github.com/mulesoft/mule-module-pubsubhubbub):
 

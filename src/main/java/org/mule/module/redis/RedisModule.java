@@ -102,7 +102,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Strings **************
     @Processor
-    public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final boolean ifNotExists)
+    public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final Boolean ifNotExists)
             throws Exception {
 
         final byte[] message = RequestContext.getEvent().getMessageAsBytes();
@@ -143,7 +143,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Hashes **************
     @Processor(name = "hash-set")
-    public byte[] setInHash(final String key, final String field, @Optional @Default("false") final boolean ifNotExists)
+    public byte[] setInHash(final String key, final String field, @Optional @Default("false") final Boolean ifNotExists)
             throws MuleException {
 
         final byte[] message = RequestContext.getEvent().getMessageAsBytes();
@@ -225,7 +225,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     };
 
     @Processor(name = "list-push")
-    public byte[] pushToList(final String key, final PushSide side, @Optional @Default("false") final boolean ifExists)
+    public byte[] pushToList(final String key, final PushSide side, @Optional @Default("false") final Boolean ifExists)
             throws MuleException {
 
         final byte[] message = RequestContext.getEvent().getMessageAsBytes();
@@ -245,6 +245,34 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
             @Override
             public byte[] run() {
                 return side.pop(redis, SafeEncoder.encode(key));
+            }
+        });
+    }
+
+    // ************** Sets **************
+    @Processor(name = "set-add")
+    public byte[] addToSet(final String key, @Optional @Default("false") final Boolean mustSucceed) throws MuleException {
+
+        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                final long result = redis.sadd(keyAsBytes, message);
+                return !mustSucceed || result > 0 ? message : null;
+            }
+        });
+    }
+
+    @Processor(name = "set-pop")
+    public byte[] popFromSet(final String key) throws MuleException {
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                final byte[] result = redis.spop(keyAsBytes);
+                return result;
             }
         });
     }

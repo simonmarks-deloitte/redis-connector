@@ -67,4 +67,20 @@
                              exchange-pattern="request-response" />
         <redis:list-pop key="#[header:INBOUND:key]" side="#[header:INBOUND:side]" />
     </flow>
+    
+    <flow name="sets-writer">
+        <vm:inbound-endpoint path="sets-writer.in"
+                             exchange-pattern="request-response" />
+
+        <all>                             
+            <redis:set-add key="#[header:INBOUND:key]" />
+            <redis:set-add key="#[header:INBOUND:key]" mustSucceed="true" />
+            <redis:set-add key="#[header:INBOUND:key]" />
+        </all>
+    </flow>
+    <flow name="sets-reader">
+        <vm:inbound-endpoint path="sets-reader.in"
+                             exchange-pattern="request-response" />
+        <redis:set-pop key="#[header:INBOUND:key]" />
+    </flow>
 </mule>          
