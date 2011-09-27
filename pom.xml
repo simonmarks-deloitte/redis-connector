@@ -13,6 +13,7 @@
     <properties>
         <mule.version>3.2.0</mule.version>
         <mule.devkit.version>3.0-SNAPSHOT</mule.devkit.version>
+		<mule.dsl.version>0.7</mule.dsl.version>
         <spring.version>3.0.5.RELEASE</spring.version>
     </properties>
 
@@ -28,6 +29,12 @@
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-client</artifactId>
             <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.dsl</groupId>
+            <artifactId>dsl-api</artifactId>
+            <version>${mule.dsl.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
