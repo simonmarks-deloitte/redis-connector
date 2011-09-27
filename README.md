@@ -50,9 +50,9 @@ The following demonstrates all the possible configuration options:
 
 ### Datastructure Operations
 
-This module allows your Mule flows to interact with the main Redis datastructures: [strings](http://redis.io/commands#string), [hashes](http://redis.io/commands#hash), [lists](http://redis.io/commands#list), [sets](http://redis.io/commands#set) and [sorted sets](http://redis.io/commands#sorted_set). Not all commands available on these datastructures are exposed: let us know if you're missing a command!
+This module allows your Mule flows to interact with the main Redis datastructures: [strings](http://redis.io/commands#string), [hashes](http://redis.io/commands#hash), [lists](http://redis.io/commands#list), [sets](http://redis.io/commands#set) and [sorted sets](http://redis.io/commands#sorted_set).
 
-> You must have at least one redis:config element, see above.
+> Not all commands available on these datastructures are exposed: let us know if you're missing a command and we'll add it!
 
 #### Strings
 
@@ -98,17 +98,26 @@ Adding the current payload under to the set at the specified key can be done wit
     <redis:set-add key="my_key" />
     <redis:set-add key="my_key" mustSucceed="true" />
 
-Popping is done with:
+Retrieving is done with either:
 
+    <redis:set-fetch-random-member key="my_key" />
     <redis:set-pop key="my_key" />
 
 #### Sorted Sets
 
-> Coming soon...
+Adding the current payload under to the set at the specified key can be done with different options:
+
+    <redis:sorted-set-add key="my_key" score="123" />
+    <redis:sorted-set-add key="my_key" score="123" mustSucceed="true" />
+
+Retrieving is done with either:
+
+    <redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" />
+    <redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" order="DESCENDING" />
+    <redis:sorted-set-select-range-by-score key="my_key" min="0.5" max="10" />
+    <redis:sorted-set-select-range-by-score key="my_key" min="10" max="0.5" order="DESCENDING" />
 
 ### Publish/Subscribe
-
-> You must have at least one redis:config element, see above.
 
 Publishing to a Redis channel is achieved as shown here after:
 
@@ -129,8 +138,6 @@ This can be used as a [message source](http://www.mulesoft.org/documentation/dis
 
 
 ### Object Store
-
-> You must have at least one redis:config element, see above.
 
 The configured Redis module can act as an [ObjectStore](http://www.mulesoft.org/docs/site/current3/apidocs/index.html?org/mule/api/store/ObjectStore.html), which can be injected into any object needing such a store.
 

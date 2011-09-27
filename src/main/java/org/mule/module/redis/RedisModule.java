@@ -181,7 +181,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     }
 
     // ************** Lists **************
-    public static enum PushSide {
+    public static enum ListPushSide {
         LEFT {
             @Override
             byte[] push(final BinaryJedis redis, final byte[] key, final byte[] message, final boolean ifExists) {
@@ -225,7 +225,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     };
 
     @Processor(name = "list-push")
-    public byte[] pushToList(final String key, final PushSide side, @Optional @Default("false") final Boolean ifExists)
+    public byte[] pushToList(final String key, final ListPushSide side, @Optional @Default("false") final Boolean ifExists)
             throws MuleException {
 
         final byte[] message = RequestContext.getEvent().getMessageAsBytes();
@@ -239,8 +239,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     }
 
     @Processor(name = "list-pop")
-    public byte[] popFromList(final String key, final PushSide side) throws MuleException {
-
+    public byte[] popFromList(final String key, final ListPushSide side) throws MuleException {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
             public byte[] run() {
@@ -273,6 +272,90 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
                 final byte[] result = redis.spop(keyAsBytes);
                 return result;
+            }
+        });
+    }
+
+    @Processor(name = "set-fetch-random-member")
+    public byte[] randomMemberFromSet(final String key) throws MuleException {
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                final byte[] result = redis.srandmember(keyAsBytes);
+                return result;
+            }
+        });
+    }
+
+    // ************** Sorted Sets **************
+    @Processor(name = "sorted-set-add")
+    public byte[] addToSortedSet(final String key, final Double score, @Optional @Default("false") final Boolean mustSucceed)
+            throws MuleException {
+
+        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+
+        return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
+            @Override
+            public byte[] run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                final long result = redis.zadd(keyAsBytes, score, message);
+                return !mustSucceed || result > 0 ? message : null;
+            }
+        });
+    }
+
+    public static enum SortedSetOrder {
+        ASCENDING {
+            @Override
+            Set<byte[]> getRangeByIndex(final BinaryJedis redis, final byte[] key, final int start, final int end) {
+                return redis.zrange(key, start, end);
+            }
+
+            @Override
+            Set<byte[]> getRangeByScore(final BinaryJedis redis, final byte[] key, final double min, final double max) {
+                return redis.zrangeByScore(key, min, max);
+            }
+        },
+        DESCENDING {
+            @Override
+            Set<byte[]> getRangeByIndex(final BinaryJedis redis, final byte[] key, final int start, final int end) {
+                return redis.zrevrange(key, start, end);
+            }
+
+            @Override
+            Set<byte[]> getRangeByScore(final BinaryJedis redis, final byte[] key, final double min, final double max) {
+                return redis.zrevrangeByScore(key, min, max);
+            }
+        };
+
+        abstract Set<byte[]> getRangeByIndex(BinaryJedis redis, final byte[] key, int start, int end);
+
+        abstract Set<byte[]> getRangeByScore(BinaryJedis redis, final byte[] key, double min, double max);
+    }
+
+    @Processor(name = "sorted-set-select-range-by-index")
+    public Set<byte[]> getRangeByIndex(final String key, final Integer start, final Integer end,
+            @Optional @Default("ASCENDING") final SortedSetOrder order) {
+
+        return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>() {
+            @Override
+            public Set<byte[]> run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return order.getRangeByIndex(redis, keyAsBytes, start, end);
+            }
+        });
+    }
+
+    @Processor(name = "sorted-set-select-range-by-score")
+    public Set<byte[]> getRangeByScore(final String key, final Double min, final Double max,
+            @Optional @Default("ASCENDING") final SortedSetOrder order) {
+
+        return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>() {
+            @Override
+            public Set<byte[]> run() {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return order.getRangeByScore(redis, keyAsBytes, min, max);
             }
         });
     }

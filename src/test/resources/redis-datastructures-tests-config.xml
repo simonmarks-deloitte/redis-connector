@@ -81,6 +81,31 @@
     <flow name="sets-reader">
         <vm:inbound-endpoint path="sets-reader.in"
                              exchange-pattern="request-response" />
-        <redis:set-pop key="#[header:INBOUND:key]" />
+        <all>                                
+            <redis:set-fetch-random-member key="#[header:INBOUND:key]" />
+            <redis:set-pop key="#[header:INBOUND:key]" />
+            <redis:set-pop key="#[header:INBOUND:key]" />
+        </all>
+    </flow>
+    
+    <flow name="sorted-sets-writer">
+        <vm:inbound-endpoint path="sorted-sets-writer.in"
+                             exchange-pattern="request-response" />
+
+        <all>                             
+            <redis:sorted-set-add key="#[header:INBOUND:key]" score="#[header:INBOUND:score]" />
+            <redis:sorted-set-add key="#[header:INBOUND:key]" score="#[header:INBOUND:score]" mustSucceed="true" />
+            <redis:sorted-set-add key="#[header:INBOUND:key]" score="#[header:INBOUND:score]" />
+        </all>
+    </flow>
+    <flow name="sorted-sets-reader">
+        <vm:inbound-endpoint path="sorted-sets-reader.in"
+                             exchange-pattern="request-response" />
+        <all>                                
+            <redis:sorted-set-select-range-by-index key="#[header:INBOUND:key]" start="0" end="-1" />
+            <redis:sorted-set-select-range-by-index key="#[header:INBOUND:key]" start="0" end="-1" order="DESCENDING" />
+            <redis:sorted-set-select-range-by-score key="#[header:INBOUND:key]" min="0.5" max="10" />
+            <redis:sorted-set-select-range-by-score key="#[header:INBOUND:key]" min="10" max="0.5" order="DESCENDING" />
+        </all>
     </flow>
 </mule>          
