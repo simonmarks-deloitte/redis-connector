@@ -28,17 +28,18 @@
     
     <!--
          Full Config    
+    -->                  
     <spring:beans>
         <spring:bean name="redisPoolConfiguration"
                      class="redis.clients.jedis.JedisPoolConfig"
                      p:whenExhaustedAction="#{T(org.apache.commons.pool.impl.GenericObjectPool).WHEN_EXHAUSTED_GROW}" />
     </spring:beans>
     
-    <redis:config name="localRedis"
+    <redis:config name="localRedisFullConfig"
                   host="localhost"
                   port="6379"
                   password="s3cre3t"
                   connectionTimeout="15000"
+                  reconnectionFrequency="60000"
                   poolConfig-ref="redisPoolConfiguration" />
-    -->                  
 </mule>          

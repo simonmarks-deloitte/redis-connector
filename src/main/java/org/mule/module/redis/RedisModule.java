@@ -45,6 +45,7 @@ import redis.clients.jedis.BinaryTransaction;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Response;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.util.SafeEncoder;
 
 @Module(name = "redis", namespace = "http://www.mulesoft.org/schema/mule/redis", schemaLocation = "http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd")
@@ -70,6 +71,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     @Configurable
     @Optional
+    @Default("5000")
+    private int reconnectionFrequency;
+
+    @Configurable
+    @Optional
     private String password;
 
     @Configurable
@@ -77,6 +83,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     private Config poolConfig = new JedisPoolConfig();
 
     private JedisPool jedisPool;
+
+    private volatile boolean running = true;
 
     /*----------------------------------------------------------
                 Lifecycle Implementation
@@ -92,6 +100,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     @PreDestroy
     public void destroyJedis() {
+        running = false;
         jedisPool.destroy();
         LOGGER.info("Redis connector terminated");
     }
@@ -365,17 +374,32 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     @Source
     public void subscribe(final List<String> channels, final SourceCallback callback) {
-        final RedisPubSubListener listener = RedisUtils.run(jedisPool, new RedisAction<RedisPubSubListener>() {
-            @Override
-            public RedisPubSubListener run() {
-                // this blocks until Redis gets disconnected
-                final RedisPubSubListener listener = new RedisPubSubListener(callback);
-                redis.psubscribe(listener, RedisUtils.getPatternsFromChannels(channels));
-                return listener;
-            }
-        });
+        while (running) {
+            try {
+                RedisUtils.run(jedisPool, new RedisAction<Void>() {
+                    @Override
+                    public Void run() {
+                        // this blocks until Redis gets disconnected
+                        final RedisPubSubListener listener = new RedisPubSubListener(callback);
 
-        listener.punsubscribe();
+                        redis.psubscribe(listener, RedisUtils.getPatternsFromChannels(channels));
+                        return null;
+                    }
+                });
+            } catch (final JedisConnectionException jce) {
+                LOGGER.warn("Subscriber disconnected from channels: " + channels + ", will retry connecting in: " + reconnectionFrequency
+                        + "ms.", jce);
+
+                try {
+                    if (running) {
+                        Thread.sleep(reconnectionFrequency);
+                    }
+                } catch (final InterruptedException ie) {
+                    // connector stopping, let's restore interrupted state
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
 
     /*----------------------------------------------------------
@@ -552,6 +576,14 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     public void setConnectionTimeout(final int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+
+    public int getReconnectionFrequency() {
+        return reconnectionFrequency;
+    }
+
+    public void setReconnectionFrequency(final int reconnectionFrequency) {
+        this.reconnectionFrequency = reconnectionFrequency;
     }
 
     public String getPassword() {
