@@ -24,7 +24,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.impl.GenericObjectPool.Config;
-import org.mule.RequestContext;
 import org.mule.api.MuleException;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
@@ -32,6 +31,7 @@ import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.Source;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
+import org.mule.api.annotations.param.Payload;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
@@ -102,10 +102,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Strings **************
     @Processor
-    public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final Boolean ifNotExists)
-            throws Exception {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final Boolean ifNotExists,
+            @Payload final byte[] message) throws Exception {
 
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
@@ -143,10 +141,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Hashes **************
     @Processor(name = "hash-set")
-    public byte[] setInHash(final String key, final String field, @Optional @Default("false") final Boolean ifNotExists)
-            throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public byte[] setInHash(final String key, final String field, @Optional @Default("false") final Boolean ifNotExists,
+            @Payload final byte[] message) throws MuleException {
 
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
@@ -225,10 +221,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     };
 
     @Processor(name = "list-push")
-    public byte[] pushToList(final String key, final ListPushSide side, @Optional @Default("false") final Boolean ifExists)
-            throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public byte[] pushToList(final String key, final ListPushSide side, @Optional @Default("false") final Boolean ifExists,
+            @Payload final byte[] message) throws MuleException {
 
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
@@ -250,10 +244,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Sets **************
     @Processor(name = "set-add")
-    public byte[] addToSet(final String key, @Optional @Default("false") final Boolean mustSucceed) throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
-
+    public byte[] addToSet(final String key, @Optional @Default("false") final Boolean mustSucceed, @Payload final byte[] message)
+            throws MuleException {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
             public byte[] run() {
@@ -290,11 +282,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Sorted Sets **************
     @Processor(name = "sorted-set-add")
-    public byte[] addToSortedSet(final String key, final Double score, @Optional @Default("false") final Boolean mustSucceed)
-            throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
-
+    public byte[] addToSortedSet(final String key, final Double score, @Optional @Default("false") final Boolean mustSucceed,
+            @Payload final byte[] message) throws MuleException {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
             public byte[] run() {
@@ -364,8 +353,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
                 Pub/Sub Implementation
     ----------------------------------------------------------*/
     @Processor
-    public void publish(final String channel) throws Exception {
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public void publish(final String channel, @Payload final byte[] message) throws Exception {
         RedisUtils.run(jedisPool, new RedisAction<Long>() {
             @Override
             public Long run() {
