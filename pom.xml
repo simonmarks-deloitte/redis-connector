@@ -13,7 +13,7 @@
     <properties>
         <mule.version>3.2.0</mule.version>
         <mule.devkit.version>3.0-SNAPSHOT</mule.devkit.version>
-		<mule.dsl.version>0.7</mule.dsl.version>
+        <mule.dsl.version>0.7</mule.dsl.version>
         <spring.version>3.0.5.RELEASE</spring.version>
     </properties>
 
@@ -249,12 +249,12 @@
     </pluginRepositories>
     <distributionManagement>
         <repository>
-            <id>mulesoft-releases</id>
+            <id>muleforge-releases</id>
             <name>MuleForge Release Repository</name>
             <url>http://repository.mulesoft.org/releases/</url>
         </repository>
         <snapshotRepository>
-            <id>mulesoft-snapshots</id>
+            <id>muleforge-snapshots</id>
             <name>MuleForge Snapshot Repository</name>
             <url>http://repository.mulesoft.org/snapshots/</url>
             <uniqueVersion>false</uniqueVersion>

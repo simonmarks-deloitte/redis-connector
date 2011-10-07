@@ -5,7 +5,7 @@ Provides Redis connectivity to Mule:
 
 - Supports [Redis Publish/Subscribe model](http://redis.io/topics/pubsub) for asynchronous message exchanges,
 - Allows direct reading and writing operations in Redis collections,  
-- Allows using Redis as a datastore for Mule components that require persistence (like the [Idempotent Message Filter](http://www.mulesoft.org/documentation/display/MULE3USER/Routing+Message+Processors#RoutingMessageProcessors-IdempotentMessageFilter)).
+- Allows using Redis as a datastore for Mule components that require persistence.
 
 Build Commands
 --------------

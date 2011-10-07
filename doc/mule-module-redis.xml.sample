@@ -1,9 +1,61 @@
 <!-- BEGIN_INCLUDE(redis:set) -->
 <redis:set key="mykey"/>
 <!-- END_INCLUDE(redis:set) -->
+
 <!-- BEGIN_INCLUDE(redis:get) -->
 <redis:get key="mykey"/>
 <!-- END_INCLUDE(redis:get) -->
+
+
 <!-- BEGIN_INCLUDE(redis:hash-set) -->
 <redis:hash-set key="mykey" field="myfield"/>
 <!-- END_INCLUDE(redis:hash-set) -->
+
+<!-- BEGIN_INCLUDE(redis:hash-get) -->
+<redis:hash-get key="my_key" field="my_field" />
+<!-- END_INCLUDE(redis:hash-get) -->
+
+<!-- BEGIN_INCLUDE(redis:list-push) -->
+<redis:list-push key="my_key" side="RIGHT" />
+<!-- END_INCLUDE(redis:list-push) -->
+
+<!-- BEGIN_INCLUDE(redis:list-pop) -->
+<redis:list-pop key="my_key" side="LEFT" />
+<!-- END_INCLUDE(redis:list-pop) -->
+
+<!-- BEGIN_INCLUDE(redis:set-add) -->
+<redis:set-add key="my_key" />
+<!-- END_INCLUDE(redis:set-add) -->
+
+<!-- BEGIN_INCLUDE(redis:set-fetch-random-member) -->
+<redis:set-fetch-random-member key="my_key" />
+<!-- END_INCLUDE(redis:set-fetch-random-member) -->
+
+<!-- BEGIN_INCLUDE(redis:set-pop) -->
+<redis:set-pop key="my_key" />
+<!-- END_INCLUDE(redis:set-pop) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-add) -->
+<redis:sorted-set-add key="my_key" score="123" />
+<!-- END_INCLUDE(redis:sorted-set-add) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-select-range-by-index) -->
+<redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" />
+<!-- END_INCLUDE(redis:sorted-set-select-range-by-index) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-select-range-by-score) -->
+<redis:sorted-set-select-range-by-score key="my_key" min="0.5" max="10" />
+<!-- END_INCLUDE(redis:sorted-set-select-range-by-score) -->
+
+<!-- BEGIN_INCLUDE(redis:publish) -->
+<redis:publish channel="news.art.figurative" />
+<!-- END_INCLUDE(redis:publish) -->
+
+<!-- BEGIN_INCLUDE(redis:subscribe) -->
+<redis:subscribe>
+    <redis:channels>
+        <redis:channel>news.sport.hockey</redis:channel>
+        <redis:channel>news.art.*</redis:channel>
+    </redis:channels>
+</redis:subscribe>
+<!-- END_INCLUDE(redis:subscribe) -->
