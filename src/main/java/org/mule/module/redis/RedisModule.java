@@ -133,6 +133,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
      * Set key to hold the payload. If key already holds a value, it is overwritten, regardless of its type as long
      * as ifNotExists is false.
      *
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:set}
+     *
      * @param key Key used to store payload
      * @param expire Set a timeout on the specified key. After the timeout the key will be automatically deleted by
      * the server. A key with an associated timeout is said to be volatile in Redis terminology.
@@ -172,6 +174,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
      * value 'nil' is returned. If the value stored at key is not a string an
      * error is returned because GET can only handle string values.
      *
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:get}
+     *
      * @param key Key that will be used for GET
      * @return A byte array with the content of the key
      */
@@ -192,6 +196,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
      * Set the specified hash field to the specified value.
      * <p>
      * If key does not exist, a new key holding a hash is created as long as ifNotExists is true.
+     *
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:hash-set}
      *
      * @param key
      * @param field

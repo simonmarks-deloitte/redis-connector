@@ -1,3 +1,9 @@
 <!-- BEGIN_INCLUDE(redis:set) -->
-<redis:set
+<redis:set key="mykey"/>
 <!-- END_INCLUDE(redis:set) -->
+<!-- BEGIN_INCLUDE(redis:get) -->
+<redis:get key="mykey"/>
+<!-- END_INCLUDE(redis:get) -->
+<!-- BEGIN_INCLUDE(redis:hash-set) -->
+<redis:hash-set key="mykey" field="myfield"/>
+<!-- END_INCLUDE(redis:hash-set) -->
