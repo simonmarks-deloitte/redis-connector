@@ -16,7 +16,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.impl.GenericObjectPool.Config;
-import org.mule.RequestContext;
 import org.mule.api.MuleException;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
@@ -24,6 +23,7 @@ import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.Source;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
+import org.mule.api.annotations.param.Payload;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
@@ -36,6 +36,7 @@ import redis.clients.jedis.BinaryTransaction;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Response;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.util.SafeEncoder;
 
 import javax.annotation.PostConstruct;
@@ -87,6 +88,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
      */
     @Configurable
     @Optional
+    @Default("5000")
+    private int reconnectionFrequency;
+
+    @Configurable
+    @Optional
     private String password;
 
     /**
@@ -97,6 +103,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     private Config poolConfig = new JedisPoolConfig();
 
     private JedisPool jedisPool;
+
+    private volatile boolean running = true;
 
     /*----------------------------------------------------------
                 Lifecycle Implementation
@@ -112,6 +120,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     @PreDestroy
     public void destroyJedis() {
+        running = false;
         jedisPool.destroy();
         LOGGER.info("Redis connector terminated");
     }
@@ -132,10 +141,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
      * @throws Exception If something goes wrong
      */
     @Processor
-    public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final Boolean ifNotExists)
-            throws Exception {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final Boolean ifNotExists,
+            @Payload final byte[] message) throws Exception {
 
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
@@ -195,10 +202,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
      * @throws MuleException
      */
     @Processor(name = "hash-set")
-    public byte[] setInHash(final String key, final String field, @Optional @Default("false") final Boolean ifNotExists)
-            throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public byte[] setInHash(final String key, final String field, @Optional @Default("false") final Boolean ifNotExists,
+            @Payload final byte[] message) throws MuleException {
 
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
@@ -279,10 +284,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     ;
 
     @Processor(name = "list-push")
-    public byte[] pushToList(final String key, final ListPushSide side, @Optional @Default("false") final Boolean ifExists)
-            throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public byte[] pushToList(final String key, final ListPushSide side, @Optional @Default("false") final Boolean ifExists,
+            @Payload final byte[] message) throws MuleException {
 
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
@@ -304,10 +307,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Sets **************
     @Processor(name = "set-add")
-    public byte[] addToSet(final String key, @Optional @Default("false") final Boolean mustSucceed) throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
-
+    public byte[] addToSet(final String key, @Optional @Default("false") final Boolean mustSucceed, @Payload final byte[] message)
+            throws MuleException {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
             public byte[] run() {
@@ -344,11 +345,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     // ************** Sorted Sets **************
     @Processor(name = "sorted-set-add")
-    public byte[] addToSortedSet(final String key, final Double score, @Optional @Default("false") final Boolean mustSucceed)
-            throws MuleException {
-
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
-
+    public byte[] addToSortedSet(final String key, final Double score, @Optional @Default("false") final Boolean mustSucceed,
+            @Payload final byte[] message) throws MuleException {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
             @Override
             public byte[] run() {
@@ -418,8 +416,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
                 Pub/Sub Implementation
     ----------------------------------------------------------*/
     @Processor
-    public void publish(final String channel) throws Exception {
-        final byte[] message = RequestContext.getEvent().getMessageAsBytes();
+    public void publish(final String channel, @Payload final byte[] message) throws Exception {
         RedisUtils.run(jedisPool, new RedisAction<Long>() {
             @Override
             public Long run() {
@@ -431,17 +428,32 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     @Source
     public void subscribe(final List<String> channels, final SourceCallback callback) {
-        final RedisPubSubListener listener = RedisUtils.run(jedisPool, new RedisAction<RedisPubSubListener>() {
-            @Override
-            public RedisPubSubListener run() {
-                // this blocks until Redis gets disconnected
-                final RedisPubSubListener listener = new RedisPubSubListener(callback);
-                redis.psubscribe(listener, RedisUtils.getPatternsFromChannels(channels));
-                return listener;
-            }
-        });
+        while (running) {
+            try {
+                RedisUtils.run(jedisPool, new RedisAction<Void>() {
+                    @Override
+                    public Void run() {
+                        // this blocks until Redis gets disconnected
+                        final RedisPubSubListener listener = new RedisPubSubListener(callback);
 
-        listener.punsubscribe();
+                        redis.psubscribe(listener, RedisUtils.getPatternsFromChannels(channels));
+                        return null;
+                    }
+                });
+            } catch (final JedisConnectionException jce) {
+                LOGGER.warn("Subscriber disconnected from channels: " + channels + ", will retry connecting in: " + reconnectionFrequency
+                        + "ms.", jce);
+
+                try {
+                    if (running) {
+                        Thread.sleep(reconnectionFrequency);
+                    }
+                } catch (final InterruptedException ie) {
+                    // connector stopping, let's restore interrupted state
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
 
     /*----------------------------------------------------------
@@ -618,6 +630,14 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     public void setConnectionTimeout(final int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+
+    public int getReconnectionFrequency() {
+        return reconnectionFrequency;
+    }
+
+    public void setReconnectionFrequency(final int reconnectionFrequency) {
+        this.reconnectionFrequency = reconnectionFrequency;
     }
 
     public String getPassword() {

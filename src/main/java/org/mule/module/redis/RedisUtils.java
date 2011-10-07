@@ -19,6 +19,7 @@ import org.apache.commons.lang.SerializationUtils;
 import redis.clients.jedis.BinaryJedis;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.util.SafeEncoder;
 
 public abstract class RedisUtils {
@@ -81,10 +82,21 @@ public abstract class RedisUtils {
 
     public static <R> R run(final JedisPool jedisPool, final RedisAction<R> action) {
         final Jedis jedis = jedisPool.getResource();
+        boolean brokenResource = false;
+
         try {
-            return action.runWithJedis(jedis);
+            try {
+                return action.runWithJedis(jedis);
+            } catch (final JedisConnectionException jce) {
+                brokenResource = true;
+                throw jce;
+            }
         } finally {
-            jedisPool.returnResource(jedis);
+            if (brokenResource) {
+                jedisPool.returnBrokenResource(jedis);
+            } else {
+                jedisPool.returnResource(jedis);
+            }
         }
 
     }

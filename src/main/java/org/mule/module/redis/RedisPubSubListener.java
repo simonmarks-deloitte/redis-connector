@@ -38,7 +38,7 @@ public final class RedisPubSubListener extends BinaryJedisPubSub {
 
     @Override
     public void onPSubscribe(final byte[] pattern, final int subscribedChannels) {
-        LOGGER.info("Subscribed from pattern: " + SafeEncoder.encode(pattern));
+        LOGGER.info("Subscribed to pattern: " + SafeEncoder.encode(pattern));
     }
 
     @Override
@@ -48,7 +48,7 @@ public final class RedisPubSubListener extends BinaryJedisPubSub {
 
     @Override
     public void onPUnsubscribe(final byte[] pattern, final int subscribedChannels) {
-        LOGGER.info("Unubscribed to pattern: " + SafeEncoder.encode(pattern));
+        LOGGER.info("Unubscribed from pattern: " + SafeEncoder.encode(pattern));
     }
 
     @Override

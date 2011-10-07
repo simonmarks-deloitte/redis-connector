@@ -141,7 +141,7 @@ This can be used as a [message source](http://www.mulesoft.org/documentation/dis
 
 The configured Redis module can act as an [ObjectStore](http://www.mulesoft.org/docs/site/current3/apidocs/index.html?org/mule/api/store/ObjectStore.html), which can be injected into any object needing such a store.
 
-> Mule object stores are stored as Redis Hashes named `mule.objectstore.{ospn}`, where ospn is the object store partition name (or `_default` if none has been specified).
+> Mule object stores are stored as Redis Hashes named `mule.objectstore.{ospn}`, where ospn is the object store partition name (or `_default` if none has been specified). Values are stored as Java-serialized bytes, except if they are strings. In that case, the string is stored as-is. 
 
 For example, the following shows how to use the Redis module as the data store for a Mule-powered [PubSubHubbub hub](https://github.com/mulesoft/mule-module-pubsubhubbub):
 
