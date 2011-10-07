@@ -10,14 +10,6 @@
 
 package org.mule.module.redis;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -39,7 +31,6 @@ import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.PartitionableObjectStore;
 import org.mule.config.i18n.MessageFactory;
 import org.mule.module.redis.RedisUtils.RedisAction;
-
 import redis.clients.jedis.BinaryJedis;
 import redis.clients.jedis.BinaryTransaction;
 import redis.clients.jedis.JedisPool;
@@ -47,31 +38,60 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Response;
 import redis.clients.util.SafeEncoder;
 
-@Module(name = "redis", namespace = "http://www.mulesoft.org/schema/mule/redis", schemaLocation = "http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd")
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+
+/**
+ * Redis is an open-source, networked, in-memory, persistent, journaled, key-value data store.
+ *
+ * @author MuleSoft, Inc.
+ */
+@Module(name = "redis", namespace = "http://www.mulesoft.org/schema/mule/redis", schemaLocation = "http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd",
+        schemaVersion = "3.2")
 public class RedisModule implements PartitionableObjectStore<Serializable> {
     private static final String DEFAULT_PARTITION_NAME = "_default";
 
     private static final Log LOGGER = LogFactory.getLog(RedisModule.class);
 
+    /**
+     * Redis host
+     */
     @Configurable
     @Optional
     @Default("localhost")
     private String host;
 
+    /**
+     * Redis port
+     */
     @Configurable
     @Optional
     @Default("6379")
     private int port;
 
+    /**
+     * Connection timeout
+     */
     @Configurable
     @Optional
     @Default("2000")
     private int connectionTimeout;
 
+    /**
+     * Redis password
+     */
     @Configurable
     @Optional
     private String password;
 
+    /**
+     * Object pool configuration
+     */
     @Configurable
     @Optional
     private Config poolConfig = new JedisPoolConfig();
@@ -100,7 +120,17 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
                 Datastructure Commands
     ----------------------------------------------------------*/
 
-    // ************** Strings **************
+    /**
+     * Set key to hold the payload. If key already holds a value, it is overwritten, regardless of its type as long
+     * as ifNotExists is false.
+     *
+     * @param key Key used to store payload
+     * @param expire Set a timeout on the specified key. After the timeout the key will be automatically deleted by
+     * the server. A key with an associated timeout is said to be volatile in Redis terminology.
+     * @param ifNotExists If true, then execute SETNX on the Redis server, otherwise execute SET
+     * @return The payload of the message as a byte array
+     * @throws Exception If something goes wrong
+     */
     @Processor
     public byte[] set(final String key, @Optional final Integer expire, @Optional @Default("false") final Boolean ifNotExists)
             throws Exception {
@@ -130,6 +160,14 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
         });
     }
 
+    /**
+     * Get the value of the specified key. If the key does not exist the special
+     * value 'nil' is returned. If the value stored at key is not a string an
+     * error is returned because GET can only handle string values.
+     *
+     * @param key Key that will be used for GET
+     * @return A byte array with the content of the key
+     */
     @Processor
     public byte[] get(final String key) {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>() {
@@ -142,6 +180,20 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
     }
 
     // ************** Hashes **************
+
+    /**
+     * Set the specified hash field to the specified value.
+     * <p>
+     * If key does not exist, a new key holding a hash is created as long as ifNotExists is true.
+     *
+     * @param key
+     * @param field
+     * @param ifNotExists If true execute HSETNX otherwise HSET.
+     * @return If the field already exists, and the HSET/HSETNX just produced an update
+     *         of the value, 0 is returned, otherwise if a new field is created
+     *         1 is returned.
+     * @throws MuleException
+     */
     @Processor(name = "hash-set")
     public byte[] setInHash(final String key, final String field, @Optional @Default("false") final Boolean ifNotExists)
             throws MuleException {
@@ -222,7 +274,9 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
         abstract byte[] push(BinaryJedis redis, byte[] key, byte[] message, boolean ifNotExists);
 
         abstract byte[] pop(BinaryJedis redis, final byte[] key);
-    };
+    }
+
+    ;
 
     @Processor(name = "list-push")
     public byte[] pushToList(final String key, final ListPushSide side, @Optional @Default("false") final Boolean ifExists)
@@ -336,7 +390,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     @Processor(name = "sorted-set-select-range-by-index")
     public Set<byte[]> getRangeByIndex(final String key, final Integer start, final Integer end,
-            @Optional @Default("ASCENDING") final SortedSetOrder order) {
+                                       @Optional @Default("ASCENDING") final SortedSetOrder order) {
 
         return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>() {
             @Override
@@ -349,7 +403,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable> {
 
     @Processor(name = "sorted-set-select-range-by-score")
     public Set<byte[]> getRangeByScore(final String key, final Double min, final Double max,
-            @Optional @Default("ASCENDING") final SortedSetOrder order) {
+                                       @Optional @Default("ASCENDING") final SortedSetOrder order) {
 
         return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>() {
             @Override
