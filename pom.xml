@@ -190,7 +190,7 @@
     </profiles>
 
     <scm>
-        <connection>scm:git:git@github.com:mulesoft/redis-connector.git</connection>
+        <connection>scm:git:git://github.com/mulesoft/redis-connector.git</connection>
         <developerConnection>scm:git:git@github.com:mulesoft/redis-connector.git</developerConnection>
         <url>https://github.com/mulesoft/redis-connector</url>
     </scm>
