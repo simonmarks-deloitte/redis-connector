@@ -7,7 +7,7 @@
     <packaging>mule-module</packaging>
     <name>Mule Redis Module</name>
     <description>Redis support for Mule</description>
-    <url>http://www.muleforge.org/projects/mule-module-redis</url>
+    <url>http://www.mulesoft.org/muleforge/redis-connector</url>
 
     <properties>
         <mule.version>3.2.0</mule.version>
