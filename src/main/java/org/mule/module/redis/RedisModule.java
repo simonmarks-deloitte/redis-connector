@@ -1,6 +1,6 @@
-/*
- * $Id$
- * --------------------------------------------------------------------------------------
+/**
+ * Mule Redis Connector
+ *
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
  *
  * The software in this package is published under the terms of the CPAL v1.0
@@ -58,7 +58,7 @@ import redis.clients.util.SafeEncoder;
  * 
  * @author MuleSoft, Inc.
  */
-@Module(name = "redis", namespace = "http://www.mulesoft.org/schema/mule/redis", schemaLocation = "http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd", schemaVersion = "3.2")
+@Module(name = "redis", schemaVersion = "3.2")
 public class RedisModule implements PartitionableObjectStore<Serializable>
 {
     private static final String DEFAULT_PARTITION_NAME = "_default";
