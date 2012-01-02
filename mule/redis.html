@@ -111,15 +111,19 @@
       <span id="masthead-title">Mule Redis Module</span>
     
     <ul id="header-tabs" class="mule">
+    
     	<li id="guide"><a href="../guide/install.html">
 	    	<span class="en">Install Guide</span>
     	</a></li>
+    
     	<li id="java"><a href="../java/packages.html">
-	    	<span class="en">Java API</span>
+	    	<span class="en">Java API Reference</span>
     	</a></li>
+    
     	<li id="mule"><a href="../mule/modules.html">
-	    	<span class="en">Mule API</span>
+	    	<span class="en">Mule API Reference</span>
     	</a></li>
+    
     </ul>
     </div>
     <div id="headerRight">
@@ -229,7 +233,7 @@ Summary:
  <li>Supports Redis Publish/Subscribe model for asynchronous message exchanges,</li>
  <li>Allows direct reading and writing operations in Redis collections,</li>
  <li>Allows using Redis as a datastore for Mule components that require persistence.</li>
- </ul><br/></p>
+ </ul></p>
 
 
 </div><!-- jd-descr -->
@@ -534,6 +538,8 @@ specify which configuration to use.</p>
 
 
 
+
+
 <!-- ========= MESSAGE PROCESSOR DETAIL ======== -->
 <!-- Message Processors -->
 
@@ -557,21 +563,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Add the message payload to the set stored at the specified key. If key does not exist, a new key holding a set is
  created.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set-add key="my_key" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set-add key="my_key" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for SADD<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for SADD</td>
                 </tr>
                 
                 
@@ -581,7 +589,7 @@ specify which configuration to use.</p>
                     <td class="jd-linkcol"><nobr>mustSucceed</nobr></td>
                     <td class="jd-descrcol"></td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true, ensures that adding to the set was successful (ie no pre-existing identical value in
-            the set)<br/></td>
+            the set)</td>
                 </tr>
                 
                 
@@ -590,26 +598,18 @@ specify which configuration to use.</p>
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>message</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array<br/></td>
+                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array</td>
                 </tr>
                 
                 
           
           
-            <tr class="alt-color api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -625,8 +625,10 @@ specify which configuration to use.</p>
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>If no new entry has been added to the set and mustSucceed is true, null is returned. Otherwise the
          message is returned.
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -648,21 +650,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Add the message payload with the desired score to the sorted set stored at the specified key. If key does not
  exist, a new key holding a sorted set is created.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:sorted-set-add key="my_key" score="123" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:sorted-set-add key="my_key" score="123" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for ZADD<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for ZADD</td>
                 </tr>
                 
                 
@@ -671,7 +675,7 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>score</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Score to use for the value<br/></td>
+                    <td class="jd-descrcol" width="100%">Score to use for the value</td>
                 </tr>
                 
                 
@@ -681,7 +685,7 @@ specify which configuration to use.</p>
                     <td class="jd-linkcol"><nobr>mustSucceed</nobr></td>
                     <td class="jd-descrcol"></td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true, ensures that adding to the sorted set was successful (ie no pre-existing identical
-            value in the set)<br/></td>
+            value in the set)</td>
                 </tr>
                 
                 
@@ -690,26 +694,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>message</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array<br/></td>
+                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -727,8 +723,10 @@ specify which configuration to use.</p>
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>If no new entry has been added to the sorted set and mustSucceed is true, null is returned. Otherwise the
          message is returned.
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -750,40 +748,34 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Get the value of the specified key. If the key does not exist null is returned. If the value stored at key is not
  a string an error is returned because GET can only handle string values.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:get key="mykey"/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:get key="mykey"/&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for GET<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for GET</td>
                 </tr>
                 
                 
           
           
-            <tr class="alt-color api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -794,8 +786,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>A byte array with the content of the key
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -817,21 +811,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Get the value stored at the specified field in the hash at the specified key. If the field or the hash don't
  exist, null is returned.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:hash-get key="my_key" field="my_field" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:hash-get key="my_key" field="my_field" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for HGET<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for HGET</td>
                 </tr>
                 
                 
@@ -840,26 +836,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>field</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Field that will be used for HGET<br/></td>
+                    <td class="jd-descrcol" width="100%">Field that will be used for HGET</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -872,8 +860,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>The value or null.
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -895,21 +885,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Retrieve a range of values from the sorted set stored at the specified key. The range of values is defined by
  indices in the sorted set and sorted as desired.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for ZRANGE/ZREVRANGE<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for ZRANGE/ZREVRANGE</td>
                 </tr>
                 
                 
@@ -918,7 +910,7 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>start</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Range start index<br/></td>
+                    <td class="jd-descrcol" width="100%">Range start index</td>
                 </tr>
                 
                 
@@ -927,7 +919,7 @@ specify which configuration to use.</p>
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>end</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Range end index<br/></td>
+                    <td class="jd-descrcol" width="100%">Range end index</td>
                 </tr>
                 
                 
@@ -936,26 +928,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>order</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Index order for sorting the range, either ASCENDING or DESCENDING<br/></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Index order for sorting the range, either ASCENDING or DESCENDING</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -972,8 +956,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>the values in the specified range in the desired order
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -995,21 +981,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Retrieve a range of values from the sorted set stored at the specified key. The range of values is defined by
  scores in the sorted set and sorted as desired.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:sorted-set-select-range-by-score key="my_key" min="0.5" max="10" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:sorted-set-select-range-by-score key="my_key" min="0.5" max="10" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for ZRANGEBYSCORE/ZREVRANGEBYSCORE<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for ZRANGEBYSCORE/ZREVRANGEBYSCORE</td>
                 </tr>
                 
                 
@@ -1018,7 +1006,7 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>min</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Range start score<br/></td>
+                    <td class="jd-descrcol" width="100%">Range start score</td>
                 </tr>
                 
                 
@@ -1027,7 +1015,7 @@ specify which configuration to use.</p>
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>max</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Range end score<br/></td>
+                    <td class="jd-descrcol" width="100%">Range end score</td>
                 </tr>
                 
                 
@@ -1036,26 +1024,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>order</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Score order for sorting the range, either ASCENDING or DESCENDING<br/></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Score order for sorting the range, either ASCENDING or DESCENDING</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1072,8 +1052,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>the values in the specified range in the desired order
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1094,21 +1076,23 @@ specify which configuration to use.</p>
       
   <div class="jd-tagdata jd-tagdescr"><p>Pop a value from the desired side of the list stored at the specified key.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:list-pop key="my_key" side="LEFT" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:list-pop key="my_key" side="LEFT" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for LPOP/RPOP<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for LPOP/RPOP</td>
                 </tr>
                 
                 
@@ -1117,26 +1101,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>side</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The side where to pop the value from, either LEFT or RIGHT<br/></td>
+                    <td class="jd-descrcol" width="100%">The side where to pop the value from, either LEFT or RIGHT</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1149,8 +1125,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>The popped value or null if either the list is empty or no list exists at the key
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1171,40 +1149,34 @@ specify which configuration to use.</p>
       
   <div class="jd-tagdata jd-tagdescr"><p>Pops a random value from the set stored at the specified key.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set-pop key="my_key" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set-pop key="my_key" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for SPOP<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for SPOP</td>
                 </tr>
                 
                 
           
           
-            <tr class="alt-color api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1215,8 +1187,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>The popped value or null if either the set is empty or no set exists at the key
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1237,21 +1211,23 @@ specify which configuration to use.</p>
       
   <div class="jd-tagdata jd-tagdescr"><p>Publish the message payload to the specified channel.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:publish channel="news.art.figurative" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:publish channel="news.art.figurative" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>channel</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Destination of the published message<br/></td>
+                    <td class="jd-descrcol" width="100%">Destination of the published message</td>
                 </tr>
                 
                 
@@ -1260,7 +1236,7 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>mustSucceed</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Enforces the fact that the message must have been delivered to at least one consumer<br/></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Enforces the fact that the message must have been delivered to at least one consumer</td>
                 </tr>
                 
                 
@@ -1269,26 +1245,18 @@ specify which configuration to use.</p>
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>message</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array<br/></td>
+                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array</td>
                 </tr>
                 
                 
           
           
-            <tr class="alt-color api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1304,8 +1272,10 @@ specify which configuration to use.</p>
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>If no consumer is subscribed to the channel and mustSucceed is true, null is returned. Otherwise the
          message is returned.
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1327,21 +1297,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Push the message payload to the desired side (LEFT or RIGHT) of the list stored at the specified key. If key does
  not exist, a new key holding a list is created as long as ifExists is not true.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:list-push key="my_key" side="RIGHT" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:list-push key="my_key" side="RIGHT" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for LPUSH/RPUSH/LPUSHX/RPUSH<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for LPUSH/RPUSH/LPUSHX/RPUSH</td>
                 </tr>
                 
                 
@@ -1350,7 +1322,7 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>side</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The side where to push the payload, either LEFT or RIGHT<br/></td>
+                    <td class="jd-descrcol" width="100%">The side where to push the payload, either LEFT or RIGHT</td>
                 </tr>
                 
                 
@@ -1359,7 +1331,7 @@ specify which configuration to use.</p>
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>ifExists</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true execute LPUSHX/RPUSH otherwise LPUSH/RPUSH<br/></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true execute LPUSHX/RPUSH otherwise LPUSH/RPUSH</td>
                 </tr>
                 
                 
@@ -1368,26 +1340,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>message</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array<br/></td>
+                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1405,8 +1369,10 @@ specify which configuration to use.</p>
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>If the key doesn't already exist and ifExists is true, null is returned. Otherwise the message is
          returned.
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1427,40 +1393,34 @@ specify which configuration to use.</p>
       
   <div class="jd-tagdata jd-tagdescr"><p>Reads a random value from the set stored at the specified key.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set-fetch-random-member key="my_key" /&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set-fetch-random-member key="my_key" /&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for SRANDMEMBER<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for SRANDMEMBER</td>
                 </tr>
                 
                 
           
           
-            <tr class="alt-color api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1471,8 +1431,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>The random value or null if either the set is empty or no set exists at the key
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1494,21 +1456,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Set key to hold the payload. If key already holds a value, it is overwritten, regardless of its type as long as
  ifNotExists is false.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set key="mykey"/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:set key="mykey"/&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key used to store payload<br/></td>
+                    <td class="jd-descrcol" width="100%">Key used to store payload</td>
                 </tr>
                 
                 
@@ -1518,7 +1482,7 @@ specify which configuration to use.</p>
                     <td class="jd-linkcol"><nobr>expire</nobr></td>
                     <td class="jd-descrcol"></td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Set a timeout on the specified key. After the timeout the key will be automatically deleted by the
-            server. A key with an associated timeout is said to be volatile in Redis terminology.<br/></td>
+            server. A key with an associated timeout is said to be volatile in Redis terminology.</td>
                 </tr>
                 
                 
@@ -1527,7 +1491,7 @@ specify which configuration to use.</p>
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>ifNotExists</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true, then execute SETNX on the Redis server, otherwise execute SET<br/></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true, then execute SETNX on the Redis server, otherwise execute SET</td>
                 </tr>
                 
                 
@@ -1536,26 +1500,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>message</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array<br/></td>
+                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1572,8 +1528,10 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>If the key already exists and ifNotExists is true, null is returned. Otherwise the message is returned.
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1595,21 +1553,23 @@ specify which configuration to use.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Set the specified hash field to the message payload. If key does not exist, a new key holding a hash is created
  as long as ifNotExists is true.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:hash-set key="mykey" field="myfield"/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:hash-set key="mykey" field="myfield"/&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>key</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Key that will be used for HSET<br/></td>
+                    <td class="jd-descrcol" width="100%">Key that will be used for HSET</td>
                 </tr>
                 
                 
@@ -1618,7 +1578,7 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>field</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">Field that will be used for HSET<br/></td>
+                    <td class="jd-descrcol" width="100%">Field that will be used for HSET</td>
                 </tr>
                 
                 
@@ -1627,7 +1587,7 @@ specify which configuration to use.</p>
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>ifNotExists</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true execute HSETNX otherwise HSET<br/></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true execute HSETNX otherwise HSET</td>
                 </tr>
                 
                 
@@ -1636,26 +1596,18 @@ specify which configuration to use.</p>
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>message</nobr></td>
                     <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array<br/></td>
+                    <td class="jd-descrcol" width="100%">The payload of the message as a byte array</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
             
@@ -1673,8 +1625,10 @@ specify which configuration to use.</p>
       <h5 class="jd-tagtitle">Return Payload</h5>
       <ul class="nolist"><li>If the field already exists and ifNotExists is true, null is returned, otherwise if a new field is
          created the message is returned.
-<br/></li></ul>
+</li></ul>
   </div>
+    
+  
 
     </div>
 </div>
@@ -1705,7 +1659,7 @@ specify which configuration to use.</p>
       
   <div class="jd-tagdata jd-tagdescr"><p>Subscribe to the specified channels.
  <p/>
- <br/><div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:subscribe&gt;
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;redis:subscribe&gt;
     &lt;redis:channels&gt;
         &lt;redis:channel&gt;news.sport.hockey&lt;/redis:channel&gt;
         &lt;redis:channel&gt;news.art.*&lt;/redis:channel&gt;
@@ -1714,54 +1668,46 @@ specify which configuration to use.</p>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
-      <table class="jd-tagtable">
-      <td class="jd-linkcol"><nobr>config-ref</nobr></td>
-      <td class="jd-descrcol"></td>
-      <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
+          
+                
           
                 
                 <tr class=" api apilevel-" >
-                    <td class="jd-linkcol"><nobr>channels</nobr></td>
-                    <td class="jd-descrcol"></td>
-                    <td class="jd-descrcol" width="100%">A list of channel names or globbing patterns.<br/></td>
-                </tr>
-                
-                
-          
-                
-                <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>callback</nobr></td>
                     <td class="jd-descrcol"></td>
                     <td class="jd-descrcol" width="100%">Called when messages arrive in any of the specified channels.
-<br/></td>
+</td>
                 </tr>
                 
                 
           
           
-            <tr class=" api apilevel-" >
-                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
-                <td class="jd-descrcol">1</td>
-                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
-            </tr>
-            
           
-        
-      </table>
+        </table>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Child Elements</h5>
-
-      <table class="jd-tagtable">
+        <table id="lconfig" class="jd-sumtable">
           
           
+            
+            <tr><th colspan="12"><nobr>&lt;redis:channels&gt;</nobr></br><span style="font-weight: normal;">A list of channel names or globbing patterns.</span></th></tr>
+            
             
           
             
           
       </table>
   </div>
+  
+    
   
 
     </div>
