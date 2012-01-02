@@ -1,7 +1,8 @@
-*~
-.classpath
-.project
-.settings
-.springBeans
-.fbprefs
-target
+/.classpath
+/.settings
+/.project
+/.jruby
+/*.iml
+/*.ipr
+/*.iws
+/target
