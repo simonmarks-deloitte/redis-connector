@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <meta name="description" content="Documentation for Mule Redis Module." />
+
+<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+<title>
+
+
+| Mule Redis Module
+
+</title>
+<link href="./assets/mule-developer-docs.css" rel="stylesheet" type="text/css" />
+<link href="./assets/mule-developer-prettify.css" rel="stylesheet" type="text/css" />
+<link href="./assets/customizations.css" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
+<script src="./assets/search_autocomplete.js" type="text/javascript"></script>
+<script src="./assets/jquery-resizable.min.js" type="text/javascript"></script>
+<script src="./assets/mule-developer-docs.js" type="text/javascript"></script>
+<script src="./assets/prettify.js" type="text/javascript"></script>
+<script type="text/javascript">
+  setToRoot("./", "./assets/");
+</script>
+<script src="./assets/customizations.js" type="text/javascript"></script>
+<noscript>
+  <style type="text/css">
+    html,body{overflow:auto;}
+    #body-content{position:relative; top:0;}
+    #doc-content{overflow:visible;border-left:3px solid #666;}
+    #side-nav{padding:0;}
+    #side-nav .toggle-list ul {display:block;}
+    #resize-packages-nav{border-bottom:3px solid #666;}
+  </style>
+</noscript>
+</head>
+
+<body class="gc-documentation">
+
+<div id="header">
+    <div id="headerLeft">
+    
+      <span id="masthead-title">Mule Redis Module</span>
+    
+    <ul id="header-tabs" class="redis">
+    
+    	<li id="guide"><a href="./guide/install.html">
+	    	<span class="en">Install Guide</span>
+    	</a></li>
+    
+    	<li id="redis"><a href="./overview.html">
+	    	<span class="en">Overview</span>
+    	</a></li>
+    
+    	<li id="java"><a href="./java/packages.html">
+	    	<span class="en">Java API Reference</span>
+    	</a></li>
+    
+    	<li id="mule"><a href="./mule/modules.html">
+	    	<span class="en">Mule API Reference</span>
+    	</a></li>
+    
+    </ul>
+    </div>
+    <div id="headerRight">
+      <a href="http://www.mulesoft.com" tabindex="-1">
+      <img src="./assets//images/mulesoft-logo-final.gif" alt="MuleSoft" border="0" id="mulesoftlogo"></a><br/>
+      
+  <div id="search" >
+      <div id="searchForm">
+          <form accept-charset="utf-8" class="gsc-search-box" 
+                onsubmit="return submit_search()">
+            <table class="gsc-search-box" cellpadding="0" cellspacing="0"><tbody>
+                <tr>
+                  <td class="gsc-input">
+                    <input id="search_autocomplete" class="gsc-input" type="text" size="33" autocomplete="off"
+                      title="search developer docs" name="q"
+                      value="search developer docs"
+                      onFocus="search_focus_changed(this, true)"
+                      onBlur="search_focus_changed(this, false)"
+                      onkeydown="return search_changed(event, true, './')"
+                      onkeyup="return search_changed(event, false, './')" />
+                  <div id="search_filtered_div" class="no-display">
+                      <table id="search_filtered" cellspacing=0>
+                      </table>
+                  </div>
+                  </td>
+                  <td class="gsc-search-button">
+                    <input type="submit" value="Search" title="search" id="search-button" class="gsc-search-button" />
+                  </td>
+                  <td class="gsc-clear-button">
+                    <div title="clear results" class="gsc-clear-button">&nbsp;</div>
+                  </td>
+                </tr></tbody>
+              </table>
+          </form>
+      </div><!-- searchForm -->
+  </div><!-- search -->
+      
+    </div>
+</div><!-- header -->
+
+
+<div class="g-unit" id="all-content">
+
+<div id="jd-content">
+
+<h1>Mule Redis Connector</h1>
+
+<p>Provides Redis connectivity to Mule:</p>
+
+<ul>
+<li>Supports <a href="http://redis.io/topics/pubsub">Redis Publish/Subscribe model</a> for asynchronous message exchanges,</li>
+<li>Allows direct reading and writing operations in Redis collections, <br /></li>
+<li>Allows using Redis as a datastore for Mule components that require persistence.</li>
+</ul>
+
+<h2>Build Commands</h2>
+
+<p>To compile and install in the local Maven repository:</p>
+
+<pre><code>mvn clean install
+</code></pre>
+
+<p>If you have Redis running on localhost:6379, you can run the integration tests with:</p>
+
+<pre><code>mvn -Pit verify
+</code></pre>
+
+<h2>Features</h2>
+
+<h3>Configuration</h3>
+
+<p>Connecting to a local Redis with no password and default connection pooling is as simple as:</p>
+
+<pre><code>&lt;redis:config /&gt;
+</code></pre>
+
+<p>If you need to refer to this configuration (in case you have several different connections to different Redis servers or if you need to inject it), then you'll have to name it:</p>
+
+<pre><code>&lt;redis:config name="localRedis" /&gt;
+</code></pre>
+
+<p>The following demonstrates all the possible configuration options:</p>
+
+<pre><code>&lt;spring:beans&gt;
+    &lt;spring:bean name="redisPoolConfiguration"
+                 class="redis.clients.jedis.JedisPoolConfig"
+                 p:whenExhaustedAction="#{T(org.apache.commons.pool.impl.GenericObjectPool).WHEN_EXHAUSTED_GROW}" /&gt;
+&lt;/spring:beans&gt;
+
+&lt;redis:config name="localRedis"
+              host="localhost"
+              port="6379"
+              password="s3cre3t"
+              connectionTimeout="15000"
+              poolConfig-ref="redisPoolConfiguration" /&gt;
+</code></pre>
+
+<h3>Datastructure Operations</h3>
+
+<p>This module allows your Mule flows to interact with the main Redis datastructures: <a href="http://redis.io/commands#string">strings</a>, <a href="http://redis.io/commands#hash">hashes</a>, <a href="http://redis.io/commands#list">lists</a>, <a href="http://redis.io/commands#set">sets</a> and <a href="http://redis.io/commands#sorted_set">sorted sets</a>.</p>
+
+<blockquote>
+  <p>Not all commands available on these datastructures are exposed: let us know if you're missing a command and we'll add it!</p>
+</blockquote>
+
+<h4>Strings</h4>
+
+<p>Storing the current payload under the specified key can be done with different options:</p>
+
+<pre><code>&lt;redis:set key="my_key" /&gt;
+&lt;redis:set key="my_key" expire="3600" /&gt;
+&lt;redis:set key="my_key" ifNotExists="true" /&gt;
+</code></pre>
+
+<p>Retrieving is done with:</p>
+
+<pre><code>&lt;redis:get key="my_key" /&gt;
+</code></pre>
+
+<h4>Hashes</h4>
+
+<p>Storing the current payload under the specified key and field can be done with different options:</p>
+
+<pre><code>&lt;redis:hash-set key="my_key" field="my_field" /&gt;
+&lt;redis:hash-set key="my_key" field="my_field" ifNotExists="true" /&gt;
+</code></pre>
+
+<p>Retrieving is done with:</p>
+
+<pre><code>&lt;redis:hash-get key="my_key" field="my_field" /&gt;
+</code></pre>
+
+<h4>Lists</h4>
+
+<p>Pushing the current payload under the specified key can be done with different options:</p>
+
+<pre><code>&lt;redis:list-push key="my_key" side="LEFT"/&gt;
+&lt;redis:list-push key="my_key" side="RIGHT" /&gt;
+&lt;redis:list-push key="my_key" side="LEFT" ifExists="true" /&gt;
+&lt;redis:list-push key="my_key" side="RIGHT" ifExists="true" /&gt;
+</code></pre>
+
+<p>Popping is done with either:</p>
+
+<pre><code>&lt;redis:list-pop key="my_key" side="LEFT" /&gt;
+&lt;redis:list-pop key="my_key" side="RIGHT" /&gt;
+</code></pre>
+
+<h4>Sets</h4>
+
+<p>Adding the current payload under to the set at the specified key can be done with different options:</p>
+
+<pre><code>&lt;redis:set-add key="my_key" /&gt;
+&lt;redis:set-add key="my_key" mustSucceed="true" /&gt;
+</code></pre>
+
+<p>Retrieving is done with either:</p>
+
+<pre><code>&lt;redis:set-fetch-random-member key="my_key" /&gt;
+&lt;redis:set-pop key="my_key" /&gt;
+</code></pre>
+
+<h4>Sorted Sets</h4>
+
+<p>Adding the current payload under to the set at the specified key can be done with different options:</p>
+
+<pre><code>&lt;redis:sorted-set-add key="my_key" score="123" /&gt;
+&lt;redis:sorted-set-add key="my_key" score="123" mustSucceed="true" /&gt;
+</code></pre>
+
+<p>Retrieving is done with either:</p>
+
+<pre><code>&lt;redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" /&gt;
+&lt;redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" order="DESCENDING" /&gt;
+&lt;redis:sorted-set-select-range-by-score key="my_key" min="0.5" max="10" /&gt;
+&lt;redis:sorted-set-select-range-by-score key="my_key" min="10" max="0.5" order="DESCENDING" /&gt;
+</code></pre>
+
+<h3>Publish/Subscribe</h3>
+
+<p>Publishing to a Redis channel is achieved as shown here after:</p>
+
+<pre><code>&lt;redis:publish channel="news.art.figurative" /&gt;
+</code></pre>
+
+<p>Any message hitting this <a href="http://www.mulesoft.org/documentation/display/MULE3USER/Message+Sources+and+Message+Processors#MessageSourcesandMessageProcessors-MessageProcessors">message processor</a> will be transformed into a byte array (using Mule's transformation infrastructure) and will be published to the <code>news.art.figurative</code> channel.</p>
+
+<p>Subscribing to a channel is done by specifying names or patterns to which Mule will listen. For example, the following subscribes to a channel named <code>news.sport.hockey</code> and any channel that matches the <code>news.art.*</code> globbing pattern.</p>
+
+<pre><code>&lt;redis:subscribe&gt;
+    &lt;redis:channels&gt;
+        &lt;redis:channel&gt;news.sport.hockey&lt;/redis:channel&gt;
+        &lt;redis:channel&gt;news.art.*&lt;/redis:channel&gt;
+    &lt;/redis:channels&gt;
+&lt;/redis:subscribe&gt;
+</code></pre>
+
+<p>This can be used as a <a href="http://www.mulesoft.org/documentation/display/MULE3USER/Message+Sources+and+Message+Processors#MessageSourcesandMessageProcessors-MessageSources">message source</a> in any flow. </p>
+
+<h3>Object Store</h3>
+
+<p>The configured Redis module can act as an <a href="http://www.mulesoft.org/docs/site/current3/apidocs/index.html?org/mule/api/store/ObjectStore.html">ObjectStore</a>, which can be injected into any object needing such a store.</p>
+
+<blockquote>
+  <p>Mule object stores are stored as Redis Hashes named <code>mule.objectstore.{ospn}</code>, where ospn is the object store partition name (or <code>_default</code> if none has been specified). Values are stored as Java-serialized bytes, except if they are strings. In that case, the string is stored as-is. </p>
+</blockquote>
+
+<p>For example, the following shows how to use the Redis module as the data store for a Mule-powered <a href="https://github.com/mulesoft/mule-module-pubsubhubbub">PubSubHubbub hub</a>:</p>
+
+<pre><code>&lt;redis:config name="localRedis" /&gt;
+&lt;pubsubhubbub:config objectStore-ref="localRedis" /&gt;
+</code></pre>
+
+
+<div id="footer">
+Generated by <a href="http://www.mulesoft.com/devkit">Mule DevKit</a>. Document generation technology based on <a href="http://code.google.com/p/doclava/">Google's Doclava</a>.
+</div> <!-- end footer -->
+
+</div><!-- end jd-content -->
+</div> <!-- end doc-content -->
+
+</div> <!-- end body-content --> 
+
+<script type="text/javascript">
+init(); /* initialize mule-developer-docs.js */
+</script>
+
+</body>
+</html>
