@@ -1,7 +1,7 @@
 Mule Redis Connector
 =======================
 
-(Redis)[http://redis.io/] is an open source, advanced key-value store. 
+[Redis](http://redis.io/) is an open source, advanced key-value store. 
 It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.
 
 The Redis Connector offers complete support for its CRUD API. 
