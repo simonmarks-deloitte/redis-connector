@@ -64,6 +64,8 @@
 
 
 
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -85,6 +87,7 @@
 <link href='http://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
 <script src="../assets/search_autocomplete.js" type="text/javascript"></script>
 <script src="../assets/jquery-resizable.min.js" type="text/javascript"></script>
+<script src="../assets/jquery-toc.js" type="text/javascript"></script>
 <script src="../assets/mule-developer-docs.js" type="text/javascript"></script>
 <script src="../assets/prettify.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -101,6 +104,27 @@
     #resize-packages-nav{border-bottom:3px solid #666;}
   </style>
 </noscript>
+<script type="text/javascript" charset="utf-8">
+  var is_ssl = ("https:" == document.location.protocol);
+  var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+  document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  var feedback_widget_options = {};
+
+  feedback_widget_options.display = "overlay";
+  feedback_widget_options.company = "mulesoft";
+  feedback_widget_options.placement = "right";
+  feedback_widget_options.color = "#2F74AE";
+  feedback_widget_options.style = "question";
+
+  feedback_widget_options.tag = "Mule Redis Module";
+
+  feedback_widget_options.limit = "3";
+
+  var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+</script>
 </head>
 
 <body class="">
@@ -202,7 +226,6 @@ Summary:
 <div id="jd-header">
     org.mule.modules
 <h1>mule-module-redis</h1>
-    3.2.2-SNAPSHOT
 
 </div><!-- end header -->
 
@@ -211,15 +234,17 @@ Summary:
 <div id="jd-content" class="api apilevel-">
 
 
+<br/>
+
 <div class="jd-tagdata">
       <table class="jd-tagtable">
         <tbody><tr>
           <th>Namespace</th><td>http://www.mulesoft.org/schema/mule/redis</td>
         </tr><tr>
-          <th>Schema Location</th><td>http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd</td>
+          <th>Schema Location</th><td>http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd&nbsp;&nbsp;(<a href="redis-schema.html">View Schema</a>)</td>
         </tr>
 <tr>
-          <th>Version</th><td>3.2</td>
+          <th>Schema Version</th><td>3.2</td>
         </tr>
 <tr>
           <th>Minimum Mule Version</th><td>3.2</td>
@@ -283,7 +308,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#set-add">&lt;redis:set-add&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Add the message payload to the set stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Add the message payload to the set stored at the specified key.</div>
         
   </td></tr>
 
@@ -293,7 +318,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#sorted-set-add">&lt;redis:sorted-set-add&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Add the message payload with the desired score to the sorted set stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Add the message payload with the desired score to the sorted set stored at the specified key.</div>
         
   </td></tr>
 
@@ -303,7 +328,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#get">&lt;redis:get&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Get the value of the specified key.<br/></div>
+        <div class="jd-descrdiv">Get the value of the specified key.</div>
         
   </td></tr>
 
@@ -313,7 +338,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#hash-get">&lt;redis:hash-get&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Get the value stored at the specified field in the hash at the specified key.<br/></div>
+        <div class="jd-descrdiv">Get the value stored at the specified field in the hash at the specified key.</div>
         
   </td></tr>
 
@@ -323,7 +348,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#sorted-set-select-range-by-index">&lt;redis:sorted-set-select-range-by-index&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Retrieve a range of values from the sorted set stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Retrieve a range of values from the sorted set stored at the specified key.</div>
         
   </td></tr>
 
@@ -333,7 +358,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#sorted-set-select-range-by-score">&lt;redis:sorted-set-select-range-by-score&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Retrieve a range of values from the sorted set stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Retrieve a range of values from the sorted set stored at the specified key.</div>
         
   </td></tr>
 
@@ -343,7 +368,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#list-pop">&lt;redis:list-pop&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Pop a value from the desired side of the list stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Pop a value from the desired side of the list stored at the specified key.</div>
         
   </td></tr>
 
@@ -353,7 +378,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#set-pop">&lt;redis:set-pop&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Pops a random value from the set stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Pops a random value from the set stored at the specified key.</div>
         
   </td></tr>
 
@@ -363,7 +388,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#publish">&lt;redis:publish&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Publish the message payload to the specified channel.<br/></div>
+        <div class="jd-descrdiv">Publish the message payload to the specified channel.</div>
         
   </td></tr>
 
@@ -373,7 +398,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#list-push">&lt;redis:list-push&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Push the message payload to the desired side (LEFT or RIGHT) of the list stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Push the message payload to the desired side (LEFT or RIGHT) of the list stored at the specified key.</div>
         
   </td></tr>
 
@@ -383,7 +408,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#set-fetch-random-member">&lt;redis:set-fetch-random-member&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Reads a random value from the set stored at the specified key.<br/></div>
+        <div class="jd-descrdiv">Reads a random value from the set stored at the specified key.</div>
         
   </td></tr>
 
@@ -393,7 +418,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#set">&lt;redis:set&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Set key to hold the payload.<br/></div>
+        <div class="jd-descrdiv">Set key to hold the payload.</div>
         
   </td></tr>
 
@@ -403,7 +428,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#hash-set">&lt;redis:hash-set&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Set the specified hash field to the message payload.<br/></div>
+        <div class="jd-descrdiv">Set the specified hash field to the message payload.</div>
         
   </td></tr>
 
@@ -424,7 +449,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/redis.html#subscribe">&lt;redis:subscribe&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Subscribe to the specified channels.<br/></div>
+        <div class="jd-descrdiv">Subscribe to the specified channels.</div>
         
   </td></tr>
 
@@ -440,7 +465,6 @@ Summary:
 </div><!-- jd-descr (summary) -->
 
 
-
 <!-- ========= CONFIGURATION DETAIL ======== -->
 <A NAME="config"></A>
 <h2>Configuration</h2>
@@ -454,14 +478,15 @@ similar to the following:</p>
                http://www.mulesoft.org/schema/mule/core
                http://www.mulesoft.org/schema/mule/core/current/mule.xsd
                http://www.mulesoft.org/schema/mule/redis
-               http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd"&gt;
+               http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd"&gt;
 
       &lt;!-- here goes your flows and configuration elements --&gt;
 
 &lt;/mule&gt;
 </pre>
+
 <p>This module is configured using the <i>config</i> element. This element must be placed outside of your flows and at
-the root of your Mule application. You can create as many configurations as you deem necesary as long as each carries
+the root of your Mule application. You can create as many configurations as you deem necessary as long as each carries
 its own name.</p>
 <p>Each message processor, message source or transformer carries a <i>config-ref</i> attribute that allows the invoker to
 specify which configuration to use.</p>
@@ -544,6 +569,7 @@ specify which configuration to use.</p>
 
 
 
+
 <!-- ========= MESSAGE PROCESSOR DETAIL ======== -->
 <!-- Message Processors -->
 
@@ -591,7 +617,7 @@ specify which configuration to use.</p>
                 
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>mustSucceed</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">false</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true, ensures that adding to the set was successful (ie no pre-existing identical value in
             the set)</td>
                 </tr>
@@ -687,7 +713,7 @@ specify which configuration to use.</p>
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>mustSucceed</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">false</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true, ensures that adding to the sorted set was successful (ie no pre-existing identical
             value in the set)</td>
                 </tr>
@@ -931,7 +957,7 @@ specify which configuration to use.</p>
                 
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>order</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">ASCENDING</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Index order for sorting the range, either ASCENDING or DESCENDING</td>
                 </tr>
                 
@@ -1027,7 +1053,7 @@ specify which configuration to use.</p>
                 
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>order</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">ASCENDING</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Score order for sorting the range, either ASCENDING or DESCENDING</td>
                 </tr>
                 
@@ -1239,7 +1265,7 @@ specify which configuration to use.</p>
                 
                 <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>mustSucceed</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">false</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Enforces the fact that the message must have been delivered to at least one consumer</td>
                 </tr>
                 
@@ -1334,7 +1360,7 @@ specify which configuration to use.</p>
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>ifExists</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">false</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true execute LPUSHX/RPUSH otherwise LPUSH/RPUSH</td>
                 </tr>
                 
@@ -1494,7 +1520,7 @@ specify which configuration to use.</p>
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>ifNotExists</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">false</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true, then execute SETNX on the Redis server, otherwise execute SET</td>
                 </tr>
                 
@@ -1590,7 +1616,7 @@ specify which configuration to use.</p>
                 
                 <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>ifNotExists</nobr></td>
-                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol">false</td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>If true execute HSETNX otherwise HSET</td>
                 </tr>
                 

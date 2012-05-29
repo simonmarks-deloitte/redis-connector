@@ -63,6 +63,8 @@
 
 
 
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -84,6 +86,7 @@
 <link href='http://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
 <script src="../../../../../../assets/search_autocomplete.js" type="text/javascript"></script>
 <script src="../../../../../../assets/jquery-resizable.min.js" type="text/javascript"></script>
+<script src="../../../../../../assets/jquery-toc.js" type="text/javascript"></script>
 <script src="../../../../../../assets/mule-developer-docs.js" type="text/javascript"></script>
 <script src="../../../../../../assets/prettify.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -102,6 +105,27 @@
     #resize-packages-nav{border-bottom:3px solid #666;}
   </style>
 </noscript>
+<script type="text/javascript" charset="utf-8">
+  var is_ssl = ("https:" == document.location.protocol);
+  var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+  document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  var feedback_widget_options = {};
+
+  feedback_widget_options.display = "overlay";
+  feedback_widget_options.company = "mulesoft";
+  feedback_widget_options.placement = "right";
+  feedback_widget_options.color = "#2F74AE";
+  feedback_widget_options.style = "question";
+
+  feedback_widget_options.tag = "Mule Redis Module";
+
+  feedback_widget_options.limit = "3";
+
+  var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+</script>
 </head>
 
 <body class="">
@@ -184,10 +208,18 @@
                 
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/module/redis/package-summary.html">org.mule.module.redis</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/module/redis/adapters/package-summary.html">org.mule.module.redis.adapters</a></li>
     <li class="selected api apilevel-">
   <a href="../../../../../../java/org/mule/module/redis/config/package-summary.html">org.mule.module.redis.config</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/module/redis/config/spring/package-summary.html">org.mule.module.redis.config.spring</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/module/redis/processors/package-summary.html">org.mule.module.redis.processors</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/module/redis/sources/package-summary.html">org.mule.module.redis.sources</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/module/redis/transformers/package-summary.html">org.mule.module.redis.transformers</a></li>
               </ul><br/>
             </div> <!-- end packages -->
           </div> <!-- end resize-packages -->
@@ -197,23 +229,39 @@
               
     <li><h2>Classes</h2>
       <ul>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AddToSetDefinitionParser.html">AddToSetDefinitionParser</a></li>
           <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AddToSetMessageProcessor.html">AddToSetMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AddToSortedSetDefinitionParser.html">AddToSortedSetDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AddToSortedSetMessageProcessor.html">AddToSortedSetMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetDefinitionParser.html">GetDefinitionParser</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetFromHashDefinitionParser.html">GetFromHashDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetFromHashMessageProcessor.html">GetFromHashMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetMessageProcessor.html">GetMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByIndexDefinitionParser.html">GetRangeByIndexDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByIndexMessageProcessor.html">GetRangeByIndexMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByScoreDefinitionParser.html">GetRangeByScoreDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByScoreMessageProcessor.html">GetRangeByScoreMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/ListPushSideEnumTransformer.html">ListPushSideEnumTransformer</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PopFromListDefinitionParser.html">PopFromListDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PopFromListMessageProcessor.html">PopFromListMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PopFromSetDefinitionParser.html">PopFromSetDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PopFromSetMessageProcessor.html">PopFromSetMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PublishDefinitionParser.html">PublishDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PublishMessageProcessor.html">PublishMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PushToListDefinitionParser.html">PushToListDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/PushToListMessageProcessor.html">PushToListMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RandomMemberFromSetDefinitionParser.html">RandomMemberFromSetDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RandomMemberFromSetMessageProcessor.html">RandomMemberFromSetMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleCapabilitiesAdapter.html">RedisModuleCapabilitiesAdapter</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleConfigDefinitionParser.html">RedisModuleConfigDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleLifecycleAdapter.html">RedisModuleLifecycleAdapter</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleNamespaceHandler.html">RedisModuleNamespaceHandler</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SetDefinitionParser.html">SetDefinitionParser</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SetInHashDefinitionParser.html">SetInHashDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SetInHashMessageProcessor.html">SetInHashMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SetMessageProcessor.html">SetMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SortedSetOrderEnumTransformer.html">SortedSetOrderEnumTransformer</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SubscribeDefinitionParser.html">SubscribeDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SubscribeMessageSource.html">SubscribeMessageSource</a></li>
       </ul>
     </li>
