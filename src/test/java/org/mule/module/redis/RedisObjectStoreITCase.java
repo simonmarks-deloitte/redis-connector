@@ -10,30 +10,40 @@
 
 package org.mule.module.redis;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.PartitionableObjectStore;
-import org.mule.tck.FunctionalTestCase;
+import org.mule.tck.junit4.FunctionalTestCase;
 
-public class RedisObjectStoreITCase extends FunctionalTestCase {
-
+public class RedisObjectStoreITCase extends FunctionalTestCase
+{
     private PartitionableObjectStore<String> stringObjectStore;
 
     @Override
-    protected String getConfigResources() {
+    protected String getConfigResources()
+    {
         return "redis-objectstore-tests-config.xml";
     }
 
     @Override
-    protected void doSetUp() throws Exception {
+    protected void doSetUp() throws Exception
+    {
         super.doSetUp();
 
-        stringObjectStore = muleContext.getRegistry().lookupObject(FakeObjectStoreUser.class).getObjectStore();
+        stringObjectStore = muleContext.getRegistry()
+            .lookupObject(FakeObjectStoreUser.class)
+            .getObjectStore();
     }
 
-    public void testListableObjectStoreOperations() throws ObjectStoreException {
+    public void testListableObjectStoreOperations() throws ObjectStoreException
+    {
         // open and close are noops
         stringObjectStore.open();
         stringObjectStore.close();
@@ -46,10 +56,13 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         assertFalse(stringObjectStore.contains(testKey));
         assertFalse(stringObjectStore.allKeys().contains(testKey));
 
-        try {
+        try
+        {
             stringObjectStore.retrieve(testKey);
             fail("should have got an ObjectDoesNotExistException");
-        } catch (final ObjectDoesNotExistException odnee) {
+        }
+        catch (final ObjectDoesNotExistException odnee)
+        {
             // NOOP
         }
 
@@ -57,10 +70,13 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         assertTrue(stringObjectStore.contains(testKey));
         assertTrue(stringObjectStore.allKeys().contains(testKey));
 
-        try {
+        try
+        {
             stringObjectStore.store(testKey, testValue);
             fail("should have got an ObjectAlreadyExistsException");
-        } catch (final ObjectAlreadyExistsException oaee) {
+        }
+        catch (final ObjectAlreadyExistsException oaee)
+        {
             // NOOP
         }
 
@@ -70,15 +86,19 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         assertFalse(stringObjectStore.contains(testKey));
         assertFalse(stringObjectStore.allKeys().contains(testKey));
 
-        try {
+        try
+        {
             stringObjectStore.remove(testKey);
             fail("should have got an ObjectDoesNotExistException");
-        } catch (final ObjectDoesNotExistException odnee) {
+        }
+        catch (final ObjectDoesNotExistException odnee)
+        {
             // NOOP
         }
     }
 
-    public void testPartitionableObjectStoreOperations() throws ObjectStoreException {
+    public void testPartitionableObjectStoreOperations() throws ObjectStoreException
+    {
         final String testPartition = RandomStringUtils.randomAlphanumeric(20);
 
         // open and close are noops
@@ -93,10 +113,13 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         assertFalse(stringObjectStore.contains(testKey, testPartition));
         assertFalse(stringObjectStore.allKeys(testPartition).contains(testKey));
 
-        try {
+        try
+        {
             stringObjectStore.retrieve(testKey, testPartition);
             fail("should have got an ObjectDoesNotExistException");
-        } catch (final ObjectDoesNotExistException odnee) {
+        }
+        catch (final ObjectDoesNotExistException odnee)
+        {
             // NOOP
         }
 
@@ -104,10 +127,13 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         assertTrue(stringObjectStore.contains(testKey, testPartition));
         assertTrue(stringObjectStore.allKeys(testPartition).contains(testKey));
 
-        try {
+        try
+        {
             stringObjectStore.store(testKey, testValue, testPartition);
             fail("should have got an ObjectAlreadyExistsException");
-        } catch (final ObjectAlreadyExistsException oaee) {
+        }
+        catch (final ObjectAlreadyExistsException oaee)
+        {
             // NOOP
         }
 
@@ -118,10 +144,13 @@ public class RedisObjectStoreITCase extends FunctionalTestCase {
         assertFalse(stringObjectStore.contains(testKey, testPartition));
         assertFalse(stringObjectStore.allKeys(testPartition).contains(testKey));
 
-        try {
+        try
+        {
             stringObjectStore.remove(testKey, testPartition);
             fail("should have got an ObjectDoesNotExistException");
-        } catch (final ObjectDoesNotExistException odnee) {
+        }
+        catch (final ObjectDoesNotExistException odnee)
+        {
             // NOOP
         }
 

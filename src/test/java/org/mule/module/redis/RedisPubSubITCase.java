@@ -10,33 +10,40 @@
 
 package org.mule.module.redis;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collections;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
-import org.mule.tck.FunctionalTestCase;
 import org.mule.tck.functional.CountdownCallback;
 import org.mule.tck.functional.FunctionalTestComponent;
+import org.mule.tck.junit4.FunctionalTestCase;
 
-public class RedisPubSubITCase extends FunctionalTestCase {
-
+public class RedisPubSubITCase extends FunctionalTestCase
+{
     @Override
-    protected String getConfigResources() {
+    protected String getConfigResources()
+    {
         return "redis-pubsub-tests-config.xml";
     }
 
-    public void testChannelPubSub() throws Exception {
+    public void testChannelPubSub() throws Exception
+    {
         testPubSub("mule.test.single.channel");
     }
 
-    public void testPatternPubSub() throws Exception {
+    public void testPatternPubSub() throws Exception
+    {
         testPubSub("mule.test.multi.channel.abc");
     }
 
-    private void testPubSub(final String targetChannel) throws MuleException, Exception, InterruptedException {
+    private void testPubSub(final String targetChannel) throws MuleException, Exception, InterruptedException
+    {
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);
-        new MuleClient(muleContext).dispatch("vm://publisher.in", testPayload, Collections.singletonMap("target-channel", targetChannel));
+        new MuleClient(muleContext).dispatch("vm://publisher.in", testPayload,
+            Collections.singletonMap("target-channel", targetChannel));
 
         final CountdownCallback cc = new CountdownCallback(1);
         final FunctionalTestComponent ftc = getFunctionalTestComponent("subscriber");
