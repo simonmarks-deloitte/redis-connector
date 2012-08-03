@@ -574,7 +574,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * @param start Range start index
      * @param end Range end index
      * @param order Index order for sorting the range, either ASCENDING or DESCENDING
-     * @return the values in the specified range in the desired order
+     * @return the values in the specified range in the desired order as Set<byte[]>
      */
     @Processor(name = "sorted-set-select-range-by-index")
     public Set<byte[]> getRangeByIndex(final String key,
@@ -604,7 +604,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * @param min Range start score
      * @param max Range end score
      * @param order Score order for sorting the range, either ASCENDING or DESCENDING
-     * @return the values in the specified range in the desired order
+     * @return the values in the specified range in the desired order as Set<byte[]>
      */
     @Processor(name = "sorted-set-select-range-by-score")
     public Set<byte[]> getRangeByScore(final String key,

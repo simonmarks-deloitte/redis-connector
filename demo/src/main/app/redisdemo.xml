@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:redis="http://www.mulesoft.org/schema/mule/redis" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/3.2/mule-redis.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd ">
+    <redis:config xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" name="Redis" doc:name="Redis" host="172.16.20.35"/>
+     <flow name="redisdemoFlow1" doc:name="redisdemoFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="in" doc:name="HTTP"/>
+        <http:body-to-parameter-map-transformer doc:name="Body to Parameter Map"/>
+        <set-variable variableName="controllerMap" value="#[payload]" doc:name="Save Input Form"/>
+        <set-payload value="#[payload['value']]" doc:name="Set Input Message as Payload"/>
+        <logger message="ANTES DEL HTTP" level="INFO" doc:name="Logger"/>
+        <choice doc:name="Choice">
+            <when expression="#[flowVars['controllerMap'].get('op') == 'hset']">
+                <processor-chain>
+                    <redis:hash-set config-ref="Redis" field="#[flowVars.get('controllerMap').get('field')]" key="#[flowVars.get('controllerMap').get('key')]" doc:name="Set In Hash - HSET"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'set']">
+                <processor-chain>
+                    <redis:set config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" expire="#[flowVars.get('controllerMap').get('expire')]" doc:name="Set - SET"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'srandmember']">
+                <processor-chain>
+                    <redis:set-fetch-random-member config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" doc:name="Random Member From Set - SRANDMEMBER"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'sadd']">
+                <processor-chain>
+                    <redis:set-add config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" doc:name="Add To Set - SADD"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'zadd']">
+                <processor-chain>
+                    <redis:sorted-set-add config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" score="#[flowVars.get('controllerMap').get('score')]" doc:name="Add To Sorted Set - ZADD"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'get']">
+                <processor-chain>
+                    <redis:get config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" doc:name="Get - GET"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'hget']">
+                <processor-chain>
+                    <redis:hash-get config-ref="Redis" field="#[flowVars.get('controllerMap').get('field')]" key="#[flowVars.get('controllerMap').get('key')]" doc:name="Get From Hash - HGET"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'zrange']">
+                <processor-chain>
+                    <redis:sorted-set-select-range-by-index config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" end="#[flowVars.get('controllerMap').get('end')]" start="#[flowVars.get('controllerMap').get('start')]" doc:name="Get Range by Index - ZRANGE"/>
+                    <custom-transformer class="com.demo.redis.transformers.CollectionTransformer" doc:name="CollectionTransformer"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'zrangebyscore']">
+                <processor-chain>
+                    <redis:sorted-set-select-range-by-score config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" min="#[flowVars.get('controllerMap').get('min')]" max="#[flowVars.get('controllerMap').get('max')]" doc:name="Get Range by Score - ZRANGEBYSCORE"/>
+                    <custom-transformer class="com.demo.redis.transformers.CollectionTransformer" doc:name="CollectionTransformer"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'pop']">
+                <processor-chain>
+                    <redis:list-pop config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" side="LEFT" doc:name="Pop From List - POP"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'spop']">
+                <processor-chain>
+                    <redis:set-pop config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" doc:name="Pop From Set - SPOP"/>
+                </processor-chain>
+            </when>
+            <when expression="#[flowVars['controllerMap'].get('op') == 'push']">
+                <processor-chain>
+                    <redis:list-push config-ref="Redis" key="#[flowVars.get('controllerMap').get('key')]" side="LEFT" doc:name="Push To List - PUSH"/>
+                </processor-chain>
+            </when>
+            <otherwise>
+                <processor-chain>
+                    <set-payload value="INVALID OPERATION" doc:name="Set Payload"/>
+                </processor-chain>
+            </otherwise>
+        </choice>
+<!--        <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="#[flowVars['controllerMap'].get('op')]" doc:name="HTTP"/>-->
+        <object-to-string-transformer doc:name="Object to String" encoding="UTF-8" mimeType="text/plain"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+        <logger message="PAYLOAD FINAL: #[payload]" level="INFO" doc:name="Logger"/>
+        
+    </flow>
+    <flow name="home" doc:name="home">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="home" contentType="text/plain" doc:name="HTTP"/>
+        <http:static-resource-handler resourceBase="${app.home}/docroot" defaultFile="home.html"></http:static-resource-handler>
+    </flow>
+   
+</mule>

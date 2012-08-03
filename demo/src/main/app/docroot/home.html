@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="index.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<script type="text/javascript">
+	
+	function processElements ( elements, style){
+		
+		for ( var i = 0; i < elements.length; i++){
+			elements[i].style.display=style;
+		}
+	}
+	
+	function updateOptions(value){
+	
+	var hideElements = document.getElementsByClassName('hidden');	
+	var showElements = document.getElementsByClassName(value);
+	
+	processElements(hideElements, 'none');
+	processElements(showElements, 'block')
+	
+	}
+	</script>
+	<!--onsubmit="this.action=document.getElementById('op').options[document.getElementById('op').selectedIndex].value;"-->
+	<form action=/in method="post">
+		Redis Demo Jump Page <br /> <br />
+		Operation: <select id="op" name="op" onchange="updateOptions(this.options[this.selectedIndex].value);">
+					<option value="sadd">add to set</option>
+					<option value="zadd">add to sorted set</option>
+					<option value="get">get</option>
+					<option value="hget">get from hash</option>
+					<option value="zrange">get range by index</option>
+					<option value="zrangebyscore">get range by score</option>
+					<option value="pop">pop from list</option>
+					<option value="spop">pop from set</option>
+					<option value="push">push to list</option>
+					<option value="srandmember">random member from set</option>
+					<option value="set">set</option>
+					<option value="hset">set in hash</option>
+				</select><br /><br />
+		<div id="key">Key: <input type="text" name="key" /></div>
+		<div class="hidden sadd zadd push set hset" id="value">Value: <input type="text" name="value" /></div>
+		<div class="hidden zadd" id="score">Score:<input type="text" name="score" /></div>
+		<div class="hidden zrange" id="end">End:<input type="text" name="end" /></div>
+		<div class="hidden zrange" id="start">Start:<input type="text" name="start" /></div>
+		<div class="hidden zrangebyscore" id="min">Min:<input type="text" name="min" /></div>
+		<div class="hidden zrangebyscore" id="max">Max:<input type="text" name="max" /></div>
+		<div class="hidden hget hset" id="field">Field:<input type="text" name="field" /></div>
+		<div class="hidden set" id="expire">Expire:<input type="text" name="expire" /></div>
+		</br >
+		<input type="submit" value="Submit"/>
+	</form>
+
+
+</body>
+</html>

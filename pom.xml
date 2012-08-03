@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-redis</artifactId>
-    <version>3.3.0.1-SNAPSHOT</version>
+    <version>3.3.1-SNAPSHOT</version>
     <packaging>mule-module</packaging>
     <name>Mule Redis Module</name>
     <description>Redis support for Mule</description>
