@@ -54,6 +54,10 @@ import redis.clients.util.SafeEncoder;
  * <li>Allows using Redis as a datastore for Mule components that require persistence.</li>
  * </ul>
  * 
+ * Current Redis commands supported by this connector <br /><br />
+ *
+ * DEL EXPIRE GET HEXISTS HGET HKEYS HSET HSETNX KEYS LPOP LPUSH LPUSHX MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
+ *
  * @author MuleSoft, Inc.
  */
 @Module(name = "redis", schemaVersion = "3.2")
