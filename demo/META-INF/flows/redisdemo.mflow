@@ -4,7 +4,7 @@
         <properties>
             <property value="Redis" name="name"/>
             <property value="1" name="auxiliary;index"/>
-            <property value="172.16.20.35" name="host"/>
+            <property value="" name="host"/>
             <property name="connectionTimeout"/>
             <property name="port"/>
             <property name="reconnectionFrequency"/>
@@ -15,7 +15,7 @@
             <property value="1" name="auxiliary;index"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="redisdemoFlow1" entity-id="3954f8e2-a99f-4ce2-918d-ee219d2fc986">
+    <flow SubFlow="false" name="redisdemoFlow1" entity-id="db35ce3e-82dd-4709-bf2a-846d62c5b087">
         <properties>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
@@ -29,31 +29,45 @@
         <lane index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
             <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#1">
                 <properties>
-                    <property value="8081" name="port"/>
-                    <property value="localhost" name="host"/>
-                    <property value="" name="businessEventsLabel"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="false" name="keep-alive"/>
-                    <property value="" name="contentType"/>
-                    <property value="false" name="disableTransportTransformer"/>
-                    <property value="" name="password"/>
+                    <property value="one-way" name="exchange-pattern"/>
                     <property value="request-response" name="exchange-pattern"/>
-                    <property value="false" name="tracking:enable-default-events"/>
-                    <property value="" name="ref"/>
-                    <property value="" name="transformer-refs"/>
-                    <property value="" name="httpLabel"/>
-                    <property value="" name="address"/>
-                    <property value="in" name="path"/>
-                    <property value="" name="encoding"/>
-                    <property value="" name="responseTransformer-refs"/>
-                    <property value="" name="user"/>
-                    <property value="" name="responseTimeout"/>
-                    <property value="" name="mimeType"/>
-                    <property value="" name="connector-ref"/>
                     <property value="3" name="auxiliary;index"/>
-                    <property name="updated"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="httpLabel"/>
+                    <property value="localhost" name="host"/>
+                    <property value="8081" name="port"/>
+                    <property value="in" name="path"/>
+                    <property name="method"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
+                    <property name="followRedirects"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="responseTransformer-refs"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="user"/>
+                    <property name="password"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property name="contentType"/>
+                    <property name="keep-alive"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
+                    <property value="3" name="auxiliary;index"/>
                 </properties>
-                <description></description>
             </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/http/body-to-parameter-map-transformer" name="Body to Parameter Map" entity-id="Body to Parameter Map#1">
                 <properties>
@@ -101,107 +115,49 @@
             </pattern>
             <splitter index="8" type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#1">
                 <properties>
-                    <property value="8" name=";INDEX"/>
-                    <property value="8" name=";INDEX"/>
-                    <property value="8" name=";INDEX"/>
-                    <property value="8" name=";INDEX"/>
-                    <property value="8" name=";INDEX"/>
-                    <property value="8" name=";INDEX"/>
-                    <property value="8" name=";INDEX"/>
-                    <property value="8" name=";INDEX"/>
-                    <property-collection name="717df923-73b2-4dcc-97cd-18e82fc2f6ea">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'sadd']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="7f7559bb-eed6-47df-8a62-91aaa78a8483">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'spop']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="71366f98-5bd8-4895-a5ee-dde7637e0cdd">
-                        <property value="true" name="choice.otherwise"/>
-                    </property-collection>
-                    <property-collection name="86e796fb-f657-47f6-853d-f00385e97d58">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'get']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="e7f2fd77-6450-4eee-aff3-ad4f6b6c419e">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'srandmember']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="8dbc402f-bd0b-492c-84c1-59b2493c05eb">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'set']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="24f3d04e-c214-4d3d-8a3d-c8e80ab6a323">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'zadd']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="6034832e-b790-4dcd-b391-16721c124009">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'zrange']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="79ba26fc-f3b2-4cdb-b33e-bd485ac17794">
+                    <property-collection name="88642fd3-6aad-4509-ac41-94f0f1cb1bba">
                         <property value="#[flowVars['controllerMap'].get('op') == 'zrangebyscore']" name="choice.expression"/>
                     </property-collection>
-                    <property-collection name="82eadb6b-e1c0-4d50-a9c8-e484e48159c6">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'push']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="620e25dd-b5a6-4955-9533-55d25877537a">
+                    <property-collection name="cfbd01fc-3bb3-41fe-8928-d7721da64914">
                         <property value="#[flowVars['controllerMap'].get('op') == 'hset']" name="choice.expression"/>
                     </property-collection>
-                    <property-collection name="c91bad09-74a3-4462-884e-ac51f5b0686d">
-                        <property value="#[flowVars['controllerMap'].get('op') == 'hget']" name="choice.expression"/>
-                    </property-collection>
-                    <property-collection name="b18049c0-aa9d-44fc-a950-1789bcdfefce">
+                    <property-collection name="41e1c955-ba85-43d1-901c-cbc2416b66ea">
                         <property value="#[flowVars['controllerMap'].get('op') == 'pop']" name="choice.expression"/>
                     </property-collection>
+                    <property-collection name="6600e29d-5d48-4300-88a3-a1d65b5c3a8a">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'sadd']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="3affaf89-de0c-4155-b0fe-4a5fe1252989">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'set']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="fb199b79-4e34-4ad4-a909-302b67972b15">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'zrange']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="771b2f46-6134-4062-8cae-0c4582a39e11">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'zadd']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="92d6b571-a59d-4cfd-9634-0783e3042b99">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'spop']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="56e42a75-684e-4da7-9d91-fcba9b44bd27">
+                        <property value="true" name="choice.otherwise"/>
+                    </property-collection>
+                    <property-collection name="ddb3c698-7446-48b1-9937-ec0752623351">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'get']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="65aeb18d-27bb-4141-b144-e0eb137c5d80">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'srandmember']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="84d898fb-2d6a-495d-b1eb-c030d6b9deeb">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'push']" name="choice.expression"/>
+                    </property-collection>
+                    <property-collection name="3bfcedc1-3d9c-495a-bb57-e6f21400172b">
+                        <property value="#[flowVars['controllerMap'].get('op') == 'hget']" name="choice.expression"/>
+                    </property-collection>
                 </properties>
-                <pattern type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#2">
-                    <properties>
-                        <property value="8" name=";INDEX"/>
-                        <property value="8" name=";INDEX"/>
-                        <property value="8" name=";INDEX"/>
-                        <property value="8" name=";INDEX"/>
-                        <property value="8" name=";INDEX"/>
-                        <property value="8" name=";INDEX"/>
-                        <property value="8" name=";INDEX"/>
-                        <property value="8" name=";INDEX"/>
-                        <property-collection name="717df923-73b2-4dcc-97cd-18e82fc2f6ea">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'sadd']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="7f7559bb-eed6-47df-8a62-91aaa78a8483">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'spop']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="71366f98-5bd8-4895-a5ee-dde7637e0cdd">
-                            <property value="true" name="choice.otherwise"/>
-                        </property-collection>
-                        <property-collection name="86e796fb-f657-47f6-853d-f00385e97d58">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'get']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="e7f2fd77-6450-4eee-aff3-ad4f6b6c419e">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'srandmember']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="8dbc402f-bd0b-492c-84c1-59b2493c05eb">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'set']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="24f3d04e-c214-4d3d-8a3d-c8e80ab6a323">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'zadd']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="6034832e-b790-4dcd-b391-16721c124009">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'zrange']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="79ba26fc-f3b2-4cdb-b33e-bd485ac17794">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'zrangebyscore']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="82eadb6b-e1c0-4d50-a9c8-e484e48159c6">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'push']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="620e25dd-b5a6-4955-9533-55d25877537a">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'hset']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="c91bad09-74a3-4462-884e-ac51f5b0686d">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'hget']" name="choice.expression"/>
-                        </property-collection>
-                        <property-collection name="b18049c0-aa9d-44fc-a950-1789bcdfefce">
-                            <property value="#[flowVars['controllerMap'].get('op') == 'pop']" name="choice.expression"/>
-                        </property-collection>
-                    </properties>
-                </pattern>
+                <pattern type="org.mule.tooling.ui.modules.core.pattern.cbr" name="Choice" entity-id="Choice#2"/>
                 <compartment entity-id="compartment#1">
-                    <lane index="10" hadOnlyOneElement="false" entity-id="620e25dd-b5a6-4955-9533-55d25877537a">
+                    <lane index="10" hadOnlyOneElement="false" entity-id="cfbd01fc-3bb3-41fe-8928-d7721da64914">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Set In Hash - HSET" entity-id="Redis#2">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -221,7 +177,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="13" hadOnlyOneElement="false" entity-id="8dbc402f-bd0b-492c-84c1-59b2493c05eb">
+                    <lane index="13" hadOnlyOneElement="false" entity-id="3affaf89-de0c-4155-b0fe-4a5fe1252989">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Set - SET" entity-id="Redis#3">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -241,7 +197,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="16" hadOnlyOneElement="false" entity-id="e7f2fd77-6450-4eee-aff3-ad4f6b6c419e">
+                    <lane index="16" hadOnlyOneElement="false" entity-id="65aeb18d-27bb-4141-b144-e0eb137c5d80">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Random Member From Set - SRANDMEMBER" entity-id="Redis#4">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -259,7 +215,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="19" hadOnlyOneElement="false" entity-id="717df923-73b2-4dcc-97cd-18e82fc2f6ea">
+                    <lane index="19" hadOnlyOneElement="false" entity-id="6600e29d-5d48-4300-88a3-a1d65b5c3a8a">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Add To Set - SADD" entity-id="Redis#5">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -278,7 +234,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="22" hadOnlyOneElement="false" entity-id="24f3d04e-c214-4d3d-8a3d-c8e80ab6a323">
+                    <lane index="22" hadOnlyOneElement="false" entity-id="771b2f46-6134-4062-8cae-0c4582a39e11">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Add To Sorted Set - ZADD" entity-id="Redis#6">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -298,7 +254,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="25" hadOnlyOneElement="false" entity-id="86e796fb-f657-47f6-853d-f00385e97d58">
+                    <lane index="25" hadOnlyOneElement="false" entity-id="ddb3c698-7446-48b1-9937-ec0752623351">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Get - GET" entity-id="Redis#7">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -316,7 +272,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="28" hadOnlyOneElement="false" entity-id="c91bad09-74a3-4462-884e-ac51f5b0686d">
+                    <lane index="28" hadOnlyOneElement="false" entity-id="3bfcedc1-3d9c-495a-bb57-e6f21400172b">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Get From Hash - HGET" entity-id="Redis#8">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -335,7 +291,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="31" hadOnlyOneElement="false" entity-id="6034832e-b790-4dcd-b391-16721c124009">
+                    <lane index="31" hadOnlyOneElement="false" entity-id="fb199b79-4e34-4ad4-a909-302b67972b15">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Get Range by Index - ZRANGE" entity-id="Redis#9">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -371,7 +327,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="35" hadOnlyOneElement="false" entity-id="79ba26fc-f3b2-4cdb-b33e-bd485ac17794">
+                    <lane index="35" hadOnlyOneElement="false" entity-id="88642fd3-6aad-4509-ac41-94f0f1cb1bba">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Get Range by Score - ZRANGEBYSCORE" entity-id="Redis#10">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -407,7 +363,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="39" hadOnlyOneElement="false" entity-id="b18049c0-aa9d-44fc-a950-1789bcdfefce">
+                    <lane index="39" hadOnlyOneElement="false" entity-id="41e1c955-ba85-43d1-901c-cbc2416b66ea">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Pop From List - POP" entity-id="Redis#11">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -426,7 +382,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="42" hadOnlyOneElement="false" entity-id="7f7559bb-eed6-47df-8a62-91aaa78a8483">
+                    <lane index="42" hadOnlyOneElement="false" entity-id="92d6b571-a59d-4cfd-9634-0783e3042b99">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Pop From Set - SPOP" entity-id="Redis#12">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -444,7 +400,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="45" hadOnlyOneElement="false" entity-id="82eadb6b-e1c0-4d50-a9c8-e484e48159c6">
+                    <lane index="45" hadOnlyOneElement="false" entity-id="84d898fb-2d6a-495d-b1eb-c030d6b9deeb">
                         <pattern type="http://www.mulesoft.org/schema/mule/redis/redis-connector" name="Push To List - PUSH" entity-id="Redis#13">
                             <properties>
 <property value="Redis" name="config-ref"/>
@@ -464,7 +420,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane index="48" hadOnlyOneElement="false" entity-id="71366f98-5bd8-4895-a5ee-dde7637e0cdd">
+                    <lane index="48" hadOnlyOneElement="false" entity-id="56e42a75-684e-4da7-9d91-fcba9b44bd27">
                         <pattern type="http://www.mulesoft.org/schema/mule/core/set-payload" name="Set Payload" entity-id="Set Payload#2">
                             <properties>
 <property value="INVALID OPERATION" name="value"/>
@@ -488,77 +444,91 @@
                     <property value="50" name="auxiliary;index"/>
                 </properties>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="3c045100-7fe9-4eb8-ad02-87b9753909b5"/>
-            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="Logger#2">
+            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#1">
                 <properties>
-                    <property value="PAYLOAD FINAL: #[payload]" name="message"/>
-                    <property value="INFO" name="level"/>
-                    <property name="category"/>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property value="51" name="auxiliary;index"/>
+                    <property name="mimeType"/>
+                    <property value="51" name="auxiliary;index"/>
+                    <property value="51" name="auxiliary;index"/>
+                    <property name="mapper-ref"/>
+                    <property name="sourceClass"/>
                     <property value="51" name="auxiliary;index"/>
                     <property value="51" name="auxiliary;index"/>
                     <property value="51" name="auxiliary;index"/>
                 </properties>
             </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="Logger#2">
+                <properties>
+                    <property value="PAYLOAD FINAL: #[payload]" name="message"/>
+                    <property value="INFO" name="level"/>
+                    <property name="category"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                    <property value="52" name="auxiliary;index"/>
+                </properties>
+            </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="home" entity-id="84524d4e-8461-4e10-ab26-882b629ccebc">
+    <flow SubFlow="false" name="home" entity-id="20658457-9bef-43a7-a921-e64b798fa195">
         <properties>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="52" name="auxiliary;index"/>
+            <property value="53" name="auxiliary;index"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property value="52" name="auxiliary;index"/>
-            <property value="52" name="auxiliary;index"/>
-            <property value="52" name="auxiliary;index"/>
+            <property value="53" name="auxiliary;index"/>
+            <property value="53" name="auxiliary;index"/>
+            <property value="53" name="auxiliary;index"/>
         </properties>
         <lane index="0" hadOnlyOneElement="false" entity-id="compartment-lane#2">
             <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#2">
                 <properties>
                     <property value="one-way" name="exchange-pattern"/>
                     <property value="request-response" name="exchange-pattern"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                     <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                     <property name="httpLabel"/>
                     <property value="localhost" name="host"/>
                     <property value="8081" name="port"/>
                     <property value="home" name="path"/>
                     <property name="method"/>
-                    <property value="53" name="auxiliary;index"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                     <property name="businessEventsLabel"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                     <property name="address"/>
                     <property name="encoding"/>
                     <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
                     <property name="followRedirects"/>
-                    <property value="53" name="auxiliary;index"/>
-                    <property value="53" name="auxiliary;index"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                     <property name="ref"/>
                     <property name="transformer-refs"/>
                     <property name="responseTransformer-refs"/>
-                    <property value="53" name="auxiliary;index"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                     <property name="user"/>
                     <property name="password"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                     <property value="text/plain" name="contentType"/>
                     <property name="keep-alive"/>
-                    <property value="53" name="auxiliary;index"/>
-                    <property value="53" name="auxiliary;index"/>
-                    <property value="53" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
+                    <property value="54" name="auxiliary;index"/>
                 </properties>
             </endpoint>
-            <unknown index="54" description="false" entity-id="unknown#1">
+            <unknown index="55" description="false" entity-id="unknown#1">
                 <content>&lt;http:static-resource-handler xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; resourceBase=&quot;${app.home}/docroot&quot; defaultFile=&quot;home.html&quot;/&gt;</content>
             </unknown>
         </lane>
     </flow>
-    <description></description>
 </mule-configuration>
