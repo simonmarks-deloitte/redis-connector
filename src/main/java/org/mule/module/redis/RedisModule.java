@@ -60,7 +60,7 @@ import redis.clients.util.SafeEncoder;
  *
  * @author MuleSoft, Inc.
  */
-@Module(name = "redis", schemaVersion = "3.2")
+@Module(name = "redis", schemaVersion = "3.2", friendlyName = "Redis")
 public class RedisModule implements PartitionableObjectStore<Serializable>
 {
     private static final String DEFAULT_PARTITION_NAME = "_default";
