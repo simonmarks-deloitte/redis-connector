@@ -211,10 +211,14 @@
   <a href="../../../../../../java/org/mule/module/redis/package-summary.html">org.mule.module.redis</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/module/redis/adapters/package-summary.html">org.mule.module.redis.adapters</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/module/redis/agents/package-summary.html">org.mule.module.redis.agents</a></li>
     <li class="selected api apilevel-">
   <a href="../../../../../../java/org/mule/module/redis/config/package-summary.html">org.mule.module.redis.config</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/module/redis/config/spring/package-summary.html">org.mule.module.redis.config.spring</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/module/redis/process/package-summary.html">org.mule.module.redis.process</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/module/redis/processors/package-summary.html">org.mule.module.redis.processors</a></li>
     <li class="api apilevel-">
@@ -227,9 +231,15 @@
           <div id="classes-nav">
             <ul>
               
+    <li><h2>Interfaces</h2>
+      <ul>
+        <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AbstractDefinitionParser.ParseDelegate.html">AbstractDefinitionParser.ParseDelegate</a>&lt;T&gt;</li>
+      </ul>
+    </li>
               
     <li><h2>Classes</h2>
       <ul>
+        <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AbstractDefinitionParser.html">AbstractDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AddToSetDefinitionParser.html">AddToSetDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AddToSetMessageProcessor.html">AddToSetMessageProcessor</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/AddToSortedSetDefinitionParser.html">AddToSortedSetDefinitionParser</a></li>
@@ -257,6 +267,7 @@
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleConfigDefinitionParser.html">RedisModuleConfigDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleLifecycleAdapter.html">RedisModuleLifecycleAdapter</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleNamespaceHandler.html">RedisModuleNamespaceHandler</a></li>
+        <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/RedisNamespaceHandler.html">RedisNamespaceHandler</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SetDefinitionParser.html">SetDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SetInHashDefinitionParser.html">SetInHashDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/module/redis/config/SetInHashMessageProcessor.html">SetInHashMessageProcessor</a></li>
@@ -329,6 +340,17 @@
 
 
   
+    <h2>Interfaces</h2>
+    <div class="jd-sumtable">
+    
+  <table class="jd-sumtable-expando">
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/AbstractDefinitionParser.ParseDelegate.html">AbstractDefinitionParser.ParseDelegate</a>&lt;T&gt;</td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+  </table>
+    </div>
+  
 
 
   
@@ -337,111 +359,119 @@
     
   <table class="jd-sumtable-expando">
         <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/AbstractDefinitionParser.html">AbstractDefinitionParser</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/AddToSetDefinitionParser.html">AddToSetDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/AddToSetMessageProcessor.html">AddToSetMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">AddToSetMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#addToSet(java.lang.String, java.lang.Boolean, byte[])">addToSet(java.lang.String, java.lang.Boolean, byte[])</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/AddToSortedSetDefinitionParser.html">AddToSortedSetDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/AddToSortedSetMessageProcessor.html">AddToSortedSetMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">AddToSortedSetMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#addToSortedSet(java.lang.String, java.lang.Double, java.lang.Boolean, byte[])">addToSortedSet(java.lang.String, java.lang.Double, java.lang.Boolean, byte[])</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetDefinitionParser.html">GetDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetFromHashDefinitionParser.html">GetFromHashDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetFromHashMessageProcessor.html">GetFromHashMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetFromHashMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#getFromHash(java.lang.String, java.lang.String)">getFromHash(java.lang.String, java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetMessageProcessor.html">GetMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#get(java.lang.String)">get(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByIndexDefinitionParser.html">GetRangeByIndexDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByIndexMessageProcessor.html">GetRangeByIndexMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetRangeByIndexMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#getRangeByIndex(java.lang.String, java.lang.Integer, java.lang.Integer, org.mule.module.redis.RedisModule.SortedSetOrder)">getRangeByIndex(java.lang.String, java.lang.Integer, java.lang.Integer, org.mule.module.redis.RedisModule.SortedSetOrder)</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByScoreDefinitionParser.html">GetRangeByScoreDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/GetRangeByScoreMessageProcessor.html">GetRangeByScoreMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetRangeByScoreMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#getRangeByScore(java.lang.String, java.lang.Double, java.lang.Double, org.mule.module.redis.RedisModule.SortedSetOrder)">getRangeByScore(java.lang.String, java.lang.Double, java.lang.Double, org.mule.module.redis.RedisModule.SortedSetOrder)</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/ListPushSideEnumTransformer.html">ListPushSideEnumTransformer</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PopFromListDefinitionParser.html">PopFromListDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PopFromListMessageProcessor.html">PopFromListMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">PopFromListMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#popFromList(java.lang.String, org.mule.module.redis.RedisModule.ListPushSide)">popFromList(java.lang.String, org.mule.module.redis.RedisModule.ListPushSide)</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PopFromSetDefinitionParser.html">PopFromSetDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PopFromSetMessageProcessor.html">PopFromSetMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">PopFromSetMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#popFromSet(java.lang.String)">popFromSet(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PublishDefinitionParser.html">PublishDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PublishMessageProcessor.html">PublishMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">PublishMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#publish(java.lang.String, java.lang.Boolean, byte[])">publish(java.lang.String, java.lang.Boolean, byte[])</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PushToListDefinitionParser.html">PushToListDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/PushToListMessageProcessor.html">PushToListMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">PushToListMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#pushToList(java.lang.String, org.mule.module.redis.RedisModule.ListPushSide, java.lang.Boolean, byte[])">pushToList(java.lang.String, org.mule.module.redis.RedisModule.ListPushSide, java.lang.Boolean, byte[])</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/RandomMemberFromSetDefinitionParser.html">RandomMemberFromSetDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/RandomMemberFromSetMessageProcessor.html">RandomMemberFromSetMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">RandomMemberFromSetMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html#randomMemberFromSet(java.lang.String)">randomMemberFromSet(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleCapabilitiesAdapter.html">RedisModuleCapabilitiesAdapter</a></td>
               <td class="jd-descrcol" width="100%">A <code>RedisModuleCapabilitiesAdapter</code> is a wrapper around <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code> that implements org.mule.api.Capabilities interface.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleConfigDefinitionParser.html">RedisModuleConfigDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleLifecycleAdapter.html">RedisModuleLifecycleAdapter</a></td>
               <td class="jd-descrcol" width="100%">A <code>RedisModuleLifecycleAdapter</code> is a wrapper around <code><a href="../../../../../../java/org/mule/module/redis/RedisModule.html">RedisModule</a></code> that adds lifecycle methods to the pojo.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/RedisModuleNamespaceHandler.html">RedisModuleNamespaceHandler</a></td>
+              <td class="jd-descrcol" width="100%">Registers bean definitions parsers for handling elements in <code>http://www.mulesoft.org/schema/mule/redis</code>.&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../java/org/mule/module/redis/config/RedisNamespaceHandler.html">RedisNamespaceHandler</a></td>
               <td class="jd-descrcol" width="100%">Registers bean definitions parsers for handling elements in <code>http://www.mulesoft.org/schema/mule/redis</code>.&nbsp;</td>
           </tr>
         <tr class=" api apilevel-" >

@@ -1,7 +1,9 @@
 org.mule.module.redis
 org.mule.module.redis.adapters
+org.mule.module.redis.agents
 org.mule.module.redis.config
 org.mule.module.redis.config.spring
+org.mule.module.redis.process
 org.mule.module.redis.processors
 org.mule.module.redis.sources
 org.mule.module.redis.transformers

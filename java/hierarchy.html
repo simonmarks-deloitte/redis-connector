@@ -219,9 +219,13 @@
     <li class="api apilevel-">
   <a href="../java/org/mule/module/redis/adapters/package-summary.html">org.mule.module.redis.adapters</a></li>
     <li class="api apilevel-">
+  <a href="../java/org/mule/module/redis/agents/package-summary.html">org.mule.module.redis.agents</a></li>
+    <li class="api apilevel-">
   <a href="../java/org/mule/module/redis/config/package-summary.html">org.mule.module.redis.config</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/module/redis/config/spring/package-summary.html">org.mule.module.redis.config.spring</a></li>
+    <li class="api apilevel-">
+  <a href="../java/org/mule/module/redis/process/package-summary.html">org.mule.module.redis.process</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/module/redis/processors/package-summary.html">org.mule.module.redis.processors</a></li>
     <li class="api apilevel-">
@@ -280,13 +284,13 @@
 
 
 <table border="0" cellpadding="0" cellspacing="1">
-<th class="jd-hierarchy-data" colspan="4">Class</th>
+<th class="jd-hierarchy-data" colspan="6">Class</th>
 <th class="jd-hierarchy-data">Interfaces</th>
 
 
 <tr>
     
-    <td class="jd-hierarchy-data" colspan="4">
+    <td class="jd-hierarchy-data" colspan="6">
     
         
     
@@ -300,7 +304,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/RedisConstants.html">RedisConstants</a>
     
@@ -316,7 +320,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/RedisModule.html">RedisModule</a>
     
@@ -334,7 +338,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="2">
+    <td class="jd-hierarchy-data" colspan="4">
     
         <a href="../java/org/mule/module/redis/adapters/RedisModuleCapabilitiesAdapter.html">RedisModuleCapabilitiesAdapter</a>
     
@@ -352,7 +356,25 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="1">
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/adapters/RedisModuleMetadataAdapater.html">RedisModuleMetadataAdapater</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            MetadataAware
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
     
         <a href="../java/org/mule/module/redis/adapters/RedisModuleLifecycleAdapter.html">RedisModuleLifecycleAdapter</a>
     
@@ -380,13 +402,35 @@
 </tr>
 
 
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="1">
+    
+        <a href="../java/org/mule/module/redis/adapters/RedisModuleProcessAdapter.html">RedisModuleProcessAdapter</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            ProcessAdapter
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
 
 
 
 
 <tr>
     <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="2">
+    <td class="jd-hierarchy-data" colspan="4">
     
         <a href="../java/org/mule/module/redis/config/RedisModuleCapabilitiesAdapter.html">RedisModuleCapabilitiesAdapter</a>
     
@@ -404,7 +448,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="1">
+    <td class="jd-hierarchy-data" colspan="3">
     
         <a href="../java/org/mule/module/redis/config/RedisModuleLifecycleAdapter.html">RedisModuleLifecycleAdapter</a>
     
@@ -440,7 +484,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/RedisUtils.html">RedisUtils</a>
     
@@ -456,7 +500,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/RedisUtils.RedisAction.html">RedisUtils.RedisAction</a>
     
@@ -472,9 +516,37 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
-        <a href="../java/org/mule/module/redis/config/AddToSetDefinitionParser.html">AddToSetDefinitionParser</a>
+        <a href="../java/org/mule/module/redis/agents/DefaultSplashScreenAgent.html">DefaultSplashScreenAgent</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Agent
+         &nbsp;&nbsp;
+    
+        
+            MuleContextAware
+         &nbsp;&nbsp;
+    
+        
+            SplashScreenAgent
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="5">
+    
+        <a href="../java/org/mule/module/redis/config/AbstractDefinitionParser.html">AbstractDefinitionParser</a>
     
     </td>
     <td class="jd-hierarchy-data">
@@ -488,11 +560,251 @@
 </tr>
 
 
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/AddToSetDefinitionParser.html">AddToSetDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/AddToSortedSetDefinitionParser.html">AddToSortedSetDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/GetDefinitionParser.html">GetDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/GetFromHashDefinitionParser.html">GetFromHashDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/GetRangeByIndexDefinitionParser.html">GetRangeByIndexDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/GetRangeByScoreDefinitionParser.html">GetRangeByScoreDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/PopFromListDefinitionParser.html">PopFromListDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/PopFromSetDefinitionParser.html">PopFromSetDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/PublishDefinitionParser.html">PublishDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/PushToListDefinitionParser.html">PushToListDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/RandomMemberFromSetDefinitionParser.html">RandomMemberFromSetDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/RedisModuleConfigDefinitionParser.html">RedisModuleConfigDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/SetDefinitionParser.html">SetDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/SetInHashDefinitionParser.html">SetInHashDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/config/SubscribeDefinitionParser.html">SubscribeDefinitionParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
 
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/AddToSetMessageProcessor.html">AddToSetMessageProcessor</a>
     
@@ -536,27 +848,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/AddToSortedSetDefinitionParser.html">AddToSortedSetDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/AddToSortedSetMessageProcessor.html">AddToSortedSetMessageProcessor</a>
     
@@ -600,47 +892,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/GetDefinitionParser.html">GetDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/GetFromHashDefinitionParser.html">GetFromHashDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/GetFromHashMessageProcessor.html">GetFromHashMessageProcessor</a>
     
@@ -684,7 +936,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/GetMessageProcessor.html">GetMessageProcessor</a>
     
@@ -728,27 +980,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/GetRangeByIndexDefinitionParser.html">GetRangeByIndexDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/GetRangeByIndexMessageProcessor.html">GetRangeByIndexMessageProcessor</a>
     
@@ -792,27 +1024,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/GetRangeByScoreDefinitionParser.html">GetRangeByScoreDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/GetRangeByScoreMessageProcessor.html">GetRangeByScoreMessageProcessor</a>
     
@@ -856,27 +1068,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/PopFromListDefinitionParser.html">PopFromListDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/PopFromListMessageProcessor.html">PopFromListMessageProcessor</a>
     
@@ -920,27 +1112,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/PopFromSetDefinitionParser.html">PopFromSetDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/PopFromSetMessageProcessor.html">PopFromSetMessageProcessor</a>
     
@@ -984,27 +1156,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/PublishDefinitionParser.html">PublishDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/PublishMessageProcessor.html">PublishMessageProcessor</a>
     
@@ -1048,27 +1200,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/PushToListDefinitionParser.html">PushToListDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/PushToListMessageProcessor.html">PushToListMessageProcessor</a>
     
@@ -1112,27 +1244,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/RandomMemberFromSetDefinitionParser.html">RandomMemberFromSetDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/RandomMemberFromSetMessageProcessor.html">RandomMemberFromSetMessageProcessor</a>
     
@@ -1176,67 +1288,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/RedisModuleConfigDefinitionParser.html">RedisModuleConfigDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/SetDefinitionParser.html">SetDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/SetInHashDefinitionParser.html">SetInHashDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/SetInHashMessageProcessor.html">SetInHashMessageProcessor</a>
     
@@ -1280,7 +1332,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/SetMessageProcessor.html">SetMessageProcessor</a>
     
@@ -1324,27 +1376,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/config/SubscribeDefinitionParser.html">SubscribeDefinitionParser</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            BeanDefinitionParser
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/SubscribeMessageSource.html">SubscribeMessageSource</a>
     
@@ -1392,7 +1424,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/AddToSetDefinitionParser.html">AddToSetDefinitionParser</a>
     
@@ -1412,7 +1444,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/AddToSortedSetDefinitionParser.html">AddToSortedSetDefinitionParser</a>
     
@@ -1432,7 +1464,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/GetDefinitionParser.html">GetDefinitionParser</a>
     
@@ -1452,7 +1484,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/GetFromHashDefinitionParser.html">GetFromHashDefinitionParser</a>
     
@@ -1472,7 +1504,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/GetRangeByIndexDefinitionParser.html">GetRangeByIndexDefinitionParser</a>
     
@@ -1492,7 +1524,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/GetRangeByScoreDefinitionParser.html">GetRangeByScoreDefinitionParser</a>
     
@@ -1512,7 +1544,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/PopFromListDefinitionParser.html">PopFromListDefinitionParser</a>
     
@@ -1532,7 +1564,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/PopFromSetDefinitionParser.html">PopFromSetDefinitionParser</a>
     
@@ -1552,7 +1584,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/PublishDefinitionParser.html">PublishDefinitionParser</a>
     
@@ -1572,7 +1604,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/PushToListDefinitionParser.html">PushToListDefinitionParser</a>
     
@@ -1592,7 +1624,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/RandomMemberFromSetDefinitionParser.html">RandomMemberFromSetDefinitionParser</a>
     
@@ -1612,7 +1644,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/RedisModuleConfigDefinitionParser.html">RedisModuleConfigDefinitionParser</a>
     
@@ -1632,7 +1664,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/SetDefinitionParser.html">SetDefinitionParser</a>
     
@@ -1652,7 +1684,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/SetInHashDefinitionParser.html">SetInHashDefinitionParser</a>
     
@@ -1672,7 +1704,7 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
         <a href="../java/org/mule/module/redis/config/spring/SubscribeDefinitionParser.html">SubscribeDefinitionParser</a>
     
@@ -1692,9 +1724,67 @@
 
 <tr>
     <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-data" colspan="5">
     
-        <a href="../java/org/mule/module/redis/processors/AddToSetMessageProcessor.html">AddToSetMessageProcessor</a>
+        <a href="../java/org/mule/module/redis/process/NestedProcessorChain.html">NestedProcessorChain</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            NestedProcessor
+         &nbsp;&nbsp;
+    
+        
+            MuleContextAware
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="5">
+    
+        <a href="../java/org/mule/module/redis/process/ProcessCallbackProcessInterceptor.html">ProcessCallbackProcessInterceptor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            ProcessInterceptor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="5">
+    
+        <a href="../java/org/mule/module/redis/processors/AbstractExpressionEvaluator.html">AbstractExpressionEvaluator</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="../java/org/mule/module/redis/processors/AbstractMessageProcessor.html">AbstractMessageProcessor</a>
     
     </td>
     <td class="jd-hierarchy-data">
@@ -1707,68 +1797,22 @@
             MuleContextAware
          &nbsp;&nbsp;
     
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
     &nbsp;
     </td>
 </tr>
 
 
-
-
 <tr>
-    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
     <td class="jd-hierarchy-data" colspan="3">
     
-        <a href="../java/org/mule/module/redis/processors/AddToSortedSetMessageProcessor.html">AddToSortedSetMessageProcessor</a>
+        <a href="../java/org/mule/module/redis/processors/AbstractListeningMessageProcessor.html">AbstractListeningMessageProcessor</a>
     
     </td>
     <td class="jd-hierarchy-data">
     
         
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
+            SourceCallback
          &nbsp;&nbsp;
     
     &nbsp;
@@ -1776,495 +1820,9 @@
 </tr>
 
 
-
-
 <tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/GetFromHashMessageProcessor.html">GetFromHashMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/GetMessageProcessor.html">GetMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/GetRangeByIndexMessageProcessor.html">GetRangeByIndexMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/GetRangeByScoreMessageProcessor.html">GetRangeByScoreMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/PopFromListMessageProcessor.html">PopFromListMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/PopFromSetMessageProcessor.html">PopFromSetMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/PublishMessageProcessor.html">PublishMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/PushToListMessageProcessor.html">PushToListMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/RandomMemberFromSetMessageProcessor.html">RandomMemberFromSetMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/SetInHashMessageProcessor.html">SetInHashMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
-    
-        <a href="../java/org/mule/module/redis/processors/SetMessageProcessor.html">SetMessageProcessor</a>
-    
-    </td>
-    <td class="jd-hierarchy-data">
-    
-        
-            FlowConstructAware
-         &nbsp;&nbsp;
-    
-        
-            MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Disposable
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
-         &nbsp;&nbsp;
-    
-        
-            Startable
-         &nbsp;&nbsp;
-    
-        
-            Stoppable
-         &nbsp;&nbsp;
-    
-        
-            MessageProcessor
-         &nbsp;&nbsp;
-    
-    &nbsp;
-    </td>
-</tr>
-
-
-
-
-<tr>
-    <td class="jd-hierarchy-spacer"></td>
-    <td class="jd-hierarchy-data" colspan="3">
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
     
         <a href="../java/org/mule/module/redis/sources/SubscribeMessageSource.html">SubscribeMessageSource</a>
     
@@ -2276,19 +1834,11 @@
          &nbsp;&nbsp;
     
         
-            SourceCallback
-         &nbsp;&nbsp;
-    
-        
             FlowConstructAware
          &nbsp;&nbsp;
     
         
             MuleContextAware
-         &nbsp;&nbsp;
-    
-        
-            Initialisable
          &nbsp;&nbsp;
     
         
@@ -2306,6 +1856,480 @@
     &nbsp;
     </td>
 </tr>
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/AddToSetMessageProcessor.html">AddToSetMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/AddToSortedSetMessageProcessor.html">AddToSortedSetMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/GetFromHashMessageProcessor.html">GetFromHashMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/GetMessageProcessor.html">GetMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/GetRangeByIndexMessageProcessor.html">GetRangeByIndexMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/GetRangeByScoreMessageProcessor.html">GetRangeByScoreMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/PopFromListMessageProcessor.html">PopFromListMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/PopFromSetMessageProcessor.html">PopFromSetMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/PublishMessageProcessor.html">PublishMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/PushToListMessageProcessor.html">PushToListMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/RandomMemberFromSetMessageProcessor.html">RandomMemberFromSetMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/SetInHashMessageProcessor.html">SetInHashMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="../java/org/mule/module/redis/processors/SetMessageProcessor.html">SetMessageProcessor</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            Disposable
+         &nbsp;&nbsp;
+    
+        
+            Initialisable
+         &nbsp;&nbsp;
+    
+        
+            Startable
+         &nbsp;&nbsp;
+    
+        
+            Stoppable
+         &nbsp;&nbsp;
+    
+        
+            MessageProcessor
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
 
 
 
