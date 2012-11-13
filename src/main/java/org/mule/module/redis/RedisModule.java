@@ -34,6 +34,8 @@ import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.PartitionableObjectStore;
+import org.mule.common.TestResult;
+import org.mule.common.Testable;
 import org.mule.config.i18n.MessageFactory;
 import org.mule.module.redis.RedisUtils.RedisAction;
 
@@ -43,6 +45,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.exceptions.JedisConnectionException;
+import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.util.SafeEncoder;
 
 /**
@@ -61,7 +64,7 @@ import redis.clients.util.SafeEncoder;
  * @author MuleSoft, Inc.
  */
 @Module(name = "redis", schemaVersion = "3.2", friendlyName = "Redis")
-public class RedisModule implements PartitionableObjectStore<Serializable>
+public class RedisModule implements PartitionableObjectStore<Serializable>, Testable
 {
     private static final String DEFAULT_PARTITION_NAME = "_default";
 
@@ -970,4 +973,82 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     {
         return jedisPool;
     }
+    
+    //TODO: Moved this to a common place (like mule-commons)
+    private static class DefaultTestResult implements TestResult
+    {
+
+        private Status status;
+        private String message;
+
+        public DefaultTestResult(TestResult.Status status)
+        {
+            this(status, "");
+        }
+
+        public DefaultTestResult(TestResult.Status status, String message)
+        {
+            this.status = status;
+            this.message = message;
+        }
+
+        @Override
+        public String getMessage()
+        {
+            return message;
+        }
+
+        @Override
+        public Status getStatus()
+        {
+            return status;
+        }
+
+    }
+
+	@Override
+	public TestResult test() {
+		boolean destroy = false;
+		JedisPool pool = getJedisPool();
+		if (pool == null)
+		{
+			initializeJedis();
+			destroy = true;
+			pool = getJedisPool();
+		}
+		
+		boolean isConnected = false;
+		try
+		{
+			isConnected = RedisUtils.run(pool, new RedisAction<Boolean>()
+			{
+				@Override
+				public Boolean run()
+				{
+					if (password != null)
+					{
+						redis.auth(password);
+					}
+					return redis.isConnected() && "PONG".equalsIgnoreCase(redis.ping());
+				}
+			});
+		}
+		catch (JedisConnectionException e)
+		{
+			return new DefaultTestResult(TestResult.Status.FAILURE, e.toString());
+		}
+		catch (JedisDataException e)
+		{
+			return new DefaultTestResult(TestResult.Status.FAILURE, e.toString());
+		}
+		finally
+		{
+			if (destroy && pool != null)
+			{
+				destroyJedis();
+			}
+		}
+		
+		return isConnected ? new DefaultTestResult(TestResult.Status.SUCCESS) : new DefaultTestResult(TestResult.Status.FAILURE);
+	}
 }
