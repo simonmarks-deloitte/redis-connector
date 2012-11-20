@@ -34,6 +34,7 @@ import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.PartitionableObjectStore;
+import org.mule.common.DefaultTestResult;
 import org.mule.common.TestResult;
 import org.mule.common.Testable;
 import org.mule.config.i18n.MessageFactory;
@@ -973,41 +974,10 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Test
     {
         return jedisPool;
     }
-    
-    //TODO: Moved this to a common place (like mule-commons)
-    private static class DefaultTestResult implements TestResult
-    {
-
-        private Status status;
-        private String message;
-
-        public DefaultTestResult(TestResult.Status status)
-        {
-            this(status, "");
-        }
-
-        public DefaultTestResult(TestResult.Status status, String message)
-        {
-            this.status = status;
-            this.message = message;
-        }
-
-        @Override
-        public String getMessage()
-        {
-            return message;
-        }
-
-        @Override
-        public Status getStatus()
-        {
-            return status;
-        }
-
-    }
 
 	@Override
-	public TestResult test() {
+	public TestResult test()
+	{
 		boolean destroy = false;
 		JedisPool pool = getJedisPool();
 		if (pool == null)
@@ -1035,11 +1005,25 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Test
 		}
 		catch (JedisConnectionException e)
 		{
-			return new DefaultTestResult(TestResult.Status.FAILURE, e.toString());
+			TestResult.FailureType failureType = TestResult.FailureType.CONNECTION_FAILURE;
+			Throwable cause = e.getCause();
+			if (cause != null && cause.getMessage().contains("ERR Client sent AUTH, but no password is set"))
+			{
+				failureType = TestResult.FailureType.INVALID_CONFIGURATION;
+			}
+			else if (cause != null && cause.getMessage().contains("ERR invalid password"))
+			{
+				failureType = TestResult.FailureType.INVALID_CREDENTIALS;
+			}
+			else if (cause != null && cause.getMessage().contains("UnknownHostException"))
+			{
+				failureType = TestResult.FailureType.UNKNOWN_HOST;
+			}
+			return new DefaultTestResult(TestResult.Status.FAILURE, e.toString(), failureType, e);
 		}
 		catch (JedisDataException e)
 		{
-			return new DefaultTestResult(TestResult.Status.FAILURE, e.toString());
+			return new DefaultTestResult(TestResult.Status.FAILURE, e.toString(), TestResult.FailureType.UNSPECIFIED, e);
 		}
 		finally
 		{
