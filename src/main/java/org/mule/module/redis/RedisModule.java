@@ -1007,17 +1007,21 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Test
 		{
 			TestResult.FailureType failureType = TestResult.FailureType.CONNECTION_FAILURE;
 			Throwable cause = e.getCause();
-			if (cause != null && cause.getMessage().contains("ERR Client sent AUTH, but no password is set"))
+			String msg = (cause != null) ? cause.getMessage() : null;
+			if (msg != null)
 			{
-				failureType = TestResult.FailureType.INVALID_CONFIGURATION;
-			}
-			else if (cause != null && cause.getMessage().contains("ERR invalid password"))
-			{
-				failureType = TestResult.FailureType.INVALID_CREDENTIALS;
-			}
-			else if (cause != null && cause.getMessage().contains("UnknownHostException"))
-			{
-				failureType = TestResult.FailureType.UNKNOWN_HOST;
+				if (msg.contains("ERR Client sent AUTH, but no password is set"))
+				{
+					failureType = TestResult.FailureType.INVALID_CONFIGURATION;
+				}
+				else if (msg.contains("ERR invalid password"))
+				{
+					failureType = TestResult.FailureType.INVALID_CREDENTIALS;
+				}
+				else if (msg.contains("UnknownHostException"))
+				{
+					failureType = TestResult.FailureType.UNKNOWN_HOST;
+				}
 			}
 			return new DefaultTestResult(TestResult.Status.FAILURE, e.toString(), failureType, e);
 		}
