@@ -1,11 +1,9 @@
 /**
- * Mule Redis Connector
- *
- * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
+ * Copyright (c) MuleSoft, Inc. All rights reserved. http://www.mulesoft.com
  *
  * The software in this package is published under the terms of the CPAL v1.0
  * license, a copy of which has been included with this distribution in the
- * LICENSE.txt file.
+ * LICENSE.md file.
  */
 
 package org.mule.module.redis;
@@ -56,9 +54,13 @@ import redis.clients.util.SafeEncoder;
  * <li>Allows using Redis as a datastore for Mule components that require persistence.</li>
  * </ul>
  * 
+ * Current Redis commands supported by this connector <br /><br />
+ *
+ * DEL EXPIRE GET HEXISTS HGET HKEYS HSET HSETNX KEYS LPOP LPUSH LPUSHX MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
+ *
  * @author MuleSoft, Inc.
  */
-@Module(name = "redis", schemaVersion = "3.2")
+@Module(name = "redis", schemaVersion = "3.2", friendlyName = "Redis")
 public class RedisModule implements PartitionableObjectStore<Serializable>
 {
     private static final String DEFAULT_PARTITION_NAME = "_default";
@@ -574,7 +576,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * @param start Range start index
      * @param end Range end index
      * @param order Index order for sorting the range, either ASCENDING or DESCENDING
-     * @return the values in the specified range in the desired order
+     * @return the values in the specified range in the desired order as Set<byte[]>
      */
     @Processor(name = "sorted-set-select-range-by-index")
     public Set<byte[]> getRangeByIndex(final String key,
@@ -604,7 +606,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * @param min Range start score
      * @param max Range end score
      * @param order Score order for sorting the range, either ASCENDING or DESCENDING
-     * @return the values in the specified range in the desired order
+     * @return the values in the specified range in the desired order as Set<byte[]>
      */
     @Processor(name = "sorted-set-select-range-by-score")
     public Set<byte[]> getRangeByScore(final String key,

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-redis</artifactId>
-    <version>3.3.0.1-SNAPSHOT</version>
+    <version>3.3.3-SNAPSHOT</version>
     <packaging>mule-module</packaging>
     <name>Mule Redis Module</name>
     <description>Redis support for Mule</description>
@@ -14,6 +14,11 @@
         <artifactId>mule-devkit-parent</artifactId>
         <version>3.3.2</version>
     </parent>
+    <properties>
+        <category>Community</category>
+        <licensePath>LICENSE.md</licensePath>
+        <devkit.studio.package.skip>false</devkit.studio.package.skip>
+    </properties>
 
     <dependencies>
         <dependency>
