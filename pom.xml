@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-redis</artifactId>
-    <version>3.3.3-SNAPSHOT</version>
+    <version>3.4.0-SNAPSHOT</version>
     <packaging>mule-module</packaging>
     <name>Mule Redis Module</name>
     <description>Redis support for Mule</description>
@@ -12,12 +13,12 @@
     <parent>
         <groupId>org.mule.tools.devkit</groupId>
         <artifactId>mule-devkit-parent</artifactId>
-        <version>3.3.2</version>
+        <version>3.4.0</version>
     </parent>
     <properties>
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
-        <devkit.studio.package.skip>false</devkit.studio.package.skip>
+        <devkit.studio.package.skip>true</devkit.studio.package.skip>
     </properties>
 
     <dependencies>
@@ -65,7 +66,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.9</version>
+                        <version>2.15</version>
                         <executions>
                             <execution>
                                 <id>integration-test</id>
@@ -78,55 +79,55 @@
                 </plugins>
             </build>
         </profile>
-      </profiles>
-  
+    </profiles>
+
     <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.8</version>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <docletArtifact>
-              <groupId>org.mule.tools.devkit</groupId>
-              <artifactId>mule-devkit-doclet</artifactId>
-              <version>${mule.devkit.version}</version>
-            </docletArtifact>
-            <doclet>org.mule.devkit.doclet.Doclava</doclet>
-            <bootclasspath>${sun.boot.class.path}</bootclasspath>
-            <additionalparam><!-- -federate JDK http://download.oracle.com/javase/6/docs/api/index.html? 
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <docletArtifact>
+                        <groupId>org.mule.tools.devkit</groupId>
+                        <artifactId>mule-devkit-doclet</artifactId>
+                        <version>${mule.devkit.version}</version>
+                    </docletArtifact>
+                    <doclet>org.mule.devkit.doclet.Doclava</doclet>
+                    <bootclasspath>${sun.boot.class.path}</bootclasspath>
+                    <additionalparam><!-- -federate JDK http://download.oracle.com/javase/6/docs/api/index.html? 
                 -federationxml JDK http://doclava.googlecode.com/svn/static/api/openjdk-6.xml -->
-              -hdf project.artifactId "${project.artifactId}"
-              -hdf project.groupId "${project.groupId}"
-              -hdf project.version "${project.version}"
-              -hdf project.name "${project.name}"
-              -hdf project.repo.name
-              "${project.distributionManagement.repository.name}"
-              -hdf project.repo.id "${project.distributionManagement.repository.id}"
-              -hdf project.repo.url
-              "${project.distributionManagement.repository.url}"
-              -hdf project.snapshotRepo.name
-              "${project.distributionManagement.snapshotRepository.name}"
-              -hdf project.snapshotRepo.id
-              "${project.distributionManagement.snapshotRepository.id}"
-              -hdf project.snapshotRepo.url
-              "${project.distributionManagement.snapshotRepository.url}"
-              -d ${project.build.directory}/apidocs
-              -markdown redis ${basedir}/doc/Overview.md "Overview"
-            </additionalparam>
-            <useStandardDocletOptions>false</useStandardDocletOptions>
-            <additionalJOption>-J-Xmx1024m</additionalJOption>
-          </configuration>
-        </plugin>
-      </plugins>
+                        -hdf project.artifactId "${project.artifactId}"
+                        -hdf project.groupId "${project.groupId}"
+                        -hdf project.version "${project.version}"
+                        -hdf project.name "${project.name}"
+                        -hdf project.repo.name
+                        "${project.distributionManagement.repository.name}"
+                        -hdf project.repo.id "${project.distributionManagement.repository.id}"
+                        -hdf project.repo.url
+                        "${project.distributionManagement.repository.url}"
+                        -hdf project.snapshotRepo.name
+                        "${project.distributionManagement.snapshotRepository.name}"
+                        -hdf project.snapshotRepo.id
+                        "${project.distributionManagement.snapshotRepository.id}"
+                        -hdf project.snapshotRepo.url
+                        "${project.distributionManagement.snapshotRepository.url}"
+                        -d ${project.build.directory}/apidocs
+                        -markdown redis ${basedir}/doc/Overview.md "Overview"
+                    </additionalparam>
+                    <useStandardDocletOptions>false</useStandardDocletOptions>
+                    <additionalJOption>-J-Xmx1024m</additionalJOption>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <scm>

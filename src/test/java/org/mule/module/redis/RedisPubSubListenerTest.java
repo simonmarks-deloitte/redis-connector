@@ -22,7 +22,7 @@ import org.mule.api.callback.SourceCallback;
  * @author flbulgarelli
  */
 @SuppressWarnings("unchecked")
-public class RedisPubSubListenerUnitTest
+public class RedisPubSubListenerTest
 {
     private SourceCallback sourceCallbackMock;
     private RedisPubSubListener redisPubSubListener;

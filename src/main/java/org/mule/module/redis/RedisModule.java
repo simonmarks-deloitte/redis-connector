@@ -32,6 +32,7 @@ import org.mule.api.annotations.param.Payload;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
+import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.PartitionableObjectStore;
 import org.mule.config.i18n.MessageFactory;
@@ -46,21 +47,21 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.util.SafeEncoder;
 
 /**
- * Redis is an open-source, networked, in-memory, persistent, journaled, key-value data store. Provides Redis
- * connectivity to Mule:
+ * Redis is an open-source, networked, in-memory, persistent, journaled, key-value data store.
+ * Provides Redis connectivity to Mule:
  * <ul>
  * <li>Supports Redis Publish/Subscribe model for asynchronous message exchanges,</li>
  * <li>Allows direct reading and writing operations in Redis collections,</li>
- * <li>Allows using Redis as a datastore for Mule components that require persistence.</li>
+ * <li>Allows using Redis as a {@link ObjectStore} for Mule components that require persistence.</li>
  * </ul>
+ * Current Redis commands supported by this connector <br />
+ * <br />
+ * DEL EXPIRE GET HEXISTS HGET HKEYS HSET HSETNX KEYS LPOP LPUSH LPUSHX MULTI PSUBSCRIBE PUBLISH
+ * RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
  * 
- * Current Redis commands supported by this connector <br /><br />
- *
- * DEL EXPIRE GET HEXISTS HGET HKEYS HSET HSETNX KEYS LPOP LPUSH LPUSHX MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
- *
  * @author MuleSoft, Inc.
  */
-@Module(name = "redis", schemaVersion = "3.2", friendlyName = "Redis")
+@Module(name = "redis", schemaVersion = "3.4", friendlyName = "Redis", minMuleVersion = "3.4.0", description = "Redis Module")
 public class RedisModule implements PartitionableObjectStore<Serializable>
 {
     private static final String DEFAULT_PARTITION_NAME = "_default";
@@ -144,17 +145,19 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     ----------------------------------------------------------*/
 
     /**
-     * Set key to hold the payload. If key already holds a value, it is overwritten, regardless of its type as long as
-     * ifNotExists is false.
+     * Set key to hold the payload. If key already holds a value, it is overwritten, regardless of
+     * its type as long as ifNotExists is false.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:set}
      * 
      * @param key Key used to store payload
-     * @param expire Set a timeout on the specified key. After the timeout the key will be automatically deleted by the
-     *            server. A key with an associated timeout is said to be volatile in Redis terminology.
+     * @param expire Set a timeout on the specified key. After the timeout the key will be
+     *            automatically deleted by the server. A key with an associated timeout is said to
+     *            be volatile in Redis terminology.
      * @param ifNotExists If true, then execute SETNX on the Redis server, otherwise execute SET
      * @param message The payload of the message as a byte array
-     * @return If the key already exists and ifNotExists is true, null is returned. Otherwise the message is returned.
+     * @return If the key already exists and ifNotExists is true, null is returned. Otherwise the
+     *         message is returned.
      */
     @Processor
     public byte[] set(final String key,
@@ -194,8 +197,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     }
 
     /**
-     * Get the value of the specified key. If the key does not exist null is returned. If the value stored at key is not
-     * a string an error is returned because GET can only handle string values.
+     * Get the value of the specified key. If the key does not exist null is returned. If the value
+     * stored at key is not a string an error is returned because GET can only handle string values.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:get}
      * 
@@ -216,11 +219,15 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
+    // TODO add http://redis.io/commands/incr
+    // TODO add http://redis.io/commands/incrby
+    // TODO add http://redis.io/commands/incrbyfloat
+
     // ************** Hashes **************
 
     /**
-     * Set the specified hash field to the message payload. If key does not exist, a new key holding a hash is created
-     * as long as ifNotExists is true.
+     * Set the specified hash field to the message payload. If key does not exist, a new key holding
+     * a hash is created as long as ifNotExists is true.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:hash-set}
      * 
@@ -228,8 +235,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * @param field Field that will be used for HSET
      * @param ifNotExists If true execute HSETNX otherwise HSET
      * @param message The payload of the message as a byte array
-     * @return If the field already exists and ifNotExists is true, null is returned, otherwise if a new field is
-     *         created the message is returned.
+     * @return If the field already exists and ifNotExists is true, null is returned, otherwise if a
+     *         new field is created the message is returned.
      */
     @Processor(name = "hash-set")
     public byte[] setInHash(final String key,
@@ -265,8 +272,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     }
 
     /**
-     * Get the value stored at the specified field in the hash at the specified key. If the field or the hash don't
-     * exist, null is returned.
+     * Get the value stored at the specified field in the hash at the specified key. If the field or
+     * the hash don't exist, null is returned.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:hash-get}
      * 
@@ -289,7 +296,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
+    // TODO add http://redis.io/commands/hincrby
+    // TODO add http://redis.io/commands/hincrbyfloat
+
     // ************** Lists **************
+
     public static enum ListPushSide
     {
         LEFT
@@ -355,8 +366,9 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     }
 
     /**
-     * Push the message payload to the desired side (LEFT or RIGHT) of the list stored at the specified key. If key does
-     * not exist, a new key holding a list is created as long as ifExists is not true.
+     * Push the message payload to the desired side (LEFT or RIGHT) of the list stored at the
+     * specified key. If key does not exist, a new key holding a list is created as long as ifExists
+     * is not true.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:list-push}
      * 
@@ -364,8 +376,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * @param side The side where to push the payload, either LEFT or RIGHT
      * @param ifExists If true execute LPUSHX/RPUSH otherwise LPUSH/RPUSH
      * @param message The payload of the message as a byte array
-     * @return If the key doesn't already exist and ifExists is true, null is returned. Otherwise the message is
-     *         returned.
+     * @return If the key doesn't already exist and ifExists is true, null is returned. Otherwise
+     *         the message is returned.
      */
     @Processor(name = "list-push")
     public byte[] pushToList(final String key,
@@ -409,17 +421,17 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     // ************** Sets **************
 
     /**
-     * Add the message payload to the set stored at the specified key. If key does not exist, a new key holding a set is
-     * created.
+     * Add the message payload to the set stored at the specified key. If key does not exist, a new
+     * key holding a set is created.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:set-add}
      * 
      * @param key Key that will be used for SADD
-     * @param mustSucceed If true, ensures that adding to the set was successful (ie no pre-existing identical value in
-     *            the set)
+     * @param mustSucceed If true, ensures that adding to the set was successful (ie no pre-existing
+     *            identical value in the set)
      * @param message The payload of the message as a byte array
-     * @return If no new entry has been added to the set and mustSucceed is true, null is returned. Otherwise the
-     *         message is returned.
+     * @return If no new entry has been added to the set and mustSucceed is true, null is returned.
+     *         Otherwise the message is returned.
      */
     @Processor(name = "set-add")
     public byte[] addToSet(final String key,
@@ -487,18 +499,18 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     // ************** Sorted Sets **************
 
     /**
-     * Add the message payload with the desired score to the sorted set stored at the specified key. If key does not
-     * exist, a new key holding a sorted set is created.
+     * Add the message payload with the desired score to the sorted set stored at the specified key.
+     * If key does not exist, a new key holding a sorted set is created.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-add}
      * 
      * @param key Key that will be used for ZADD
      * @param score Score to use for the value
-     * @param mustSucceed If true, ensures that adding to the sorted set was successful (ie no pre-existing identical
-     *            value in the set)
+     * @param mustSucceed If true, ensures that adding to the sorted set was successful (ie no
+     *            pre-existing identical value in the set)
      * @param message The payload of the message as a byte array
-     * @return If no new entry has been added to the sorted set and mustSucceed is true, null is returned. Otherwise the
-     *         message is returned.
+     * @return If no new entry has been added to the sorted set and mustSucceed is true, null is
+     *         returned. Otherwise the message is returned.
      */
     @Processor(name = "sorted-set-add")
     public byte[] addToSortedSet(final String key,
@@ -567,10 +579,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     }
 
     /**
-     * Retrieve a range of values from the sorted set stored at the specified key. The range of values is defined by
-     * indices in the sorted set and sorted as desired.
+     * Retrieve a range of values from the sorted set stored at the specified key. The range of
+     * values is defined by indices in the sorted set and sorted as desired.
      * <p/>
-     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-select-range-by-index}
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample
+     * redis:sorted-set-select-range-by-index}
      * 
      * @param key Key that will be used for ZRANGE/ZREVRANGE
      * @param start Range start index
@@ -597,10 +610,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     }
 
     /**
-     * Retrieve a range of values from the sorted set stored at the specified key. The range of values is defined by
-     * scores in the sorted set and sorted as desired.
+     * Retrieve a range of values from the sorted set stored at the specified key. The range of
+     * values is defined by scores in the sorted set and sorted as desired.
      * <p/>
-     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-select-range-by-score}
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample
+     * redis:sorted-set-select-range-by-score}
      * 
      * @param key Key that will be used for ZRANGEBYSCORE/ZREVRANGEBYSCORE
      * @param min Range start score
@@ -626,6 +640,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
+    // TODO add http://redis.io/commands/zincrby
+
     /*----------------------------------------------------------
                 Pub/Sub Implementation
     ----------------------------------------------------------*/
@@ -636,10 +652,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:publish}
      * 
      * @param channel Destination of the published message
-     * @param mustSucceed Enforces the fact that the message must have been delivered to at least one consumer
+     * @param mustSucceed Enforces the fact that the message must have been delivered to at least
+     *            one consumer
      * @param message The payload of the message as a byte array
-     * @return If no consumer is subscribed to the channel and mustSucceed is true, null is returned. Otherwise the
-     *         message is returned.
+     * @return If no consumer is subscribed to the channel and mustSucceed is true, null is
+     *         returned. Otherwise the message is returned.
      */
     @Processor
     public byte[] publish(final String channel,
@@ -709,26 +726,31 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     /*----------------------------------------------------------
                 ObjectStore Implementation
     ----------------------------------------------------------*/
+    @Override
     public boolean isPersistent()
     {
         return true;
     }
 
+    @Override
     public boolean contains(final Serializable key) throws ObjectStoreException
     {
         return contains(key, DEFAULT_PARTITION_NAME);
     }
 
+    @Override
     public void store(final Serializable key, final Serializable value) throws ObjectStoreException
     {
         store(key, value, DEFAULT_PARTITION_NAME);
     }
 
+    @Override
     public Serializable retrieve(final Serializable key) throws ObjectStoreException
     {
         return retrieve(key, DEFAULT_PARTITION_NAME);
     }
 
+    @Override
     public Serializable remove(final Serializable key) throws ObjectStoreException
     {
         return remove(key, DEFAULT_PARTITION_NAME);
@@ -737,16 +759,19 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     /*----------------------------------------------------------
                ListableObjectStore Implementation
     ----------------------------------------------------------*/
+    @Override
     public void open() throws ObjectStoreException
     {
         open(DEFAULT_PARTITION_NAME);
     }
 
+    @Override
     public void close() throws ObjectStoreException
     {
         close(DEFAULT_PARTITION_NAME);
     }
 
+    @Override
     public List<Serializable> allKeys() throws ObjectStoreException
     {
         return allKeys(DEFAULT_PARTITION_NAME);
@@ -755,6 +780,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     /*----------------------------------------------------------
              PartitionableObjectStore Implementation
     ----------------------------------------------------------*/
+    @Override
     public boolean contains(final Serializable key, final String partitionName) throws ObjectStoreException
     {
         return RedisUtils.run(jedisPool, new RedisAction<Boolean>()
@@ -767,6 +793,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
+    @Override
     public void store(final Serializable key, final Serializable value, final String partitionName)
         throws ObjectStoreException
     {
@@ -787,6 +814,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         }
     }
 
+    @Override
     public Serializable retrieve(final Serializable key, final String partitionName)
         throws ObjectStoreException
     {
@@ -809,6 +837,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         return result;
     }
 
+    @Override
     public Serializable remove(final Serializable key, final String partitionName)
         throws ObjectStoreException
     {
@@ -844,6 +873,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         return result;
     }
 
+    @Override
     public List<Serializable> allKeys(final String partitionName) throws ObjectStoreException
     {
         return RedisUtils.run(jedisPool, new RedisAction<List<Serializable>>()
@@ -861,6 +891,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
+    @Override
     public List<String> allPartitions() throws ObjectStoreException
     {
         return RedisUtils.run(jedisPool, new RedisAction<List<String>>()
@@ -881,16 +912,19 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
+    @Override
     public void open(final String partitionName) throws ObjectStoreException
     {
         // ignored
     }
 
+    @Override
     public void close(final String partitionName) throws ObjectStoreException
     {
         // ignored
     }
 
+    @Override
     public void disposePartition(final String partitionName) throws ObjectStoreException
     {
         RedisUtils.run(jedisPool, new RedisAction<Long>()

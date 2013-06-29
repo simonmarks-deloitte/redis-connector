@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Collections;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Test;
 import org.mule.api.MuleException;
 import org.mule.module.client.MuleClient;
 import org.mule.tck.functional.CountdownCallback;
@@ -27,11 +28,13 @@ public class RedisPubSubITCase extends FunctionalTestCase
         return "redis-pubsub-tests-config.xml";
     }
 
+    @Test
     public void testChannelPubSub() throws Exception
     {
         testPubSub("mule.test.single.channel");
     }
 
+    @Test
     public void testPatternPubSub() throws Exception
     {
         testPubSub("mule.test.multi.channel.abc");

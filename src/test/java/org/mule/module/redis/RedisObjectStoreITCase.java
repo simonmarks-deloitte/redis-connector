@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Test;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStoreException;
@@ -40,6 +41,7 @@ public class RedisObjectStoreITCase extends FunctionalTestCase
             .getObjectStore();
     }
 
+    @Test
     public void testListableObjectStoreOperations() throws ObjectStoreException
     {
         // open and close are noops
@@ -95,6 +97,7 @@ public class RedisObjectStoreITCase extends FunctionalTestCase
         }
     }
 
+    @Test
     public void testPartitionableObjectStoreOperations() throws ObjectStoreException
     {
         final String testPartition = RandomStringUtils.randomAlphanumeric(20);

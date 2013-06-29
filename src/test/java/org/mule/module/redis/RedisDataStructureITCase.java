@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Test;
 import org.mule.api.MuleMessageCollection;
 import org.mule.module.client.MuleClient;
 import org.mule.tck.junit4.FunctionalTestCase;
@@ -44,6 +45,7 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         muleClient = new MuleClient(muleContext);
     }
 
+    @Test
     public void testStrings() throws Exception
     {
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);
@@ -66,6 +68,7 @@ public class RedisDataStructureITCase extends FunctionalTestCase
                 Collections.singletonMap(KEY_PROP, testKey + ".other")).getPayloadAsString());
     }
 
+    @Test
     public void testHashes() throws Exception
     {
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);
@@ -84,6 +87,7 @@ public class RedisDataStructureITCase extends FunctionalTestCase
             .getPayloadAsString());
     }
 
+    @Test
     public void testLists() throws Exception
     {
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);
@@ -100,6 +104,7 @@ public class RedisDataStructureITCase extends FunctionalTestCase
             .getPayloadAsString());
     }
 
+    @Test
     public void testSets() throws Exception
     {
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);
@@ -120,6 +125,7 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         assertEquals(NullPayload.getInstance(), readerResults.getMessage(2).getPayload());
     }
 
+    @Test
     public void testSortedSets() throws Exception
     {
         String testPayload = RandomStringUtils.randomAlphanumeric(20);
