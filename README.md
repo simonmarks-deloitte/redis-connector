@@ -19,6 +19,8 @@ We use GitHub:Issues for tracking issues with this connector. You can report new
 Supported Redis commands by this connector
 ------------------------------------------
 
+DECR
+DECRBY
 DEL
 EXPIRE
 GET
@@ -27,6 +29,8 @@ HGET
 HKEYS 
 HSET 
 HSETNX
+INCR
+INCRBY
 KEYS
 LPOP 
 LPUSH 

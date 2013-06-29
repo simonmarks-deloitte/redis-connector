@@ -54,10 +54,10 @@ import redis.clients.util.SafeEncoder;
  * <li>Allows direct reading and writing operations in Redis collections,</li>
  * <li>Allows using Redis as a {@link ObjectStore} for Mule components that require persistence.</li>
  * </ul>
- * Current Redis commands supported by this connector <br />
+ * Current Redis commands supported by this connector: <br />
  * <br />
- * DEL EXPIRE GET HEXISTS HGET HKEYS HSET HSETNX KEYS LPOP LPUSH LPUSHX MULTI PSUBSCRIBE PUBLISH
- * RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
+ * DECR DECRBY DEL EXPIRE GET HEXISTS HGET HKEYS HSET HSETNX INCR INCRBY KEYS LPOP LPUSH LPUSHX
+ * MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
  * 
  * @author MuleSoft, Inc.
  */
