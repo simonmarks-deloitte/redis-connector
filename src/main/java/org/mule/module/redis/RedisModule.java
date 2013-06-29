@@ -219,9 +219,61 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
-    // TODO add http://redis.io/commands/incr
-    // TODO add http://redis.io/commands/incrby
-    // TODO add http://redis.io/commands/incrbyfloat
+    /**
+     * Increments the number stored at key by step. If the key does not exist, it is set to 0 before
+     * performing the operation. An error is returned if the key contains a value of the wrong type
+     * or contains a string that can not be represented as integer.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:increment}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:increment-step}
+     * 
+     * @param key Key that will be used for INCR.
+     * @param step Step used for the increment.
+     * @return A byte array with the content of the key
+     */
+    @Processor
+    public Long increment(final String key, @Optional @Default("1") final long step)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Long>()
+        {
+            @Override
+            public Long run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return step == 1L ? redis.incr(keyAsBytes) : redis.incrBy(keyAsBytes, step);
+            }
+        });
+    }
+
+    // LATER add http://redis.io/commands/incrbyfloat when Jedis supports it
+
+    /**
+     * Decrements the number stored at key by step. If the key does not exist, it is set to 0 before
+     * performing the operation. An error is returned if the key contains a value of the wrong type
+     * or contains a string that can not be represented as integer.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:decrement}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:decrement-step}
+     * 
+     * @param key Key that will be used for DECR.
+     * @param step Step used for the increment.
+     * @return A byte array with the content of the key
+     */
+    @Processor
+    public Long decrement(final String key, @Optional @Default("1") final long step)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Long>()
+        {
+            @Override
+            public Long run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return step == 1L ? redis.decr(keyAsBytes) : redis.decrBy(keyAsBytes, step);
+            }
+        });
+    }
 
     // ************** Hashes **************
 
@@ -597,7 +649,6 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
                                        final Integer end,
                                        @Optional @Default("ASCENDING") final SortedSetOrder order)
     {
-
         return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>()
         {
             @Override
@@ -628,7 +679,6 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
                                        final Double max,
                                        @Optional @Default("ASCENDING") final SortedSetOrder order)
     {
-
         return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>()
         {
             @Override

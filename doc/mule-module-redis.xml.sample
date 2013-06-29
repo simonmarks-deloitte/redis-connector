@@ -6,6 +6,22 @@
 <redis:get key="mykey"/>
 <!-- END_INCLUDE(redis:get) -->
 
+<!-- BEGIN_INCLUDE(redis:increment) -->
+<redis:increment key="mykey"/>
+<!-- END_INCLUDE(redis:increment) -->
+
+<!-- BEGIN_INCLUDE(redis:increment-step) -->
+<redis:increment key="mykey" step="5" />
+<!-- END_INCLUDE(redis:increment-step) -->
+
+<!-- BEGIN_INCLUDE(redis:decrement) -->
+<redis:decrement key="mykey"/>
+<!-- END_INCLUDE(redis:decrement) -->
+
+<!-- BEGIN_INCLUDE(redis:decrement-step) -->
+<redis:decrement key="mykey" step="5" />
+<!-- END_INCLUDE(redis:decrement-step) -->
+
 
 <!-- BEGIN_INCLUDE(redis:hash-set) -->
 <redis:hash-set key="mykey" field="myfield"/>

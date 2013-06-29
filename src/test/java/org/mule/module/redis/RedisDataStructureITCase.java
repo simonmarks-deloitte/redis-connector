@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
+import org.mule.api.MuleMessage;
 import org.mule.api.MuleMessageCollection;
 import org.mule.module.client.MuleClient;
 import org.mule.tck.junit4.FunctionalTestCase;
@@ -66,6 +67,17 @@ public class RedisDataStructureITCase extends FunctionalTestCase
             testPayload,
             muleClient.send("vm://strings-reader.in", "ignored",
                 Collections.singletonMap(KEY_PROP, testKey + ".other")).getPayloadAsString());
+    }
+
+    @Test
+    public void testIncrementDecrement() throws Exception
+    {
+        final String testPayload = RandomStringUtils.randomAlphanumeric(20);
+        final String testKey = TEST_KEY_PREFIX + UUID.getUUID();
+        final MuleMessage response = muleClient.send("vm://incr-decr.in", testPayload,
+            Collections.singletonMap(KEY_PROP, testKey));
+
+        assertEquals(-2L, response.getPayload());
     }
 
     @Test
