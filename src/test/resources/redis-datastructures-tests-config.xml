@@ -45,7 +45,8 @@
             <redis:hash-set key="#[message.inboundProperties.key]"
                 field="#[message.inboundProperties.field]" />
             <redis:hash-set key="#[message.inboundProperties.key]"
-                field="#[string:#[message.inboundProperties.field].other]" ifNotExists="true" />
+                field="#[string:#[message.inboundProperties.field].other]"
+                ifNotExists="true" />
             <append-string-transformer message=".foo" />
             <redis:hash-set key="#[message.inboundProperties.key]"
                 field="#[message.inboundProperties.field]" ifNotExists="true" />
@@ -135,5 +136,13 @@
             <redis:sorted-set-select-range-by-score
                 key="#[message.inboundProperties.key]" min="10" max="0.5" order="DESCENDING" />
         </all>
+    </flow>
+
+    <flow name="sorted-set-incr">
+        <vm:inbound-endpoint path="sorted-set-incr.in"
+            exchange-pattern="request-response" />
+
+        <redis:sorted-set-increment key="#[message.inboundProperties.key]"
+            step="3.14" />
     </flow>
 </mule>

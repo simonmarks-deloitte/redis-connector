@@ -57,7 +57,8 @@ import redis.clients.util.SafeEncoder;
  * Current Redis commands supported by this connector: <br />
  * <br />
  * DECR DECRBY DEL EXPIRE GET HEXISTS HGET HINCRBY HKEYS HSET HSETNX INCR INCRBY KEYS LPOP LPUSH
- * LPUSHX MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
+ * LPUSHX MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZINCRBY
+ * ZRANGE
  * 
  * @author MuleSoft, Inc.
  */
@@ -594,7 +595,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      */
     @Processor(name = "sorted-set-add")
     public byte[] addToSortedSet(final String key,
-                                 final Double score,
+                                 final double score,
                                  @Optional @Default("false") final Boolean mustSucceed,
                                  @Payload final byte[] message)
     {
@@ -673,8 +674,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      */
     @Processor(name = "sorted-set-select-range-by-index")
     public Set<byte[]> getRangeByIndex(final String key,
-                                       final Integer start,
-                                       final Integer end,
+                                       final int start,
+                                       final int end,
                                        @Optional @Default("ASCENDING") final SortedSetOrder order)
     {
         return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>()
@@ -703,8 +704,8 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      */
     @Processor(name = "sorted-set-select-range-by-score")
     public Set<byte[]> getRangeByScore(final String key,
-                                       final Double min,
-                                       final Double max,
+                                       final double min,
+                                       final double max,
                                        @Optional @Default("ASCENDING") final SortedSetOrder order)
     {
         return RedisUtils.run(jedisPool, new RedisAction<Set<byte[]>>()
@@ -718,7 +719,32 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
-    // TODO add http://redis.io/commands/zincrby
+    /**
+     * Increments the score of member in the sorted set stored at key by increment. If member does
+     * not exist in the sorted set, it is added with increment as its score (as if its previous
+     * score was 0.0). If key does not exist, a new sorted set with the specified member as its sole
+     * member is created.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-increment}
+     * 
+     * @param key the key in the sorted set.
+     * @param step the step to use to increment the score.
+     * @param member The payload of the message as a byte array.
+     * @return the new score of the member.
+     */
+    @Processor(name = "sorted-set-increment")
+    public Double incrementSortedSet(final String key, final double step, @Payload final byte[] member)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Double>()
+        {
+            @Override
+            public Double run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return redis.zincrby(keyAsBytes, step, member);
+            }
+        });
+    }
 
     /*----------------------------------------------------------
                 Pub/Sub Implementation

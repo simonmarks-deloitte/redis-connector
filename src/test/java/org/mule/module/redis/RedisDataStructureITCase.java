@@ -188,4 +188,16 @@ public class RedisDataStructureITCase extends FunctionalTestCase
             assertEquals("size of " + i, 2, ((Set<?>) readerResults.getMessage(i).getPayload()).size());
         }
     }
+
+    @Test
+    public void testSortedSetIncrement() throws Exception
+    {
+        final String testPayload = RandomStringUtils.randomAlphanumeric(20);
+        final String testKey = TEST_KEY_PREFIX + UUID.getUUID();
+
+        final MuleMessage response = muleClient.send("vm://sorted-set-incr.in", testPayload,
+            Collections.singletonMap(KEY_PROP, testKey));
+
+        assertEquals(3.14, response.getPayload());
+    }
 }

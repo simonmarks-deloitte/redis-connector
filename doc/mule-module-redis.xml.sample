@@ -73,6 +73,11 @@
 <redis:sorted-set-select-range-by-score key="my_key" min="0.5" max="10" />
 <!-- END_INCLUDE(redis:sorted-set-select-range-by-score) -->
 
+<!-- BEGIN_INCLUDE(redis:sorted-set-increment) -->
+<redis:sorted-set-increment key="my_key" step="3.14" />
+<!-- END_INCLUDE(redis:sorted-set-increment) -->
+
+
 <!-- BEGIN_INCLUDE(redis:publish) -->
 <redis:publish channel="news.art.figurative" />
 <!-- END_INCLUDE(redis:publish) -->
