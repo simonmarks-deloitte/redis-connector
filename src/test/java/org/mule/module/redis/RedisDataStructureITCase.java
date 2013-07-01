@@ -100,6 +100,22 @@ public class RedisDataStructureITCase extends FunctionalTestCase
     }
 
     @Test
+    public void testHashIncrement() throws Exception
+    {
+        final String testPayload = RandomStringUtils.randomAlphanumeric(20);
+        final String testKey = TEST_KEY_PREFIX + UUID.getUUID();
+        final String testField = UUID.getUUID();
+
+        final Map<String, String> props = new HashMap<String, String>();
+        props.put(KEY_PROP, testKey);
+        props.put(FIELD_PROP, testField);
+
+        final MuleMessage response = muleClient.send("vm://hashes-incr.in", testPayload, props);
+
+        assertEquals(-4L, response.getPayload());
+    }
+
+    @Test
     public void testLists() throws Exception
     {
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);

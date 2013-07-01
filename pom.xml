@@ -18,6 +18,7 @@
     <properties>
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
+        <!-- TODO set to false when http://www.mulesoft.org/jira/browse/DEVKIT-375 is fixed -->
         <devkit.studio.package.skip>true</devkit.studio.package.skip>
     </properties>
 

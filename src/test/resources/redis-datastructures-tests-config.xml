@@ -43,19 +43,27 @@
             exchange-pattern="request-response" />
         <all>
             <redis:hash-set key="#[message.inboundProperties.key]"
-                field="#[header:INBOUND:field]" />
+                field="#[message.inboundProperties.field]" />
             <redis:hash-set key="#[message.inboundProperties.key]"
-                field="#[string:#[header:INBOUND:field].other]" ifNotExists="true" />
+                field="#[string:#[message.inboundProperties.field].other]" ifNotExists="true" />
             <append-string-transformer message=".foo" />
             <redis:hash-set key="#[message.inboundProperties.key]"
-                field="#[header:INBOUND:field]" ifNotExists="true" />
+                field="#[message.inboundProperties.field]" ifNotExists="true" />
         </all>
     </flow>
     <flow name="hashes-reader">
         <vm:inbound-endpoint path="hashes-reader.in"
             exchange-pattern="request-response" />
         <redis:hash-get key="#[message.inboundProperties.key]"
-            field="#[header:INBOUND:field]" />
+            field="#[message.inboundProperties.field]" />
+    </flow>
+    <flow name="hashes-incr">
+        <vm:inbound-endpoint path="hashes-incr.in"
+            exchange-pattern="request-response" />
+        <redis:hash-increment key="#[message.inboundProperties.key]"
+            field="#[message.inboundProperties.field]" />
+        <redis:hash-increment key="#[message.inboundProperties.key]"
+            field="#[message.inboundProperties.field]" step="-5" />
     </flow>
 
     <flow name="lists-writer">
@@ -76,7 +84,7 @@
         <vm:inbound-endpoint path="lists-reader.in"
             exchange-pattern="request-response" />
         <redis:list-pop key="#[message.inboundProperties.key]"
-            side="#[header:INBOUND:side]" />
+            side="#[message.inboundProperties.side]" />
     </flow>
 
     <flow name="sets-writer">
@@ -106,11 +114,11 @@
 
         <all>
             <redis:sorted-set-add key="#[message.inboundProperties.key]"
-                score="#[header:INBOUND:score]" />
+                score="#[message.inboundProperties.score]" />
             <redis:sorted-set-add key="#[message.inboundProperties.key]"
-                score="#[header:INBOUND:score]" mustSucceed="true" />
+                score="#[message.inboundProperties.score]" mustSucceed="true" />
             <redis:sorted-set-add key="#[message.inboundProperties.key]"
-                score="#[header:INBOUND:score]" />
+                score="#[message.inboundProperties.score]" />
         </all>
     </flow>
     <flow name="sorted-sets-reader">

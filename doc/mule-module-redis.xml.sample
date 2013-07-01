@@ -31,6 +31,15 @@
 <redis:hash-get key="my_key" field="my_field" />
 <!-- END_INCLUDE(redis:hash-get) -->
 
+<!-- BEGIN_INCLUDE(redis:hash-increment) -->
+<redis:hash-increment key="my_key" field="my_field" />
+<!-- END_INCLUDE(redis:hash-increment) -->
+
+<!-- BEGIN_INCLUDE(redis:hash-increment-step) -->
+<redis:hash-increment key="my_key" field="my_field" step="-5" />
+<!-- END_INCLUDE(redis:hash-increment-step) -->
+
+
 <!-- BEGIN_INCLUDE(redis:list-push) -->
 <redis:list-push key="my_key" side="RIGHT" />
 <!-- END_INCLUDE(redis:list-push) -->
@@ -38,6 +47,7 @@
 <!-- BEGIN_INCLUDE(redis:list-pop) -->
 <redis:list-pop key="my_key" side="LEFT" />
 <!-- END_INCLUDE(redis:list-pop) -->
+
 
 <!-- BEGIN_INCLUDE(redis:set-add) -->
 <redis:set-add key="my_key" />

@@ -56,8 +56,8 @@ import redis.clients.util.SafeEncoder;
  * </ul>
  * Current Redis commands supported by this connector: <br />
  * <br />
- * DECR DECRBY DEL EXPIRE GET HEXISTS HGET HKEYS HSET HSETNX INCR INCRBY KEYS LPOP LPUSH LPUSHX
- * MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
+ * DECR DECRBY DEL EXPIRE GET HEXISTS HGET HINCRBY HKEYS HSET HSETNX INCR INCRBY KEYS LPOP LPUSH
+ * LPUSHX MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZRANGE
  * 
  * @author MuleSoft, Inc.
  */
@@ -230,7 +230,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * 
      * @param key Key that will be used for INCR.
      * @param step Step used for the increment.
-     * @return A byte array with the content of the key
+     * @return the incremented number.
      */
     @Processor
     public Long increment(final String key, @Optional @Default("1") final long step)
@@ -348,8 +348,36 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         });
     }
 
-    // TODO add http://redis.io/commands/hincrby
-    // TODO add http://redis.io/commands/hincrbyfloat
+    /**
+     * Increments the number stored at field in the hash stored at key by increment. If key does not
+     * exist, a new key holding a hash is created. If field does not exist the value is set to 0
+     * before the operation is performed.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:hash-increment}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:hash-increment-step}
+     * 
+     * @param key Key that will be used for HGET
+     * @param field Field that will be used for HGET
+     * @param step Step used for the increment.
+     * @return the incremented number.
+     */
+    @Processor(name = "hash-increment")
+    public Long incrementHash(final String key, final String field, @Optional @Default("1") final long step)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Long>()
+        {
+            @Override
+            public Long run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                final byte[] fieldAsBytes = SafeEncoder.encode(field);
+                return redis.hincrBy(keyAsBytes, fieldAsBytes, step);
+            }
+        });
+    }
+
+    // LATER add http://redis.io/commands/hincrbyfloat when Jedis supports it
 
     // ************** Lists **************
 
