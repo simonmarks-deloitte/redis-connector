@@ -13,13 +13,12 @@
     <parent>
         <groupId>org.mule.tools.devkit</groupId>
         <artifactId>mule-devkit-parent</artifactId>
-        <version>3.4.0</version>
+        <version>3.4.1-SNAPSHOT</version>
     </parent>
     <properties>
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
-        <!-- TODO set to false when http://www.mulesoft.org/jira/browse/DEVKIT-375 is fixed -->
-        <devkit.studio.package.skip>true</devkit.studio.package.skip>
+        <devkit.studio.package.skip>false</devkit.studio.package.skip>
     </properties>
 
     <dependencies>
