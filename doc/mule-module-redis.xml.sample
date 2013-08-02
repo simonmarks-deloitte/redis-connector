@@ -22,6 +22,10 @@
 <redis:decrement key="mykey" step="5" />
 <!-- END_INCLUDE(redis:decrement-step) -->
 
+<!-- BEGIN_INCLUDE(redis:exists) -->
+<redis:exists key="mykey" />
+<!-- END_INCLUDE(redis:exists) -->
+
 
 <!-- BEGIN_INCLUDE(redis:hash-set) -->
 <redis:hash-set key="mykey" field="myfield"/>
@@ -76,6 +80,23 @@
 <!-- BEGIN_INCLUDE(redis:sorted-set-increment) -->
 <redis:sorted-set-increment key="my_key" step="3.14" />
 <!-- END_INCLUDE(redis:sorted-set-increment) -->
+
+
+<!-- BEGIN_INCLUDE(redis:expire-at) -->
+<redis:expire-at key="my_key" unixTime="1293840000" />
+<!-- END_INCLUDE(redis:expire-at) -->
+
+<!-- BEGIN_INCLUDE(redis:expire) -->
+<redis:expire key="my_key" seconds="20" />
+<!-- END_INCLUDE(redis:expire) -->
+
+<!-- BEGIN_INCLUDE(redis:persist) -->
+<redis:persist key="my_key" />
+<!-- END_INCLUDE(redis:persist) -->
+
+<!-- BEGIN_INCLUDE(redis:get-ttl) -->
+<redis:get-ttl key="my_key" />
+<!-- END_INCLUDE(redis:get-ttl) -->
 
 
 <!-- BEGIN_INCLUDE(redis:publish) -->

@@ -26,6 +26,11 @@
             exchange-pattern="request-response" />
         <redis:get key="#[message.inboundProperties.key]" />
     </flow>
+    <flow name="key-existence">
+        <vm:inbound-endpoint path="key-existence.in"
+            exchange-pattern="request-response" />
+        <redis:exists key="#[message.inboundProperties.key]" />
+    </flow>
 
     <flow name="incr-decr">
         <vm:inbound-endpoint path="incr-decr.in"
@@ -144,5 +149,22 @@
 
         <redis:sorted-set-increment key="#[message.inboundProperties.key]"
             step="3.14" />
+    </flow>
+
+    <flow name="key-volatility">
+        <vm:inbound-endpoint path="key-volatility.in"
+            exchange-pattern="request-response" />
+
+        <redis:set key="#[message.inboundProperties.key]" />
+
+        <all>
+            <redis:expire-at key="#[message.inboundProperties.key]"
+                unixTime="#[message.inboundProperties.expireAtUnixTime]" />
+            <redis:expire key="#[message.inboundProperties.key]"
+                seconds="20" />
+            <redis:get-ttl key="#[message.inboundProperties.key]" />
+            <redis:persist key="#[message.inboundProperties.key]" />
+            <redis:get-ttl key="#[message.inboundProperties.key]" />
+        </all>
     </flow>
 </mule>

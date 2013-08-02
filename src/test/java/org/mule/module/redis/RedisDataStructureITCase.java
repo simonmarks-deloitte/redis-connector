@@ -9,8 +9,10 @@
 package org.mule.module.redis;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,7 @@ import org.mule.api.MuleMessageCollection;
 import org.mule.module.client.MuleClient;
 import org.mule.tck.junit4.FunctionalTestCase;
 import org.mule.transport.NullPayload;
+import org.mule.util.MapUtils;
 import org.mule.util.UUID;
 
 public class RedisDataStructureITCase extends FunctionalTestCase
@@ -51,11 +54,17 @@ public class RedisDataStructureITCase extends FunctionalTestCase
     {
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);
         final String testKey = TEST_KEY_PREFIX + UUID.getUUID();
+
+        assertFalse(muleClient.send("vm://key-existence.in", "ignored",
+            Collections.singletonMap(KEY_PROP, testKey)).getPayload(Boolean.class));
+
         muleClient.send("vm://strings-writer.in", testPayload, Collections.singletonMap(KEY_PROP, testKey));
 
         // wait a little more than the TTL of 1 second
         Thread.sleep(2000L);
 
+        assertTrue(muleClient.send("vm://key-existence.in", "ignored",
+            Collections.singletonMap(KEY_PROP, testKey)).getPayload(Boolean.class));
         assertEquals(testPayload,
             muleClient.send("vm://strings-reader.in", "ignored", Collections.singletonMap(KEY_PROP, testKey))
                 .getPayloadAsString());
@@ -199,5 +208,25 @@ public class RedisDataStructureITCase extends FunctionalTestCase
             Collections.singletonMap(KEY_PROP, testKey));
 
         assertEquals(3.14, response.getPayload());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testKeyVolatility() throws Exception
+    {
+        final String testKey = TEST_KEY_PREFIX + UUID.getUUID();
+        final Long expireAtUnixTime = System.currentTimeMillis() / 1000L + 20L;
+        final Map<String, ? extends Object> properties = MapUtils.mapWithKeysAndValues(HashMap.class,
+            Arrays.asList(KEY_PROP, "expireAtUnixTime"), Arrays.asList(testKey, expireAtUnixTime));
+        final MuleMessageCollection keyVolatilityResults = (MuleMessageCollection) muleClient.send(
+            "vm://key-volatility.in", "ignored", properties);
+        assertEquals(5, keyVolatilityResults.size());
+
+        final Object[] expectedResults = {true, true, 20L, true, -1L};
+
+        for (int i = 0; i < 5; i++)
+        {
+            assertEquals(expectedResults[i], keyVolatilityResults.getMessage(i).getPayload());
+        }
     }
 }

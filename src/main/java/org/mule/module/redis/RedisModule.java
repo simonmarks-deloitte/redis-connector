@@ -54,11 +54,6 @@ import redis.clients.util.SafeEncoder;
  * <li>Allows direct reading and writing operations in Redis collections,</li>
  * <li>Allows using Redis as a {@link ObjectStore} for Mule components that require persistence.</li>
  * </ul>
- * Current Redis commands supported by this connector: <br />
- * <br />
- * DECR DECRBY DEL EXPIRE GET HEXISTS HGET HINCRBY HKEYS HSET HSETNX INCR INCRBY KEYS LPOP LPUSH
- * LPUSHX MULTI PSUBSCRIBE PUBLISH RPOP RPUSH RPUSHX SADD SET SETNX SPOP SRANDMEMBER ZADD ZINCRBY
- * ZRANGE
  * 
  * @author MuleSoft, Inc.
  */
@@ -216,6 +211,28 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
             {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
                 return redis.get(keyAsBytes);
+            }
+        });
+    }
+
+    /**
+     * Test if the specified key exists.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:exists}
+     * 
+     * @param key Key that will be used for EXISTS
+     * @return A boolean that represents the existence of the key.
+     */
+    @Processor
+    public Boolean exists(final String key)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Boolean>()
+        {
+            @Override
+            public Boolean run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return redis.exists(keyAsBytes);
             }
         });
     }
@@ -745,6 +762,102 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
             }
         });
     }
+
+    // ************** Key Volatility **************
+
+    /**
+     * Set a timeout on the specified key.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:expire}
+     * 
+     * @param key the key in the sorted set.
+     * @param seconds the time to live in seconds.
+     * @return true if EXPIRE was successful, false otherwise.
+     */
+    @Processor
+    public Boolean expire(final String key, final int seconds)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Boolean>()
+        {
+            @Override
+            public Boolean run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return redis.expire(keyAsBytes, seconds) == 1L;
+            }
+        });
+    }
+
+    /**
+     * Set a timeout in the form of a UNIX timestamp (Number of seconds elapsed since 1 Jan 1970) on
+     * the specified key.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:expire-at}
+     * 
+     * @param key the key in the sorted set.
+     * @param unixTime the UNIX timestamp in seconds.
+     * @return true if EXPIREAT was successful, false otherwise.
+     */
+    @Processor
+    public Boolean expireAt(final String key, final long unixTime)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Boolean>()
+        {
+            @Override
+            public Boolean run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return redis.expireAt(keyAsBytes, unixTime) == 1L;
+            }
+        });
+    }
+
+    /**
+     * Undo an expire or expireAt ; turning the volatile key into a normal key.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:persist}
+     * 
+     * @param key the key in the sorted set.
+     * @return true if PERSIST was successful, false otherwise.
+     */
+    @Processor
+    public Boolean persist(final String key)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Boolean>()
+        {
+            @Override
+            public Boolean run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return redis.persist(keyAsBytes) == 1L;
+            }
+        });
+    }
+
+    /**
+     * Get the remaining time to live in seconds of a volatile key.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:get-ttl}
+     * 
+     * @param key the key in the sorted set.
+     * @return the remaining time to live in seconds, -2 when key does not exist or -1 when key does
+     *         not have a timeout.
+     */
+    @Processor
+    public Long getTtl(final String key)
+    {
+        return RedisUtils.run(jedisPool, new RedisAction<Long>()
+        {
+            @Override
+            public Long run()
+            {
+                final byte[] keyAsBytes = SafeEncoder.encode(key);
+                return redis.ttl(keyAsBytes);
+            }
+        });
+    }
+
+    // LATER add PEXPIRE PEXPIREAT PTTL when Jedis supports it
 
     /*----------------------------------------------------------
                 Pub/Sub Implementation
