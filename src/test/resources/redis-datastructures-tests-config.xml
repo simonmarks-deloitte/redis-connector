@@ -135,8 +135,7 @@
             <redis:sorted-set-add key="#[message.inboundProperties.key]"
                 score="#[message.inboundProperties.score]" />
             <redis:sorted-set-add key="#[message.inboundProperties.key].value"
-                score="#[message.inboundProperties.score]"
-                value="#[message.inboundProperties.key]" />
+                score="#[message.inboundProperties.score]" value="#[message.inboundProperties.key]" />
         </all>
     </flow>
     <flow name="sorted-sets-reader">
@@ -158,9 +157,12 @@
     <flow name="sorted-set-incr">
         <vm:inbound-endpoint path="sorted-set-incr.in"
             exchange-pattern="request-response" />
-
-        <redis:sorted-set-increment key="#[message.inboundProperties.key]"
-            step="3.14" />
+        <all>
+            <redis:sorted-set-increment key="#[message.inboundProperties.key]"
+                step="3.14" />
+            <redis:sorted-set-increment key="#[message.inboundProperties.key].value"
+                value="#[message.inboundProperties.key]" step="2.72" />
+        </all>
     </flow>
 
     <flow name="key-volatility">

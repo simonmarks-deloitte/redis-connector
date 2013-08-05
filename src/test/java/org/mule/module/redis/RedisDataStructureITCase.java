@@ -220,10 +220,12 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         final String testPayload = RandomStringUtils.randomAlphanumeric(20);
         final String testKey = TEST_KEY_PREFIX + UUID.getUUID();
 
-        final MuleMessage response = muleClient.send("vm://sorted-set-incr.in", testPayload,
-            Collections.singletonMap(KEY_PROP, testKey));
+        final MuleMessageCollection writerResults = (MuleMessageCollection) muleClient.send(
+            "vm://sorted-set-incr.in", testPayload, Collections.singletonMap(KEY_PROP, testKey));
 
-        assertEquals(3.14, response.getPayload());
+        assertEquals(2, writerResults.size());
+        assertEquals(3.14, writerResults.getMessage(0).getPayload());
+        assertEquals(2.72, writerResults.getMessage(1).getPayload());
     }
 
     @SuppressWarnings("unchecked")

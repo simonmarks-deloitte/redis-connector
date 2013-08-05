@@ -772,14 +772,21 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * member is created.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-increment}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-increment-value}
      * 
      * @param key the key in the sorted set.
      * @param step the step to use to increment the score.
-     * @param member The payload of the message as a byte array.
+     * @param value The value to set.
+     * @param muleEvent The current {@link MuleEvent}.
      * @return the new score of the member.
      */
     @Processor(name = "sorted-set-increment")
-    public Double incrementSortedSet(final String key, final double step, @Payload final byte[] member)
+    @Inject
+    public Double incrementSortedSet(final String key,
+                                     final double step,
+                                     @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
+                                     final MuleEvent muleEvent)
     {
         return RedisUtils.run(jedisPool, new RedisAction<Double>()
         {
@@ -787,7 +794,9 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
             public Double run()
             {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
-                return redis.zincrby(keyAsBytes, step, member);
+                final byte[] valueAsBytes = RedisUtils.toBytes(value, muleEvent.getEncoding());
+
+                return redis.zincrby(keyAsBytes, step, valueAsBytes);
             }
         });
     }

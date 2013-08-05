@@ -90,7 +90,7 @@
 <!-- END_INCLUDE(redis:sorted-set-add) -->
 
 <!-- BEGIN_INCLUDE(redis:sorted-set-add-value) -->
-<redis:sorted-set-add-value key="my_key" score="123" value="some data" />
+<redis:sorted-set-add key="my_key" score="123" value="some data" />
 <!-- END_INCLUDE(redis:sorted-set-add-value) -->
 
 <!-- BEGIN_INCLUDE(redis:sorted-set-select-range-by-index) -->
@@ -104,6 +104,10 @@
 <!-- BEGIN_INCLUDE(redis:sorted-set-increment) -->
 <redis:sorted-set-increment key="my_key" step="3.14" />
 <!-- END_INCLUDE(redis:sorted-set-increment) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-increment-value) -->
+<redis:sorted-set-increment key="my_key" value="some data" step="3.14" />
+<!-- END_INCLUDE(redis:sorted-set-increment-value) -->
 
 
 <!-- BEGIN_INCLUDE(redis:expire-at) -->
