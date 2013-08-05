@@ -20,6 +20,9 @@
       <level value="WARN"/> 
     </logger>
     <logger name="org.mule">
+      <level value="WARN"/> 
+    </logger>
+    <logger name="org.mule.DefaultMuleContext">
       <level value="INFO"/> 
     </logger>
     <logger name="org.mule.module.redis">

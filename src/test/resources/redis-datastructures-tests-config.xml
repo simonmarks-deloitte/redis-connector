@@ -19,6 +19,8 @@
             <append-string-transformer message=".foo" />
             <redis:set key="#[message.inboundProperties.key]"
                 ifNotExists="true" />
+            <redis:set key="#[message.inboundProperties.key].value"
+                value="#[message.inboundProperties.key]" />
         </all>
     </flow>
     <flow name="strings-reader">
@@ -55,6 +57,9 @@
             <append-string-transformer message=".foo" />
             <redis:hash-set key="#[message.inboundProperties.key]"
                 field="#[message.inboundProperties.field]" ifNotExists="true" />
+            <redis:hash-set key="#[message.inboundProperties.key].value"
+                field="#[message.inboundProperties.field]"
+                value="#[message.inboundProperties.key]" />
         </all>
     </flow>
     <flow name="hashes-reader">

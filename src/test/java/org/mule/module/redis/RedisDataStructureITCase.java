@@ -76,6 +76,10 @@ public class RedisDataStructureITCase extends FunctionalTestCase
             testPayload,
             muleClient.send("vm://strings-reader.in", "ignored",
                 Collections.singletonMap(KEY_PROP, testKey + ".other")).getPayloadAsString());
+        assertEquals(
+            testKey,
+            muleClient.send("vm://strings-reader.in", "ignored",
+                Collections.singletonMap(KEY_PROP, testKey + ".value")).getPayloadAsString());
     }
 
     @Test
@@ -99,6 +103,7 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         final Map<String, String> props = new HashMap<String, String>();
         props.put(KEY_PROP, testKey);
         props.put(FIELD_PROP, testField);
+
         muleClient.send("vm://hashes-writer.in", testPayload, props);
 
         assertEquals(testPayload, muleClient.send("vm://hashes-reader.in", "ignored", props)
@@ -106,6 +111,10 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         props.put(FIELD_PROP, testField + ".other");
         assertEquals(testPayload, muleClient.send("vm://hashes-reader.in", "ignored", props)
             .getPayloadAsString());
+
+        props.put(KEY_PROP, testKey + ".value");
+        props.put(FIELD_PROP, testField);
+        assertEquals(testKey, muleClient.send("vm://hashes-reader.in", "ignored", props).getPayloadAsString());
     }
 
     @Test

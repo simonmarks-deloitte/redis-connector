@@ -15,6 +15,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.impl.GenericObjectPool.Config;
+import org.mule.api.MuleEvent;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
@@ -145,41 +147,45 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * its type as long as ifNotExists is false.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:set}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:set-value}
      * 
      * @param key Key used to store payload
      * @param expire Set a timeout on the specified key. After the timeout the key will be
      *            automatically deleted by the server. A key with an associated timeout is said to
      *            be volatile in Redis terminology.
      * @param ifNotExists If true, then execute SETNX on the Redis server, otherwise execute SET
-     * @param message The payload of the message as a byte array
+     * @param value The value to set.
+     * @param muleEvent The current {@link MuleEvent}.
      * @return If the key already exists and ifNotExists is true, null is returned. Otherwise the
      *         message is returned.
      */
     @Processor
+    @Inject
     public byte[] set(final String key,
                       @Optional final Integer expire,
                       @Optional @Default("false") final Boolean ifNotExists,
-                      @Payload final byte[] message)
+                      @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
+                      final MuleEvent muleEvent)
     {
-
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>()
         {
             @Override
             public byte[] run()
             {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
-                byte[] result = message;
+                byte[] valueAsBytes = RedisUtils.toBytes(value, muleEvent.getEncoding());
 
                 if (ifNotExists)
                 {
-                    if (redis.setnx(keyAsBytes, message) == 0)
+                    if (redis.setnx(keyAsBytes, valueAsBytes) == 0)
                     {
-                        result = null;
+                        valueAsBytes = null;
                     }
                 }
                 else
                 {
-                    redis.set(keyAsBytes, message);
+                    redis.set(keyAsBytes, valueAsBytes);
                 }
 
                 if (expire != null)
@@ -187,7 +193,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
                     redis.expire(keyAsBytes, expire);
                 }
 
-                return result;
+                return valueAsBytes;
             }
         });
     }
@@ -300,21 +306,25 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * a hash is created as long as ifNotExists is true.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:hash-set}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:hash-set-value}
      * 
      * @param key Key that will be used for HSET
      * @param field Field that will be used for HSET
      * @param ifNotExists If true execute HSETNX otherwise HSET
-     * @param message The payload of the message as a byte array
+     * @param value The value to set.
+     * @param muleEvent The current {@link MuleEvent}.
      * @return If the field already exists and ifNotExists is true, null is returned, otherwise if a
      *         new field is created the message is returned.
      */
     @Processor(name = "hash-set")
+    @Inject
     public byte[] setInHash(final String key,
                             final String field,
                             @Optional @Default("false") final Boolean ifNotExists,
-                            @Payload final byte[] message)
+                            @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
+                            final MuleEvent muleEvent)
     {
-
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>()
         {
             @Override
@@ -322,21 +332,21 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
             {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
                 final byte[] fieldAsBytes = SafeEncoder.encode(field);
-                byte[] result = message;
+                final byte[] valueAsBytes = RedisUtils.toBytes(value, muleEvent.getEncoding());
 
                 if (ifNotExists)
                 {
-                    if (redis.hsetnx(keyAsBytes, fieldAsBytes, message) == 0)
+                    if (redis.hsetnx(keyAsBytes, fieldAsBytes, valueAsBytes) == 0)
                     {
-                        result = null;
+                        return null;
                     }
                 }
                 else
                 {
-                    redis.hset(keyAsBytes, fieldAsBytes, message);
+                    redis.hset(keyAsBytes, fieldAsBytes, valueAsBytes);
                 }
 
-                return result;
+                return valueAsBytes;
             }
         });
     }

@@ -1,6 +1,12 @@
 <!-- BEGIN_INCLUDE(redis:set) -->
-<redis:set key="mykey"/>
+<!-- Use the current message payload as the value to set -->
+<redis:set key="mykey" />
 <!-- END_INCLUDE(redis:set) -->
+
+<!-- BEGIN_INCLUDE(redis:set-value) -->
+<!-- Use the provided value -->
+<redis:set key="mykey" value="some data" />
+<!-- END_INCLUDE(redis:set-value) -->
 
 <!-- BEGIN_INCLUDE(redis:get) -->
 <redis:get key="mykey"/>
@@ -28,8 +34,14 @@
 
 
 <!-- BEGIN_INCLUDE(redis:hash-set) -->
-<redis:hash-set key="mykey" field="myfield"/>
+<!-- Use the current message payload as the value to set -->
+<redis:hash-set key="mykey" field="myfield" />
 <!-- END_INCLUDE(redis:hash-set) -->
+
+<!-- BEGIN_INCLUDE(redis:hash-set-value) -->
+<!-- Use the provided value -->
+<redis:hash-set-value key="mykey" field="myfield" value="some data" />
+<!-- END_INCLUDE(redis:hash-set-value) -->
 
 <!-- BEGIN_INCLUDE(redis:hash-get) -->
 <redis:hash-get key="my_key" field="my_field" />
