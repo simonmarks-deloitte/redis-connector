@@ -538,18 +538,23 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * key holding a set is created.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:set-add}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:set-add-value}
      * 
      * @param key Key that will be used for SADD
      * @param mustSucceed If true, ensures that adding to the set was successful (ie no pre-existing
      *            identical value in the set)
-     * @param message The payload of the message as a byte array
+     * @param value The value to set.
+     * @param muleEvent The current {@link MuleEvent}.
      * @return If no new entry has been added to the set and mustSucceed is true, null is returned.
      *         Otherwise the message is returned.
      */
     @Processor(name = "set-add")
+    @Inject
     public byte[] addToSet(final String key,
                            @Optional @Default("false") final Boolean mustSucceed,
-                           @Payload final byte[] message)
+                           @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
+                           final MuleEvent muleEvent)
     {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>()
         {
@@ -557,8 +562,10 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
             public byte[] run()
             {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
-                final long result = redis.sadd(keyAsBytes, message);
-                return !mustSucceed || result > 0 ? message : null;
+                final byte[] valueAsBytes = RedisUtils.toBytes(value, muleEvent.getEncoding());
+
+                final long result = redis.sadd(keyAsBytes, valueAsBytes);
+                return !mustSucceed || result > 0 ? valueAsBytes : null;
             }
         });
     }

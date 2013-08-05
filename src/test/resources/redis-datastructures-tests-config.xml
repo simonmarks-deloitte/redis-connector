@@ -58,8 +58,7 @@
             <redis:hash-set key="#[message.inboundProperties.key]"
                 field="#[message.inboundProperties.field]" ifNotExists="true" />
             <redis:hash-set key="#[message.inboundProperties.key].value"
-                field="#[message.inboundProperties.field]"
-                value="#[message.inboundProperties.key]" />
+                field="#[message.inboundProperties.field]" value="#[message.inboundProperties.key]" />
         </all>
     </flow>
     <flow name="hashes-reader">
@@ -90,8 +89,7 @@
             <redis:list-push key="#[message.inboundProperties.key]"
                 side="RIGHT" />
             <redis:list-push key="#[message.inboundProperties.key].value"
-                value="#[message.inboundProperties.key]"
-                side="RIGHT" />
+                value="#[message.inboundProperties.key]" side="RIGHT" />
         </all>
     </flow>
     <flow name="lists-reader">
@@ -110,6 +108,8 @@
             <redis:set-add key="#[message.inboundProperties.key]"
                 mustSucceed="true" />
             <redis:set-add key="#[message.inboundProperties.key]" />
+            <redis:set-add key="#[message.inboundProperties.key].value"
+                value="#[message.inboundProperties.key]" />
         </all>
     </flow>
     <flow name="sets-reader">
@@ -119,6 +119,7 @@
             <redis:set-fetch-random-member key="#[message.inboundProperties.key]" />
             <redis:set-pop key="#[message.inboundProperties.key]" />
             <redis:set-pop key="#[message.inboundProperties.key]" />
+            <redis:set-pop key="#[message.inboundProperties.key].value" />
         </all>
     </flow>
 

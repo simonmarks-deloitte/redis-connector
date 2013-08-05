@@ -73,6 +73,10 @@
 <redis:set-add key="my_key" />
 <!-- END_INCLUDE(redis:set-add) -->
 
+<!-- BEGIN_INCLUDE(redis:set-add-value) -->
+<redis:set-add-value key="my_key" value="some data" />
+<!-- END_INCLUDE(redis:set-add-value) -->
+
 <!-- BEGIN_INCLUDE(redis:set-fetch-random-member) -->
 <redis:set-fetch-random-member key="my_key" />
 <!-- END_INCLUDE(redis:set-fetch-random-member) -->

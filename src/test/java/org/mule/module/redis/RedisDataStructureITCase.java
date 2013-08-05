@@ -161,17 +161,19 @@ public class RedisDataStructureITCase extends FunctionalTestCase
 
         final MuleMessageCollection writerResults = (MuleMessageCollection) muleClient.send(
             "vm://sets-writer.in", testPayload, Collections.singletonMap(KEY_PROP, testKey));
-        assertEquals(3, writerResults.size());
+        assertEquals(4, writerResults.size());
         assertEquals(testPayload, writerResults.getMessage(0).getPayloadAsString());
         assertEquals(NullPayload.getInstance(), writerResults.getMessage(1).getPayload());
         assertEquals(testPayload, writerResults.getMessage(2).getPayloadAsString());
+        assertEquals(testKey, writerResults.getMessage(3).getPayloadAsString());
 
         final MuleMessageCollection readerResults = (MuleMessageCollection) muleClient.send(
             "vm://sets-reader.in", "ignored", Collections.singletonMap(KEY_PROP, testKey));
-        assertEquals(3, readerResults.size());
+        assertEquals(4, readerResults.size());
         assertEquals(testPayload, readerResults.getMessage(0).getPayloadAsString());
         assertEquals(testPayload, readerResults.getMessage(1).getPayloadAsString());
         assertEquals(NullPayload.getInstance(), readerResults.getMessage(2).getPayload());
+        assertEquals(testKey, readerResults.getMessage(3).getPayloadAsString());
     }
 
     @Test
