@@ -129,7 +129,7 @@ Run the application in Mule Studio using `Run As > Mule Application`.
 If you browse `http://localhost:8081/tracking/wb.gif?userId=123456&pageId=ABC` you should get an empty page in the browser.
 
 > You can also embed the following in an HTML page and load this page:
->     <img width="0" height="0" src="http://localhost:8081/tracking/wb.gif?userId=123456&pageId=ABC" />
+> `<img width="0" height="0" src="http://localhost:8081/tracking/wb.gif?userId=123456&pageId=ABC" />`
 
 To see what happened behind the scene, connect to the Redis server with its command line client (`redis-cli`).
 Then run:
