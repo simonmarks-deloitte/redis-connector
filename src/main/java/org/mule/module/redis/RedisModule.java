@@ -30,7 +30,6 @@ import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.Source;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.api.annotations.param.Payload;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
@@ -909,22 +908,27 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * @param channel Destination of the published message
      * @param mustSucceed Enforces the fact that the message must have been delivered to at least
      *            one consumer
-     * @param message The payload of the message as a byte array
+     * @param message The message to publish.
+     * @param muleEvent The current {@link MuleEvent}.
      * @return If no consumer is subscribed to the channel and mustSucceed is true, null is
      *         returned. Otherwise the message is returned.
      */
     @Processor
+    @Inject
     public byte[] publish(final String channel,
-                          @Optional @Default("false") final Boolean mustSucceed,
-                          @Payload final byte[] message)
+                          @Optional @Default("false") final boolean mustSucceed,
+                          @Optional @Default("#[message.payloadAs(java.lang.String)]") final String message,
+                          final MuleEvent muleEvent)
     {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>()
         {
             @Override
             public byte[] run()
             {
-                final Long numberOfSubscribers = redis.publish(SafeEncoder.encode(channel), message);
-                return (!mustSucceed || (mustSucceed && numberOfSubscribers > 0)) ? message : null;
+                final byte[] messageAsBytes = RedisUtils.toBytes(message, muleEvent.getEncoding());
+
+                final Long numberOfSubscribers = redis.publish(SafeEncoder.encode(channel), messageAsBytes);
+                return (!mustSucceed || (mustSucceed && numberOfSubscribers > 0)) ? messageAsBytes : null;
             }
         });
     }

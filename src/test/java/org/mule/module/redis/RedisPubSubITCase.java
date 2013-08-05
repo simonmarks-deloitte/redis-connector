@@ -10,7 +10,8 @@ package org.mule.module.redis;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
@@ -42,14 +43,20 @@ public class RedisPubSubITCase extends FunctionalTestCase
 
     private void testPubSub(final String targetChannel) throws MuleException, Exception, InterruptedException
     {
-        final String testPayload = RandomStringUtils.randomAlphanumeric(20);
-        new MuleClient(muleContext).dispatch("vm://publisher.in", testPayload,
-            Collections.singletonMap("target-channel", targetChannel));
+        final String testPayload1 = RandomStringUtils.randomAlphanumeric(20);
+        final String testPayload2 = RandomStringUtils.randomAlphanumeric(20);
 
-        final CountdownCallback cc = new CountdownCallback(1);
+        final Map<String, Object> props = new HashMap<String, Object>();
+        props.put("target-channel", targetChannel);
+        props.put("second-message-payload", testPayload2);
+
+        new MuleClient(muleContext).dispatch("vm://publisher.in", testPayload1, props);
+
+        final CountdownCallback cc = new CountdownCallback(2);
         final FunctionalTestComponent ftc = getFunctionalTestComponent("subscriber");
         ftc.setEventCallback(cc);
         cc.await(1000L * getTestTimeoutSecs());
-        assertEquals(testPayload, new String((byte[]) ftc.getLastReceivedMessage()));
+        assertEquals(testPayload1, new String((byte[]) ftc.getReceivedMessage(1)));
+        assertEquals(testPayload2, new String((byte[]) ftc.getReceivedMessage(2)));
     }
 }

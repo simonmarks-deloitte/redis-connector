@@ -11,7 +11,9 @@
 
     <flow name="publisher">
         <vm:inbound-endpoint path="publisher.in" />
-        <redis:publish channel="#[header:INBOUND:target-channel]" />
+        <redis:publish channel="#[message.inboundProperties['target-channel']]" />
+        <redis:publish channel="#[message.inboundProperties['target-channel']]"
+            message="#[message.inboundProperties['second-message-payload']]" />
     </flow>
 
     <flow name="subscriber">

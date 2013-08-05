@@ -128,8 +128,14 @@
 
 
 <!-- BEGIN_INCLUDE(redis:publish) -->
+<!-- Use the current message payload as the message to publish -->
 <redis:publish channel="news.art.figurative" />
 <!-- END_INCLUDE(redis:publish) -->
+
+<!-- BEGIN_INCLUDE(redis:publish-message) -->
+<!-- Publish the provided message -->
+<redis:publish channel="news.art.figurative" message="some data" />
+<!-- END_INCLUDE(redis:publish-message) -->
 
 <!-- BEGIN_INCLUDE(redis:subscribe) -->
 <redis:subscribe>
