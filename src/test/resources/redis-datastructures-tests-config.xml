@@ -89,6 +89,9 @@
                 side="LEFT" />
             <redis:list-push key="#[message.inboundProperties.key]"
                 side="RIGHT" />
+            <redis:list-push key="#[message.inboundProperties.key].value"
+                value="#[message.inboundProperties.key]"
+                side="RIGHT" />
         </all>
     </flow>
     <flow name="lists-reader">

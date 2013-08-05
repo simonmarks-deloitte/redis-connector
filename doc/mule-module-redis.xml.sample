@@ -60,6 +60,10 @@
 <redis:list-push key="my_key" side="RIGHT" />
 <!-- END_INCLUDE(redis:list-push) -->
 
+<!-- BEGIN_INCLUDE(redis:list-push-value) -->
+<redis:list-push key="my_key" side="RIGHT" value="some data" />
+<!-- END_INCLUDE(redis:list-push-value) -->
+
 <!-- BEGIN_INCLUDE(redis:list-pop) -->
 <redis:list-pop key="my_key" side="LEFT" />
 <!-- END_INCLUDE(redis:list-pop) -->

@@ -479,27 +479,32 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * is not true.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:list-push}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:list-push-value}
      * 
      * @param key Key that will be used for LPUSH/RPUSH/LPUSHX/RPUSH
      * @param side The side where to push the payload, either LEFT or RIGHT
      * @param ifExists If true execute LPUSHX/RPUSH otherwise LPUSH/RPUSH
-     * @param message The payload of the message as a byte array
+     * @param value The value to push.
+     * @param muleEvent The current {@link MuleEvent}.
      * @return If the key doesn't already exist and ifExists is true, null is returned. Otherwise
      *         the message is returned.
      */
     @Processor(name = "list-push")
+    @Inject
     public byte[] pushToList(final String key,
                              final ListPushSide side,
                              @Optional @Default("false") final Boolean ifExists,
-                             @Payload final byte[] message)
+                             @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
+                             final MuleEvent muleEvent)
     {
-
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>()
         {
             @Override
             public byte[] run()
             {
-                return side.push(redis, SafeEncoder.encode(key), message, ifExists);
+                final byte[] valueAsBytes = RedisUtils.toBytes(value, muleEvent.getEncoding());
+                return side.push(redis, SafeEncoder.encode(key), valueAsBytes, ifExists);
             }
         });
     }

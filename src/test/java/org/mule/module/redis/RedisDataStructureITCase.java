@@ -148,6 +148,9 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         props.put(SIDE_PROP, "RIGHT");
         assertEquals(testPayload, muleClient.send("vm://lists-reader.in", "ignored", props)
             .getPayloadAsString());
+
+        props.put(KEY_PROP, testKey + ".value");
+        assertEquals(testKey, muleClient.send("vm://lists-reader.in", "ignored", props).getPayloadAsString());
     }
 
     @Test
