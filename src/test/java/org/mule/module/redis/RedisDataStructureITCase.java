@@ -58,7 +58,19 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         assertFalse(muleClient.send("vm://key-existence.in", "ignored",
             Collections.singletonMap(KEY_PROP, testKey)).getPayload(Boolean.class));
 
-        muleClient.send("vm://strings-writer.in", testPayload, Collections.singletonMap(KEY_PROP, testKey));
+        final MuleMessageCollection writerResults = (MuleMessageCollection) muleClient.send(
+            "vm://strings-writer.in", testPayload, Collections.singletonMap(KEY_PROP, testKey));
+
+        assertEquals(6, writerResults.size());
+        assertTrue(writerResults.getMessage(0).getPayload() instanceof byte[]);
+        assertEquals(testPayload, writerResults.getMessage(0).getPayloadAsString());
+        assertTrue(writerResults.getMessage(1).getPayload() instanceof byte[]);
+        assertEquals(testPayload, writerResults.getMessage(1).getPayloadAsString());
+        assertTrue(writerResults.getMessage(2).getPayload() instanceof byte[]);
+        assertEquals(testPayload, writerResults.getMessage(2).getPayloadAsString());
+        assertEquals(NullPayload.getInstance(), writerResults.getMessage(4).getPayload());
+        assertTrue(writerResults.getMessage(5).getPayload() instanceof byte[]);
+        assertEquals(testKey, writerResults.getMessage(5).getPayloadAsString());
 
         // wait a little more than the TTL of 1 second
         Thread.sleep(2000L);
