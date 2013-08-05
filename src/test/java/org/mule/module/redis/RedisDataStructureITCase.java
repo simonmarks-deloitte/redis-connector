@@ -187,19 +187,21 @@ public class RedisDataStructureITCase extends FunctionalTestCase
         props.put("score", "1");
         MuleMessageCollection writerResults = (MuleMessageCollection) muleClient.send(
             "vm://sorted-sets-writer.in", testPayload, props);
-        assertEquals(3, writerResults.size());
+        assertEquals(4, writerResults.size());
         assertEquals(testPayload, writerResults.getMessage(0).getPayloadAsString());
         assertEquals(NullPayload.getInstance(), writerResults.getMessage(1).getPayload());
         assertEquals(testPayload, writerResults.getMessage(2).getPayloadAsString());
+        assertEquals(testKey, writerResults.getMessage(3).getPayloadAsString());
 
         testPayload = RandomStringUtils.randomAlphanumeric(20);
         props.put("score", "2.5");
         writerResults = (MuleMessageCollection) muleClient.send("vm://sorted-sets-writer.in", testPayload,
             props);
-        assertEquals(3, writerResults.size());
+        assertEquals(4, writerResults.size());
         assertEquals(testPayload, writerResults.getMessage(0).getPayloadAsString());
         assertEquals(NullPayload.getInstance(), writerResults.getMessage(1).getPayload());
         assertEquals(testPayload, writerResults.getMessage(2).getPayloadAsString());
+        assertEquals(testKey, writerResults.getMessage(3).getPayloadAsString());
 
         final MuleMessageCollection readerResults = (MuleMessageCollection) muleClient.send(
             "vm://sorted-sets-reader.in", "ignored", Collections.singletonMap(KEY_PROP, testKey));

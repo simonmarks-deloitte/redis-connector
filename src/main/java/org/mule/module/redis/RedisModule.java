@@ -164,7 +164,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     @Inject
     public byte[] set(final String key,
                       @Optional final Integer expire,
-                      @Optional @Default("false") final Boolean ifNotExists,
+                      @Optional @Default("false") final boolean ifNotExists,
                       @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
                       final MuleEvent muleEvent)
     {
@@ -321,7 +321,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     @Inject
     public byte[] setInHash(final String key,
                             final String field,
-                            @Optional @Default("false") final Boolean ifNotExists,
+                            @Optional @Default("false") final boolean ifNotExists,
                             @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
                             final MuleEvent muleEvent)
     {
@@ -494,7 +494,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     @Inject
     public byte[] pushToList(final String key,
                              final ListPushSide side,
-                             @Optional @Default("false") final Boolean ifExists,
+                             @Optional @Default("false") final boolean ifExists,
                              @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
                              final MuleEvent muleEvent)
     {
@@ -552,7 +552,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     @Processor(name = "set-add")
     @Inject
     public byte[] addToSet(final String key,
-                           @Optional @Default("false") final Boolean mustSucceed,
+                           @Optional @Default("false") final boolean mustSucceed,
                            @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
                            final MuleEvent muleEvent)
     {
@@ -623,20 +623,25 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
      * If key does not exist, a new key holding a sorted set is created.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-add}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:sorted-set-add-value}
      * 
      * @param key Key that will be used for ZADD
      * @param score Score to use for the value
      * @param mustSucceed If true, ensures that adding to the sorted set was successful (ie no
      *            pre-existing identical value in the set)
-     * @param message The payload of the message as a byte array
+     * @param value The value to set.
+     * @param muleEvent The current {@link MuleEvent}.
      * @return If no new entry has been added to the sorted set and mustSucceed is true, null is
      *         returned. Otherwise the message is returned.
      */
     @Processor(name = "sorted-set-add")
+    @Inject
     public byte[] addToSortedSet(final String key,
                                  final double score,
-                                 @Optional @Default("false") final Boolean mustSucceed,
-                                 @Payload final byte[] message)
+                                 @Optional @Default("false") final boolean mustSucceed,
+                                 @Optional @Default("#[message.payloadAs(java.lang.String)]") final String value,
+                                 final MuleEvent muleEvent)
     {
         return RedisUtils.run(jedisPool, new RedisAction<byte[]>()
         {
@@ -644,8 +649,10 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
             public byte[] run()
             {
                 final byte[] keyAsBytes = SafeEncoder.encode(key);
-                final long result = redis.zadd(keyAsBytes, score, message);
-                return !mustSucceed || result > 0 ? message : null;
+                final byte[] valueAsBytes = RedisUtils.toBytes(value, muleEvent.getEncoding());
+
+                final long result = redis.zadd(keyAsBytes, score, valueAsBytes);
+                return !mustSucceed || result > 0 ? valueAsBytes : null;
             }
         });
     }

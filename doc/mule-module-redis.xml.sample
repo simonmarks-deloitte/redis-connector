@@ -40,7 +40,7 @@
 
 <!-- BEGIN_INCLUDE(redis:hash-set-value) -->
 <!-- Use the provided value -->
-<redis:hash-set-value key="mykey" field="myfield" value="some data" />
+<redis:hash-set key="mykey" field="myfield" value="some data" />
 <!-- END_INCLUDE(redis:hash-set-value) -->
 
 <!-- BEGIN_INCLUDE(redis:hash-get) -->
@@ -74,7 +74,7 @@
 <!-- END_INCLUDE(redis:set-add) -->
 
 <!-- BEGIN_INCLUDE(redis:set-add-value) -->
-<redis:set-add-value key="my_key" value="some data" />
+<redis:set-add key="my_key" value="some data" />
 <!-- END_INCLUDE(redis:set-add-value) -->
 
 <!-- BEGIN_INCLUDE(redis:set-fetch-random-member) -->
@@ -88,6 +88,10 @@
 <!-- BEGIN_INCLUDE(redis:sorted-set-add) -->
 <redis:sorted-set-add key="my_key" score="123" />
 <!-- END_INCLUDE(redis:sorted-set-add) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-add-value) -->
+<redis:sorted-set-add-value key="my_key" score="123" value="some data" />
+<!-- END_INCLUDE(redis:sorted-set-add-value) -->
 
 <!-- BEGIN_INCLUDE(redis:sorted-set-select-range-by-index) -->
 <redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" />

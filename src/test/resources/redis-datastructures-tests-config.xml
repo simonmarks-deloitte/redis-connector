@@ -134,6 +134,9 @@
                 score="#[message.inboundProperties.score]" mustSucceed="true" />
             <redis:sorted-set-add key="#[message.inboundProperties.key]"
                 score="#[message.inboundProperties.score]" />
+            <redis:sorted-set-add key="#[message.inboundProperties.key].value"
+                score="#[message.inboundProperties.score]"
+                value="#[message.inboundProperties.key]" />
         </all>
     </flow>
     <flow name="sorted-sets-reader">
