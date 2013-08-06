@@ -13,12 +13,19 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.PartitionableObjectStore;
+import org.mule.tck.functional.CountdownCallback;
+import org.mule.tck.functional.FunctionalTestComponent;
 import org.mule.tck.junit4.FunctionalTestCase;
 
 public class RedisObjectStoreITCase extends FunctionalTestCase
@@ -159,5 +166,30 @@ public class RedisObjectStoreITCase extends FunctionalTestCase
         stringObjectStore.disposePartition(testPartition);
         assertFalse(stringObjectStore.contains(testKey, testPartition));
         assertFalse(stringObjectStore.allPartitions().contains(testPartition));
+    }
+
+    @Test
+    public void testIdempotentFlow() throws Exception
+    {
+        final String payload1 = UUID.randomUUID().toString();
+        final String payload2 = UUID.randomUUID().toString();
+
+        final CountdownCallback cc = new CountdownCallback(2);
+        final FunctionalTestComponent ftc = getFunctionalTestComponent("idempotentFlow");
+        ftc.setEventCallback(cc);
+
+        muleContext.getClient().dispatch("vm://idempotentFlow.in", payload1, null);
+        muleContext.getClient().dispatch("vm://idempotentFlow.in", payload1, null);
+        muleContext.getClient().dispatch("vm://idempotentFlow.in", payload2, null);
+
+        cc.await(1000L * getTestTimeoutSecs());
+
+        assertEquals(2, ftc.getReceivedMessagesCount());
+
+        final Set<String> receivedPayloads = new HashSet<String>();
+        receivedPayloads.add((String) ftc.getReceivedMessage(1));
+        receivedPayloads.add((String) ftc.getReceivedMessage(2));
+
+        assertEquals(new HashSet<String>(Arrays.asList(payload1, payload2)), receivedPayloads);
     }
 }

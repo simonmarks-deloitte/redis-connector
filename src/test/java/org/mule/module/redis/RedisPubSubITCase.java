@@ -55,6 +55,7 @@ public class RedisPubSubITCase extends FunctionalTestCase
         final CountdownCallback cc = new CountdownCallback(2);
         final FunctionalTestComponent ftc = getFunctionalTestComponent("subscriber");
         ftc.setEventCallback(cc);
+
         cc.await(1000L * getTestTimeoutSecs());
         assertEquals(testPayload1, new String((byte[]) ftc.getReceivedMessage(1)));
         assertEquals(testPayload2, new String((byte[]) ftc.getReceivedMessage(2)));

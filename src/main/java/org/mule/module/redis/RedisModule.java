@@ -17,12 +17,13 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.impl.GenericObjectPool.Config;
+import org.mule.RequestContext;
+import org.mule.api.MuleContext;
 import org.mule.api.MuleEvent;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
@@ -31,6 +32,7 @@ import org.mule.api.annotations.Source;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.callback.SourceCallback;
+import org.mule.api.context.MuleContextAware;
 import org.mule.api.store.ObjectAlreadyExistsException;
 import org.mule.api.store.ObjectDoesNotExistException;
 import org.mule.api.store.ObjectStore;
@@ -38,6 +40,7 @@ import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.PartitionableObjectStore;
 import org.mule.config.i18n.MessageFactory;
 import org.mule.module.redis.RedisUtils.RedisAction;
+import org.mule.util.StringUtils;
 
 import redis.clients.jedis.BinaryJedis;
 import redis.clients.jedis.BinaryTransaction;
@@ -58,15 +61,16 @@ import redis.clients.util.SafeEncoder;
  * 
  * @author MuleSoft, Inc.
  */
+@SuppressWarnings("deprecation")
 @Module(name = "redis", schemaVersion = "3.4", friendlyName = "Redis", minMuleVersion = "3.4.0", description = "Redis Module")
-public class RedisModule implements PartitionableObjectStore<Serializable>
+public class RedisModule implements PartitionableObjectStore<Serializable>, MuleContextAware
 {
-    private static final String DEFAULT_PARTITION_NAME = "_default";
+    private static final String FALLBACK_PARTITION_NAME = "_default";
 
     private static final Log LOGGER = LogFactory.getLog(RedisModule.class);
 
     /**
-     * Redis host
+     * Redis host.
      */
     @Configurable
     @Optional
@@ -74,7 +78,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     private String host;
 
     /**
-     * Redis port
+     * Redis port.
      */
     @Configurable
     @Optional
@@ -82,7 +86,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     private int port;
 
     /**
-     * Connection timeout in milliseconds
+     * Connection timeout in milliseconds.
      */
     @Configurable
     @Optional
@@ -90,7 +94,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     private int connectionTimeout;
 
     /**
-     * Reconnection frequency in milliseconds
+     * Reconnection frequency in milliseconds.
      */
     @Configurable
     @Optional
@@ -105,12 +109,21 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     private String password;
 
     /**
-     * Object pool configuration
+     * Object pool configuration.
      */
     @Configurable
     @Optional
     private Config poolConfig = new JedisPoolConfig();
 
+    /**
+     * The {@link PartitionableObjectStore} partition to use in case methods from
+     * {@link ObjectStore} are used.
+     */
+    @Configurable
+    @Optional
+    private String defaultPartitionName;
+
+    private MuleContext muleContext;
     private JedisPool jedisPool;
 
     private volatile boolean running = true;
@@ -994,25 +1007,25 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     @Override
     public boolean contains(final Serializable key) throws ObjectStoreException
     {
-        return contains(key, DEFAULT_PARTITION_NAME);
+        return contains(key, getActualDefaultPartitionName());
     }
 
     @Override
     public void store(final Serializable key, final Serializable value) throws ObjectStoreException
     {
-        store(key, value, DEFAULT_PARTITION_NAME);
+        store(key, value, getActualDefaultPartitionName());
     }
 
     @Override
     public Serializable retrieve(final Serializable key) throws ObjectStoreException
     {
-        return retrieve(key, DEFAULT_PARTITION_NAME);
+        return retrieve(key, getActualDefaultPartitionName());
     }
 
     @Override
     public Serializable remove(final Serializable key) throws ObjectStoreException
     {
-        return remove(key, DEFAULT_PARTITION_NAME);
+        return remove(key, getActualDefaultPartitionName());
     }
 
     /*----------------------------------------------------------
@@ -1021,19 +1034,38 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     @Override
     public void open() throws ObjectStoreException
     {
-        open(DEFAULT_PARTITION_NAME);
+        open(getActualDefaultPartitionName());
     }
 
     @Override
     public void close() throws ObjectStoreException
     {
-        close(DEFAULT_PARTITION_NAME);
+        close(getActualDefaultPartitionName());
     }
 
     @Override
     public List<Serializable> allKeys() throws ObjectStoreException
     {
-        return allKeys(DEFAULT_PARTITION_NAME);
+        return allKeys(getActualDefaultPartitionName());
+    }
+
+    private String getActualDefaultPartitionName()
+    {
+        if (StringUtils.isBlank(getDefaultPartitionName()))
+        {
+            return FALLBACK_PARTITION_NAME;
+        }
+
+        final MuleEvent muleEvent = RequestContext.getEvent();
+
+        if (muleEvent != null)
+        {
+            return muleContext.getExpressionManager().parse(getDefaultPartitionName(), muleEvent);
+        }
+        else
+        {
+            return getDefaultPartitionName();
+        }
     }
 
     /*----------------------------------------------------------
@@ -1249,6 +1281,16 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
         this.password = password;
     }
 
+    public String getDefaultPartitionName()
+    {
+        return defaultPartitionName;
+    }
+
+    public void setDefaultPartitionName(final String defaultPartitionName)
+    {
+        this.defaultPartitionName = defaultPartitionName;
+    }
+
     public Config getPoolConfig()
     {
         return poolConfig;
@@ -1262,5 +1304,11 @@ public class RedisModule implements PartitionableObjectStore<Serializable>
     public JedisPool getJedisPool()
     {
         return jedisPool;
+    }
+
+    @Override
+    public void setMuleContext(final MuleContext muleContext)
+    {
+        this.muleContext = muleContext;
     }
 }

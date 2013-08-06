@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns="http://www.mulesoft.org/schema/mule/core"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:redis="http://www.mulesoft.org/schema/mule/redis"
-      xmlns:spring="http://www.springframework.org/schema/beans"
-      xmlns:p="http://www.springframework.org/schema/p"
-      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:redis="http://www.mulesoft.org/schema/mule/redis"
+    xmlns:test="http://www.mulesoft.org/schema/mule/test" xmlns:spring="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+          http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
           http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd
+          http://www.mulesoft.org/schema/mule/test http://www.mulesoft.org/schema/mule/test/current/mule-test.xsd
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <configuration>
+        <expression-language>
+            <import class="java.text.SimpleDateFormat" />
+        </expression-language>
+    </configuration>
+
     <spring:beans>
-        <spring:bean class="org.mule.module.redis.FakeObjectStoreUser" p:objectStore-ref="localRedis" />
+        <spring:bean class="org.mule.module.redis.FakeObjectStoreUser"
+            p:objectStore-ref="localRedis" />
     </spring:beans>
 
     <!--
@@ -18,19 +26,28 @@
     <redis:config name="localRedis" />
 
     <!--
-         Full Config    
+         Minimal Config with default objectstore partition name using an expression
+    -->
+    <redis:config name="datePartitionedRedisObjectStore"
+        defaultPartitionName="idempotentFlow.#[new SimpleDateFormat('yyy-MM-dd').format(new Date())]" />
+
+    <!--
+         Full Config
     -->
     <spring:beans>
-        <spring:bean name="redisPoolConfiguration"
-                     class="redis.clients.jedis.JedisPoolConfig"
-                     p:whenExhaustedAction="#{T(org.apache.commons.pool.impl.GenericObjectPool).WHEN_EXHAUSTED_GROW}" />
+        <spring:bean name="redisPoolConfiguration" class="redis.clients.jedis.JedisPoolConfig"
+            p:whenExhaustedAction="#{T(org.apache.commons.pool.impl.GenericObjectPool).WHEN_EXHAUSTED_GROW}" />
     </spring:beans>
 
-    <redis:config name="localRedisFullConfig"
-                  host="localhost"
-                  port="6379"
-                  password="s3cre3t"
-                  connectionTimeout="15000"
-                  reconnectionFrequency="60000"
-                  poolConfig-ref="redisPoolConfiguration" />
+    <redis:config name="localRedisFullConfig" host="localhost"
+        port="6379" password="s3cre3t" connectionTimeout="15000"
+        reconnectionFrequency="60000" poolConfig-ref="redisPoolConfiguration" />
+
+    <flow name="idempotentFlow">
+        <vm:inbound-endpoint path="idempotentFlow.in" />
+        <idempotent-secure-hash-message-filter>
+            <spring-object-store ref="datePartitionedRedisObjectStore" />
+        </idempotent-secure-hash-message-filter>
+        <test:component />
+    </flow>
 </mule>
