@@ -13,10 +13,9 @@
     <parent>
         <groupId>org.mule.tools.devkit</groupId>
         <artifactId>mule-devkit-parent</artifactId>
-        <version>3.4.1-SNAPSHOT</version>
+        <version>3.4.1</version>
     </parent>
     <properties>
-        <mule.devkit.version>3.4.1</mule.devkit.version>
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
         <devkit.studio.package.skip>false</devkit.studio.package.skip>
