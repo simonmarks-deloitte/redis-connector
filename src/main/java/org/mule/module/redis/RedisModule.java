@@ -211,8 +211,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     }
 
     /**
-     * Get the value of the specified key. If the key does not exist null is returned. If the value
-     * stored at key is not a string an error is returned because GET can only handle string values.
+     * Get the value of the specified key. If the key does not exist null is returned.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:get}
      * 
@@ -258,7 +257,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     /**
      * Increments the number stored at key by step. If the key does not exist, it is set to 0 before
      * performing the operation. An error is returned if the key contains a value of the wrong type
-     * or contains a string that can not be represented as integer.
+     * or contains data that can not be represented as integer.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:increment}
      * <p/>
@@ -287,7 +286,7 @@ public class RedisModule implements PartitionableObjectStore<Serializable>, Mule
     /**
      * Decrements the number stored at key by step. If the key does not exist, it is set to 0 before
      * performing the operation. An error is returned if the key contains a value of the wrong type
-     * or contains a string that can not be represented as integer.
+     * or contains data that can not be represented as integer.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-redis.xml.sample redis:decrement}
      * <p/>
