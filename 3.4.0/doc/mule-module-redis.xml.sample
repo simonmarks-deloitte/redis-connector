@@ -1,0 +1,147 @@
+<!-- BEGIN_INCLUDE(redis:set) -->
+<!-- Use the current message payload as the value to set -->
+<redis:set key="mykey" />
+<!-- END_INCLUDE(redis:set) -->
+
+<!-- BEGIN_INCLUDE(redis:set-value) -->
+<!-- Use the provided value -->
+<redis:set key="mykey" value="some data" />
+<!-- END_INCLUDE(redis:set-value) -->
+
+<!-- BEGIN_INCLUDE(redis:get) -->
+<redis:get key="mykey"/>
+<!-- END_INCLUDE(redis:get) -->
+
+<!-- BEGIN_INCLUDE(redis:increment) -->
+<redis:increment key="mykey"/>
+<!-- END_INCLUDE(redis:increment) -->
+
+<!-- BEGIN_INCLUDE(redis:increment-step) -->
+<redis:increment key="mykey" step="5" />
+<!-- END_INCLUDE(redis:increment-step) -->
+
+<!-- BEGIN_INCLUDE(redis:decrement) -->
+<redis:decrement key="mykey"/>
+<!-- END_INCLUDE(redis:decrement) -->
+
+<!-- BEGIN_INCLUDE(redis:decrement-step) -->
+<redis:decrement key="mykey" step="5" />
+<!-- END_INCLUDE(redis:decrement-step) -->
+
+<!-- BEGIN_INCLUDE(redis:exists) -->
+<redis:exists key="mykey" />
+<!-- END_INCLUDE(redis:exists) -->
+
+
+<!-- BEGIN_INCLUDE(redis:hash-set) -->
+<!-- Use the current message payload as the value to set -->
+<redis:hash-set key="mykey" field="myfield" />
+<!-- END_INCLUDE(redis:hash-set) -->
+
+<!-- BEGIN_INCLUDE(redis:hash-set-value) -->
+<!-- Use the provided value -->
+<redis:hash-set key="mykey" field="myfield" value="some data" />
+<!-- END_INCLUDE(redis:hash-set-value) -->
+
+<!-- BEGIN_INCLUDE(redis:hash-get) -->
+<redis:hash-get key="my_key" field="my_field" />
+<!-- END_INCLUDE(redis:hash-get) -->
+
+<!-- BEGIN_INCLUDE(redis:hash-increment) -->
+<redis:hash-increment key="my_key" field="my_field" />
+<!-- END_INCLUDE(redis:hash-increment) -->
+
+<!-- BEGIN_INCLUDE(redis:hash-increment-step) -->
+<redis:hash-increment key="my_key" field="my_field" step="-5" />
+<!-- END_INCLUDE(redis:hash-increment-step) -->
+
+
+<!-- BEGIN_INCLUDE(redis:list-push) -->
+<redis:list-push key="my_key" side="RIGHT" />
+<!-- END_INCLUDE(redis:list-push) -->
+
+<!-- BEGIN_INCLUDE(redis:list-push-value) -->
+<redis:list-push key="my_key" side="RIGHT" value="some data" />
+<!-- END_INCLUDE(redis:list-push-value) -->
+
+<!-- BEGIN_INCLUDE(redis:list-pop) -->
+<redis:list-pop key="my_key" side="LEFT" />
+<!-- END_INCLUDE(redis:list-pop) -->
+
+
+<!-- BEGIN_INCLUDE(redis:set-add) -->
+<redis:set-add key="my_key" />
+<!-- END_INCLUDE(redis:set-add) -->
+
+<!-- BEGIN_INCLUDE(redis:set-add-value) -->
+<redis:set-add key="my_key" value="some data" />
+<!-- END_INCLUDE(redis:set-add-value) -->
+
+<!-- BEGIN_INCLUDE(redis:set-fetch-random-member) -->
+<redis:set-fetch-random-member key="my_key" />
+<!-- END_INCLUDE(redis:set-fetch-random-member) -->
+
+<!-- BEGIN_INCLUDE(redis:set-pop) -->
+<redis:set-pop key="my_key" />
+<!-- END_INCLUDE(redis:set-pop) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-add) -->
+<redis:sorted-set-add key="my_key" score="123" />
+<!-- END_INCLUDE(redis:sorted-set-add) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-add-value) -->
+<redis:sorted-set-add key="my_key" score="123" value="some data" />
+<!-- END_INCLUDE(redis:sorted-set-add-value) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-select-range-by-index) -->
+<redis:sorted-set-select-range-by-index key="my_key" start="0" end="-1" />
+<!-- END_INCLUDE(redis:sorted-set-select-range-by-index) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-select-range-by-score) -->
+<redis:sorted-set-select-range-by-score key="my_key" min="0.5" max="10" />
+<!-- END_INCLUDE(redis:sorted-set-select-range-by-score) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-increment) -->
+<redis:sorted-set-increment key="my_key" step="3.14" />
+<!-- END_INCLUDE(redis:sorted-set-increment) -->
+
+<!-- BEGIN_INCLUDE(redis:sorted-set-increment-value) -->
+<redis:sorted-set-increment key="my_key" value="some data" step="3.14" />
+<!-- END_INCLUDE(redis:sorted-set-increment-value) -->
+
+
+<!-- BEGIN_INCLUDE(redis:expire-at) -->
+<redis:expire-at key="my_key" unixTime="1293840000" />
+<!-- END_INCLUDE(redis:expire-at) -->
+
+<!-- BEGIN_INCLUDE(redis:expire) -->
+<redis:expire key="my_key" seconds="20" />
+<!-- END_INCLUDE(redis:expire) -->
+
+<!-- BEGIN_INCLUDE(redis:persist) -->
+<redis:persist key="my_key" />
+<!-- END_INCLUDE(redis:persist) -->
+
+<!-- BEGIN_INCLUDE(redis:get-ttl) -->
+<redis:get-ttl key="my_key" />
+<!-- END_INCLUDE(redis:get-ttl) -->
+
+
+<!-- BEGIN_INCLUDE(redis:publish) -->
+<!-- Use the current message payload as the message to publish -->
+<redis:publish channel="news.art.figurative" />
+<!-- END_INCLUDE(redis:publish) -->
+
+<!-- BEGIN_INCLUDE(redis:publish-message) -->
+<!-- Publish the provided message -->
+<redis:publish channel="news.art.figurative" message="some data" />
+<!-- END_INCLUDE(redis:publish-message) -->
+
+<!-- BEGIN_INCLUDE(redis:subscribe) -->
+<redis:subscribe>
+    <redis:channels>
+        <redis:channel>news.sport.hockey</redis:channel>
+        <redis:channel>news.art.*</redis:channel>
+    </redis:channels>
+</redis:subscribe>
+<!-- END_INCLUDE(redis:subscribe) -->
