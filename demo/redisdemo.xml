@@ -13,7 +13,6 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         <http:body-to-parameter-map-transformer doc:name="Body to Parameter Map"/>
         <set-variable variableName="controllerMap" value="#[payload]" doc:name="Save Input Form"/>
         <set-payload value="#[payload['value']]" doc:name="Set Input Message as Payload"/>
-        <logger message="ANTES DEL HTTP" level="INFO" doc:name="Logger"/>
         <choice doc:name="Choice">
             <when expression="#[flowVars['controllerMap'].get('op') == 'hset']">
                 <processor-chain>
@@ -83,14 +82,13 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
                 </processor-chain>
             </otherwise>
         </choice>
-<!--        <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="#[flowVars['controllerMap'].get('op')]" doc:name="HTTP"/>-->
         <object-to-string-transformer doc:name="Object to String" encoding="UTF-8" mimeType="text/plain"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
         <logger message="PAYLOAD FINAL: #[payload]" level="INFO" doc:name="Logger"/>
         
     </flow>
     <flow name="home" doc:name="home">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="home" contentType="text/plain" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="home" contentType="text/html" doc:name="HTTP"/>
         <http:static-resource-handler resourceBase="${app.home}/docroot" defaultFile="home.html"></http:static-resource-handler>
     </flow>
    
