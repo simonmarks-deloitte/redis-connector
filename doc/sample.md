@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Redis is a data structure server whose keys can contain strings, hashes, lists, sets and sorted sets. 
+Redis is a data structure server whose values can contain strings, hashes, lists, sets and sorted sets. 
 In this example, we will create a simple page view tracker that counts user page views.
 
 ## Prerequisites
